@@ -36,6 +36,9 @@
     <Filter Include="소스 파일\06.UIs">
       <UniqueIdentifier>{cdd4d6ac-4a9e-4b73-af4c-416fa9bd37b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01.Managers\Game">
+      <UniqueIdentifier>{996925c3-dc1c-48dc-822e-629634b0dc52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -71,6 +74,9 @@
     <ClInclude Include="Utils.h">
       <Filter>소스 파일\99.Headers</Filter>
     </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>소스 파일\01.Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -84,6 +90,9 @@
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>소스 파일\99.Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>소스 파일\01.Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
