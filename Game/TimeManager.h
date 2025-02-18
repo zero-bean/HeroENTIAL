@@ -21,8 +21,8 @@ public:
 	void Update();
 
 public:
-	unsigned __int32 GetFPS() { return _fps; }
-	float GetDeltaTime() { return _deltaTime; }
+	unsigned __int32 GetFPS() const { return _fps; }
+	float GetDeltaTime() const { return _deltaTime; }
 
 private:
 	unsigned __int64 _frequency = 0;

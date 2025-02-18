@@ -39,6 +39,12 @@
     <Filter Include="소스 파일\01.Managers\Game">
       <UniqueIdentifier>{996925c3-dc1c-48dc-822e-629634b0dc52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\04.Resources\Game">
+      <UniqueIdentifier>{5349b540-ef47-41cd-aceb-41e37b9abce8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04.Resources\2D">
+      <UniqueIdentifier>{a7fb2333-3cf1-4b9b-bcaa-8ad514cb0f9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -80,6 +86,12 @@
     <ClInclude Include="InputManager.h">
       <Filter>소스 파일\01.Managers</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceBase.h">
+      <Filter>소스 파일\04.Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>소스 파일\04.Resources\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -99,6 +111,12 @@
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>소스 파일\01.Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceBase.cpp">
+      <Filter>소스 파일\04.Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>소스 파일\04.Resources\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
