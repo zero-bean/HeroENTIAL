@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Game.h"
 #include "TimeManager.h"
+#include "InputManager.h"
 
 Game::Game()
 {
@@ -25,18 +26,25 @@ void Game::Init(HWND hwnd)
 	::DeleteObject(prev);
 
 	TimeManager::GET_SINGLE()->Init();
+	InputManager::GET_SINGLE()->Init(hwnd);
 }
 
 void Game::Update()
 {
 	TimeManager::GET_SINGLE()->Update();
-
+	InputManager::GET_SINGLE()->Update();
 }
 
 void Game::Render()
 {
 	unsigned __int32 fps = TimeManager::GET_SINGLE()->GetFPS();
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
+
+	{
+		POINT mousePos = InputManager::GET_SINGLE()->GetMousePos();
+		wstring str = std::format(L"Mouse({0}, {1})", mousePos.x, mousePos.y);
+		::TextOut(hdcBack, 20, 10, str.c_str(), static_cast<__int32>(str.size()));
+	}
 
 	{
 		wstring str = ::format(L"FPS({0}), DT({1})", fps, deltaTime);
