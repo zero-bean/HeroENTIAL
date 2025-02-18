@@ -10,7 +10,7 @@ public:
 
 public:
 	shared_ptr<Texture> LoadBMP(HWND hwnd, const wstring& path);
-	HDC GetDC();
+	HDC GetDC() const { return _hdc; }
 
 	void SetSize(const Vec2Int& size) { _size = size; }
 	Vec2Int GetSize() const { return _size; }
