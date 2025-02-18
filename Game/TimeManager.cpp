@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "TimeManager.h"
 
-TimeManager* TimeManager::instance = nullptr;
-
 void TimeManager::Init()
 {
 	::QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&_frequency));

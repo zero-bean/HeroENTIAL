@@ -3,17 +3,18 @@
 class TimeManager
 {
 public:
-	static TimeManager* GET_SINGLE() {
-		if (instance == nullptr)
-			instance = new TimeManager();
-
-		return instance;
+	static TimeManager* GET_SINGLE() 
+	{
+		static TimeManager instance;
+		return &instance;
 	}
 
 private:
-	static TimeManager* instance;
 	TimeManager() {};
 	~TimeManager() {};
+
+	TimeManager(const TimeManager&) = delete;
+	TimeManager& operator=(const TimeManager&) = delete;
 
 public:
 	void Init();
