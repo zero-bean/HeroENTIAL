@@ -48,6 +48,12 @@
     <Filter Include="소스 파일\02.Scenes\Game">
       <UniqueIdentifier>{2104d300-28e8-459e-bf8f-ad4abdc0c8f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03.Objects\Game">
+      <UniqueIdentifier>{b2b9ed9a-123a-458c-a7dd-641e913957ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03.Objects\Unreal">
+      <UniqueIdentifier>{d2a3b506-6167-4910-a6a7-a12e6bcff650}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -110,6 +116,9 @@
     <ClInclude Include="SceneManager.h">
       <Filter>소스 파일\01.Managers</Filter>
     </ClInclude>
+    <ClInclude Include="Flipbook.h">
+      <Filter>소스 파일\04.Resources\Paper2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -150,6 +159,9 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>소스 파일\01.Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Flipbook.cpp">
+      <Filter>소스 파일\04.Resources\Paper2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

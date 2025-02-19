@@ -29,7 +29,7 @@ shared_ptr<Sprite> ResourceManager::CreateSprite(const wstring& key, shared_ptr<
 	if (cy == 0)
 		cy = texture->GetSize().y;
 
-	shared_ptr<Sprite> sprite = make_shared<Sprite>(weak_ptr<Texture>(texture), x, y, cx, cy);
+	shared_ptr<Sprite> sprite = make_shared<Sprite>(texture, x, y, cx, cy);
 	_sprites.emplace(key, sprite);
 
 	return sprite;
