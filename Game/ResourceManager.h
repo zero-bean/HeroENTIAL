@@ -20,8 +20,11 @@ private:
 	ResourceManager& operator=(const ResourceManager&) = delete;
 
 public:
-	void Init(HWND hwnd, fs::path resourcePath);
-	void Clear();
+	void Init(HWND hwnd, fs::path resourcePath) 
+	{
+		_hwnd = hwnd;
+		_resourcePath = resourcePath;
+	};
 
 	const fs::path& GetResourcePath() { return _resourcePath; }
 
@@ -32,8 +35,8 @@ public:
 	shared_ptr<Sprite> CreateSprite(const wstring& key, shared_ptr<Texture> texture, __int32 x = 0, __int32 y = 0, __int32 cx = 0, __int32 cy = 0);
 
 private:
-	HWND _hwnd;
-	fs::path _resourcePath;
+	HWND _hwnd = nullptr;
+	fs::path _resourcePath = {};
 
 	unordered_map<wstring, shared_ptr<Texture>> _textures;
 	unordered_map<wstring, shared_ptr<Sprite>> _sprites;

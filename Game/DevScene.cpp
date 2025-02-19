@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "DevScene.h"
 #include "ResourceManager.h"
+#include "TimeManager.h"
+#include "Sprite.h"
+
 
 DevScene::DevScene()
 {
@@ -28,6 +31,7 @@ void DevScene::Update()
 	Super::Update();
 
 	// TODO
+	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
 }
 
 void DevScene::Render(HDC hdc)
@@ -35,4 +39,5 @@ void DevScene::Render(HDC hdc)
 	Super::Render(hdc);
 
 	// TODO
+	shared_ptr<Sprite> tmp(ResourceManager::GET_SINGLE()->GetSprite(L"Coin"));
 }

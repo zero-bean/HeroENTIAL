@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Scene.h"
-#include "TimeManager.h"
 
 Scene::Scene()
 {
@@ -10,8 +9,18 @@ Scene::~Scene()
 {
 }
 
-void Scene::Update()
+void Scene::Init()
 {
-	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
 
 }
+
+void Scene::Update()
+{
+
+}
+
+void Scene::Render(HDC hdc)
+{
+
+}
+

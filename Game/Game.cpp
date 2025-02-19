@@ -3,6 +3,7 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 
 Game::Game()
 {
@@ -29,16 +30,22 @@ void Game::Init(HWND hwnd)
 	TimeManager::GET_SINGLE()->Init();
 	InputManager::GET_SINGLE()->Init(hwnd);
 	ResourceManager::GET_SINGLE()->Init(hwnd, fs::current_path().parent_path().string() + "\\Resources");
+	SceneManager::GET_SINGLE()->Init();
+
+	SceneManager::GET_SINGLE()->ChangeScene(SceneType::DevScene);
 }
 
 void Game::Update()
 {
 	TimeManager::GET_SINGLE()->Update();
 	InputManager::GET_SINGLE()->Update();
+	SceneManager::GET_SINGLE()->Update();
 }
 
 void Game::Render()
 {
+	SceneManager::GET_SINGLE()->Render(hdcBack);
+
 	unsigned __int32 fps = TimeManager::GET_SINGLE()->GetFPS();
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
 

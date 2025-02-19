@@ -3,17 +3,6 @@
 #include "Texture.h"
 #include "Sprite.h"
 
-void ResourceManager::Init(HWND hwnd, fs::path resourcePath)
-{
-	_hwnd = hwnd;
-	_resourcePath = resourcePath;
-}
-
-void ResourceManager::Clear()
-{
-
-}
-
 shared_ptr<Texture> ResourceManager::LoadTexture(const wstring& key, const wstring& path, unsigned __int32 transparent)
 {
 	if (_textures.find(key) != _textures.end())
