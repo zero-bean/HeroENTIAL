@@ -28,11 +28,15 @@ public:
 	void ChangeScene(SceneType sceneType);
 	Scene* GetCurrentScene() const; 
 
+public:
+	Vec2 GetCameraPos() const { return _cameraPos; }
+	void SetCameraPos(const Vec2& pos) { _cameraPos = pos; }
+
 private:
 	unique_ptr<Scene> _scene;
 	SceneType _sceneType = SceneType::None;
 	
 private:
-	Vec2 _cameraPos = {};
+	Vec2 _cameraPos = { 400, 300 };
 };
 

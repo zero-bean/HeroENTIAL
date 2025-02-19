@@ -54,6 +54,12 @@
     <Filter Include="소스 파일\03.Objects\Unreal">
       <UniqueIdentifier>{d2a3b506-6167-4910-a6a7-a12e6bcff650}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\05.Components\Game">
+      <UniqueIdentifier>{edc81f6e-f861-4560-beac-97f02e8bfccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\05.Components\Camera">
+      <UniqueIdentifier>{112fd4ad-f020-45a5-97ce-f355cdda2d8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -122,6 +128,12 @@
     <ClInclude Include="Actor.h">
       <Filter>소스 파일\03.Objects\Unreal</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>소스 파일\05.Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>소스 파일\05.Components\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -168,6 +180,12 @@
     </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>소스 파일\03.Objects\Unreal</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>소스 파일\05.Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>소스 파일\05.Components\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
