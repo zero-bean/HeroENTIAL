@@ -37,8 +37,3 @@ shared_ptr<Texture> Texture::LoadBMP(HWND hwnd, const wstring& path)
 
 	return shared_from_this();
 }
-
-HDC Texture::GetDC()
-{
-	return HDC();
-}
