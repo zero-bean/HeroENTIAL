@@ -119,6 +119,9 @@
     <ClInclude Include="Flipbook.h">
       <Filter>소스 파일\04.Resources\Paper2D</Filter>
     </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>소스 파일\03.Objects\Unreal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -162,6 +165,9 @@
     </ClCompile>
     <ClCompile Include="Flipbook.cpp">
       <Filter>소스 파일\04.Resources\Paper2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>소스 파일\03.Objects\Unreal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

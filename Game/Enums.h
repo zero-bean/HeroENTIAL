@@ -7,3 +7,14 @@ enum class SceneType
 	EditScene,
 	BasicScene,
 };
+
+enum class LAYER_TYPE
+{
+	LAYER_BACKGROUND,
+	LAYER_OBJECT,
+	LAYER_EFFECT,
+	// ...
+	LAYER_UI,
+
+	LAYER_MAXCOUNT
+};
