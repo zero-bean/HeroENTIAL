@@ -80,10 +80,10 @@ void Tilemap::SetMapSize(Vec2Int size)
 	}
 }
 
-Tile& Tilemap::GetTileAt(Vec2Int pos)
+shared_ptr<Tile> Tilemap::GetTileAt(Vec2Int pos)
 {
 	if (pos.x < 0 || pos.x >= _mapSize.x || pos.y < 0 || pos.y >= _mapSize.y)
-		return;
+		return nullptr;
 
-	return _tiles[pos.y][pos.x];
+	return make_shared<Tile>(_tiles[pos.y][pos.x]);
 }

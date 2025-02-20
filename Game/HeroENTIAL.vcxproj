@@ -144,6 +144,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Creature.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DevScene.h" />
     <ClInclude Include="Enums.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="FlipbookActor.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="HeroENTIAL.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="pch.h" />
@@ -163,6 +165,8 @@
     <ClInclude Include="SpriteActor.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Tilemap.h" />
+    <ClInclude Include="TilemapActor.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Utils.h" />
@@ -172,10 +176,12 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Creature.cpp" />
     <ClCompile Include="DevScene.cpp" />
     <ClCompile Include="Flipbook.cpp" />
     <ClCompile Include="FlipbookActor.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HeroENTIAL.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="pch.cpp">
@@ -189,6 +195,8 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteActor.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tilemap.cpp" />
+    <ClCompile Include="TilemapActor.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>

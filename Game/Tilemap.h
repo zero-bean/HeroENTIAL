@@ -22,9 +22,9 @@ public:
 	void SetMapSize(Vec2Int size);
 
 	__int32 GetTileSize() const { return _tileSize; }
-	void SetTileSize(__int32 size) { _tileSize = size; }
+	void SetTileSize(__int32 size) { _tileSize = size; };
 
-	Tile& GetTileAt(Vec2Int pos);
+	shared_ptr<Tile> GetTileAt(Vec2Int pos);
 	
 	vector<vector<Tile>>& GetTiles() { return _tiles; };
 

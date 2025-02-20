@@ -60,6 +60,12 @@
     <Filter Include="소스 파일\05.Components\Camera">
       <UniqueIdentifier>{112fd4ad-f020-45a5-97ce-f355cdda2d8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\04.Resources\Sound">
+      <UniqueIdentifier>{785bf802-51c0-4670-86fb-9f47be7b3046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Creature">
+      <UniqueIdentifier>{beaf9250-c8d5-4c5c-b888-3f86cdb09bbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -140,6 +146,18 @@
     <ClInclude Include="FlipbookActor.h">
       <Filter>소스 파일\03.Objects\Unreal</Filter>
     </ClInclude>
+    <ClInclude Include="Tilemap.h">
+      <Filter>소스 파일\04.Resources\Paper2D</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapActor.h">
+      <Filter>소스 파일\03.Objects\Unreal</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>소스 파일\03.Objects\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -198,6 +216,18 @@
     </ClCompile>
     <ClCompile Include="FlipbookActor.cpp">
       <Filter>소스 파일\03.Objects\Unreal</Filter>
+    </ClCompile>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>소스 파일\04.Resources\Paper2D</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapActor.cpp">
+      <Filter>소스 파일\03.Objects\Unreal</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>소스 파일\03.Objects\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

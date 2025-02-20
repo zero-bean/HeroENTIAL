@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Scene.h"
 #include "Actor.h"
+#include "Creature.h"
 
 Scene::Scene()
 {
@@ -46,5 +47,18 @@ void Scene::RemoveActor(shared_ptr<Actor> actor)
 
 	vector<shared_ptr<Actor>>& v = _actors[actor->GetLayer()];
 	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
+}
+
+shared_ptr<Creature> Scene::GetCreatureAt(Vec2Int cellPos)
+{
+	for (const shared_ptr<Actor>& actor : _actors[LAYER_OBJECT])
+	{
+		// GameObjectType
+		shared_ptr<Creature> creature = dynamic_pointer_cast<Creature>(actor);
+		if (creature && (Vec2Int)creature->GetCellPos() == cellPos)
+			return creature;
+	}
+
+	return nullptr;
 }
 

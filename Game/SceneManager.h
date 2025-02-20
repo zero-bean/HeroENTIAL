@@ -26,7 +26,7 @@ public:
 
 public:
 	void ChangeScene(SceneType sceneType);
-	shared_ptr<Scene> GetCurrentScene() const;
+	shared_ptr<Scene> GetCurrentScene();
 
 public:
 	Vec2 GetCameraPos() const { return _cameraPos; }

@@ -47,7 +47,7 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	_scene->Init();
 }
 
-shared_ptr<Scene> SceneManager::GetCurrentScene() const
+shared_ptr<Scene> SceneManager::GetCurrentScene()
 {
 	return _scene;
 }

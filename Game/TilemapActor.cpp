@@ -119,10 +119,10 @@ void TilemapActor::TickPicking()
 		__int32 x = posX / TILE_SIZEX;
 		__int32 y = posY / TILE_SIZEY;
 
-		Tile& tile = _tilemap->GetTileAt({ x, y });
-		if (tile.value = 0)
+		auto tile = _tilemap->GetTileAt({ x, y });
+		if (tile->value = 0)
 		{
-			tile.value = 1;
+			tile->value = 1;
 		}
 
 	}
