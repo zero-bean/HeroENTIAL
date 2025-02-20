@@ -134,6 +134,12 @@
     <ClInclude Include="CameraComponent.h">
       <Filter>소스 파일\05.Components\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteActor.h">
+      <Filter>소스 파일\03.Objects\Unreal</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipbookActor.h">
+      <Filter>소스 파일\03.Objects\Unreal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -186,6 +192,12 @@
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>소스 파일\05.Components\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteActor.cpp">
+      <Filter>소스 파일\03.Objects\Unreal</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookActor.cpp">
+      <Filter>소스 파일\03.Objects\Unreal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

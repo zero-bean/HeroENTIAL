@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Scene.h";
+class Scene;
 
 class SceneManager
 {
@@ -26,14 +26,14 @@ public:
 
 public:
 	void ChangeScene(SceneType sceneType);
-	Scene* GetCurrentScene() const; 
+	shared_ptr<Scene> GetCurrentScene() const;
 
 public:
 	Vec2 GetCameraPos() const { return _cameraPos; }
 	void SetCameraPos(const Vec2& pos) { _cameraPos = pos; }
 
 private:
-	unique_ptr<Scene> _scene;
+	shared_ptr<Scene> _scene;
 	SceneType _sceneType = SceneType::None;
 	
 private:

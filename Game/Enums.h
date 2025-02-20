@@ -8,7 +8,7 @@ enum class SceneType
 	BasicScene,
 };
 
-enum class LAYER_TYPE
+enum LAYER_TYPE
 {
 	LAYER_BACKGROUND,
 	LAYER_OBJECT,

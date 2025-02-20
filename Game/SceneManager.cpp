@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SceneManager.h"
 #include "DevScene.h"
+#include "Scene.h"
 
 void SceneManager::Init()
 {
@@ -29,22 +30,24 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	if (_sceneType == sceneType)
 		return;
 
-	std::unique_ptr<Scene> newScene;
+	shared_ptr<Scene> newScene = nullptr;
 
 	switch (sceneType)
 	{
 	case SceneType::DevScene:
-		newScene = std::make_unique<DevScene>();
+		newScene = make_shared<DevScene>();
 		break;
 	}
 
-	_scene = std::move(newScene);
+	_scene.reset();
+
+	_scene = newScene;
 	_sceneType = sceneType;
 
 	_scene->Init();
 }
 
-Scene* SceneManager::GetCurrentScene() const
+shared_ptr<Scene> SceneManager::GetCurrentScene() const
 {
-	return _scene.get();
+	return _scene;
 }

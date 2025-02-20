@@ -29,7 +29,7 @@ public:
 	const fs::path& GetResourcePath() { return _resourcePath; }
 
 	shared_ptr<Texture> GetTexture(const wstring& key) { return _textures[key]; }
-	shared_ptr<Texture> LoadTexture(const wstring& key, const wstring& path, unsigned __int32 transparent = RGB(255, 0, 255));
+	shared_ptr<Texture> LoadTexture(const wstring& key, const wstring& path, unsigned __int32 transparent = RGB(255, 174, 201));
 
 	shared_ptr<Sprite> GetSprite(const wstring& key) { return _sprites[key]; }
 	shared_ptr<Sprite> CreateSprite(const wstring& key, shared_ptr<Texture> texture, __int32 x = 0, __int32 y = 0, __int32 cx = 0, __int32 cy = 0);

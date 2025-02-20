@@ -22,6 +22,6 @@ private:
 	HDC _hdc = {};
 	HBITMAP _bitmap = {};
 	Vec2Int _size = {};
-	unsigned __int32 _transparent = RGB(255, 0, 255);
+	unsigned __int32 _transparent = RGB(255, 174, 201);
 };
 

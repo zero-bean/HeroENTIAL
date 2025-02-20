@@ -3,6 +3,9 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 #include "Sprite.h"
+#include "Actor.h"
+#include "SpriteActor.h"
+#include "FlipbookActor.h"
 
 
 DevScene::DevScene()
@@ -23,6 +26,9 @@ void DevScene::Init()
 
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Coin", ResourceManager::GET_SINGLE()->GetTexture(L"Coin"), 0, 0, 128, 16);
 
+	{
+	}
+
 	Super::Init();
 }
 
@@ -39,5 +45,4 @@ void DevScene::Render(HDC hdc)
 	Super::Render(hdc);
 
 	// TODO
-	shared_ptr<Sprite> tmp(ResourceManager::GET_SINGLE()->GetSprite(L"Coin"));
 }
