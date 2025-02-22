@@ -22,6 +22,9 @@ public:
 	virtual void Render(HDC hdc) override;
 
 public:
+	void LoadMap();
+
+public:
 	bool CanGo(Vec2Int cellPos);
 	Vec2 ConvertPos(Vec2Int cellPos);
 
