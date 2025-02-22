@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "Sprite.h"
+#include "Flipbook.h"
 
 shared_ptr<Texture> ResourceManager::LoadTexture(const wstring& key, const wstring& path, unsigned __int32 transparent)
 {
@@ -33,4 +34,15 @@ shared_ptr<Sprite> ResourceManager::CreateSprite(const wstring& key, shared_ptr<
 	_sprites.emplace(key, sprite);
 
 	return sprite;
+}
+
+shared_ptr<Flipbook> ResourceManager::CreateFlipbook(const wstring& key)
+{
+	if (_flipbooks.find(key) != _flipbooks.end())
+		return _flipbooks[key];
+
+	shared_ptr<Flipbook> flipbook = make_shared<Flipbook>();
+	_flipbooks.emplace(key, flipbook);
+
+	return flipbook;
 }

@@ -23,6 +23,7 @@ public:
 
 public:
 	void LoadMap();
+	void LoadPlayer();
 
 public:
 	bool CanGo(Vec2Int cellPos);

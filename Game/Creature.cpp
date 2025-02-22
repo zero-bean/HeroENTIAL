@@ -34,13 +34,12 @@ void Creature::Render(HDC hdc)
 	Super::Render(hdc);
 }
 
-void Creature::OnDamaged(weak_ptr<Creature> attacker)
+void Creature::OnDamaged(shared_ptr<Creature> attacker)
 {
-	shared_ptr<Creature> creature = attacker.lock();
-	if (!creature)
+	if (!attacker)
 		return;
 
-	Stat& attackerStat = creature->GetStat();
+	Stat& attackerStat = attacker->GetStat();
 	Stat& stat = GetStat();
 
 	__int32 damage = attackerStat.attack - stat.defence;

@@ -32,7 +32,7 @@ public:
 	virtual void TickSkill() override {}
 	virtual void UpdateAnimation() override {}
 
-	virtual void OnDamaged(weak_ptr<Creature> attacker);
+	virtual void OnDamaged(shared_ptr<Creature> attacker);
 
 	bool IsDead() const { return _stat.hp <= 0; }
 
