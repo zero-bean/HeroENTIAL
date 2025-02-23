@@ -25,7 +25,7 @@ void TilemapActor::Tick()
 {
 	Super::Tick();
 
-	//TickPicking();
+	TickPicking();
 }
 
 void TilemapActor::Render(HDC hdc)
@@ -123,6 +123,10 @@ void TilemapActor::TickPicking()
 		if (tile->value = 0)
 		{
 			tile->value = 1;
+		}
+		else
+		{
+			tile->value = 0;
 		}
 
 	}

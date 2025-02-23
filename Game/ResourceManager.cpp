@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "Flipbook.h"
+#include "Tilemap.h"
 
 shared_ptr<Texture> ResourceManager::LoadTexture(const wstring& key, const wstring& path, unsigned __int32 transparent)
 {
@@ -45,4 +46,37 @@ shared_ptr<Flipbook> ResourceManager::CreateFlipbook(const wstring& key)
 	_flipbooks.emplace(key, flipbook);
 
 	return flipbook;
+}
+
+shared_ptr<Tilemap> ResourceManager::CreateTilemap(const wstring& key)
+{
+	if (_tilemaps.find(key) != _tilemaps.end())
+		return _tilemaps[key];
+
+	shared_ptr<Tilemap> tilemap = make_shared<Tilemap>();
+	_tilemaps.emplace(key, tilemap);
+
+	return tilemap;
+}
+
+void ResourceManager::SaveTilemap(const wstring& key, const wstring& path)
+{
+	shared_ptr<Tilemap> tilemap = GetTilemap(key);
+
+	fs::path fullPath = _resourcePath / path;
+	tilemap->SaveFile(fullPath);
+}
+
+shared_ptr<Tilemap> ResourceManager::LoadTilemap(const wstring& key, const wstring& path)
+{
+	if (_tilemaps.find(key) != _tilemaps.end())
+		return _tilemaps[key];
+
+	shared_ptr<Tilemap> tilemap = nullptr;
+	tilemap = _tilemaps[key];
+
+	fs::path fullPath = _resourcePath / path;
+	tilemap->LoadFile(fullPath);
+
+	return tilemap;
 }

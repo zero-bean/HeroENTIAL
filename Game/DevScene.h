@@ -21,8 +21,8 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-public:
 	void LoadMap();
+	void LoadTileMap();
 	void LoadPlayer();
 
 public:

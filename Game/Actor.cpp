@@ -35,7 +35,7 @@ void Actor::AddComponent(shared_ptr<Component> component)
     if (!component)
         return;
 
-    component->SetOwner(shared_from_this());
+    component->SetOwner(weak_from_this());
     _components.push_back(component);
 }
 

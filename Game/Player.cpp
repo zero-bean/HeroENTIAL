@@ -29,8 +29,8 @@ Player::Player()
 	_flipbookAttack[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackDown1");
 	//_flipbookAttack[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackDown2");
 
-	//shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
-	//AddComponent(camera);
+	shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
+	AddComponent(camera);
 
 	_stat.attack = 100;
 }
@@ -93,6 +93,7 @@ void Player::TickIdle()
 	else if (InputManager::GET_SINGLE()->GetButton(KeyType::A))
 	{
 		SetDir(DIR_LEFT);
+
 		Vec2Int nextPos = _cellPos + deltaXY[_dir];
 		if (CanGo(nextPos))
 		{
@@ -103,6 +104,7 @@ void Player::TickIdle()
 	else if (InputManager::GET_SINGLE()->GetButton(KeyType::D))
 	{
 		SetDir(DIR_RIGHT);
+
 		Vec2Int nextPos = _cellPos + deltaXY[_dir];
 		if (CanGo(nextPos))
 		{
@@ -120,15 +122,6 @@ void Player::TickIdle()
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::KEY_1))
 	{
 		SetWeaponType(WeaponType::Sword);
-	}
-	else if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::KEY_2))
-	{
-		SetWeaponType(WeaponType::Bow);
-	}
-
-	if (InputManager::GET_SINGLE()->GetButton(KeyType::Q))
-	{
-		SetState(ObjectState::Skill);
 	}
 }
 
