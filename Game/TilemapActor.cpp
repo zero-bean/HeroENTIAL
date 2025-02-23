@@ -40,8 +40,9 @@ void TilemapActor::Render(HDC hdc)
 
 	const Vec2Int mapSize = _tilemap->GetMapSize();
 	const __int32 tileSize = _tilemap->GetTileSize();
+	const __int32 scaledSize = _tilemap->GetTileSize() * _tilemap->GetScale();
 
-	vector<vector<Tile>>& tiles = _tilemap->GetTiles();
+	vector<vector<Tile>> tiles = _tilemap->GetTiles();
 
 	shared_ptr<Sprite> spriteO = ResourceManager::GET_SINGLE()->GetSprite(L"TileO");
 	shared_ptr<Sprite> spriteX = ResourceManager::GET_SINGLE()->GetSprite(L"TileX");
@@ -54,10 +55,10 @@ void TilemapActor::Render(HDC hdc)
 	__int32 rightX = ((__int32)cameraPos.x + GWinSizeX / 2);
 	__int32 rightY = ((__int32)cameraPos.y + GWinSizeY / 2);
 
-	__int32 startX = (leftX - _pos.x) / TILE_SIZEX;
-	__int32 startY = (leftY - _pos.y) / TILE_SIZEY;
-	__int32 endX = (rightX - _pos.x) / TILE_SIZEX;
-	__int32 endY = (rightY - _pos.y) / TILE_SIZEY;
+	__int32 startX = (leftX - _pos.x) / tileSize;
+	__int32 startY = (leftY - _pos.y) / tileSize;
+	__int32 endX = (rightX - _pos.x) / tileSize;
+	__int32 endY = (rightY - _pos.y) / tileSize;
 
 	for (__int32 y = startY; y <= endY; y++)
 	{
@@ -73,29 +74,29 @@ void TilemapActor::Render(HDC hdc)
 			case 0:
 			{
 				::TransparentBlt(hdc,
-					_pos.x + x * TILE_SIZEX - ((__int32)cameraPos.x - GWinSizeX / 2),
-					_pos.y + y * TILE_SIZEY - ((__int32)cameraPos.y - GWinSizeY / 2),
-					TILE_SIZEX,
-					TILE_SIZEY,
+					_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2),
+					_pos.y + y * scaledSize - ((__int32)cameraPos.y - GWinSizeY / 2),
+					scaledSize,
+					scaledSize,
 					spriteO->GetDC(),
 					spriteO->GetPos().x,
 					spriteO->GetPos().y,
-					TILE_SIZEX,
-					TILE_SIZEY,
+					tileSize,
+					tileSize,
 					spriteO->GetTransparent());
 			}
 			break;
 			case 1:
 				::TransparentBlt(hdc,
-					_pos.x + x * TILE_SIZEX - ((__int32)cameraPos.x - GWinSizeX / 2),
-					_pos.y + y * TILE_SIZEY - ((__int32)cameraPos.y - GWinSizeY / 2),
-					TILE_SIZEX,
-					TILE_SIZEY,
+					_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2),
+					_pos.y + y * scaledSize - ((__int32)cameraPos.y - GWinSizeY / 2),
+					scaledSize,
+					scaledSize,
 					spriteX->GetDC(),
 					spriteX->GetPos().x,
 					spriteX->GetPos().y,
-					TILE_SIZEX,
-					TILE_SIZEY,
+					tileSize,
+					tileSize,
 					spriteX->GetTransparent());
 				break;
 			}
@@ -116,8 +117,8 @@ void TilemapActor::TickPicking()
 		__int32 posX = mousePos.x + screenX;
 		__int32 posY = mousePos.y + screenY;
 
-		__int32 x = posX / TILE_SIZEX;
-		__int32 y = posY / TILE_SIZEY;
+		__int32 x = posX / _tilemap->GetTileSize();
+		__int32 y = posY / _tilemap->GetTileSize();
 
 		auto tile = _tilemap->GetTileAt({ x, y });
 		if (tile->value = 0)

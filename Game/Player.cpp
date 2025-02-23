@@ -115,8 +115,9 @@ void Player::TickIdle()
 	else
 	{
 		_keyPressed = false;
-		if (_state == ObjectState::Idle)
+		if (_state == ObjectState::Idle) {
 			UpdateAnimation();
+		}
 	}
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::KEY_1))

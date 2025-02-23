@@ -92,7 +92,7 @@ Dir GameObject::GetLookAtDir(Vec2Int cellPos)
 		return DIR_UP;
 }
 
-void GameObject::SetCellPos(Vec2Int cellPos, bool teleport /*= false*/)
+void GameObject::SetCellPos(Vec2Int cellPos, bool teleport)
 {
 	_cellPos = cellPos;
 

@@ -43,7 +43,7 @@ void DevScene::Init()
 
 	{
 		shared_ptr<Player> player = make_shared<Player>();
-		player->SetCellPos({416, 224}, true);
+		player->SetCellPos({424, 218}, true);
 		AddActor(player);
 
 		player->BeginPlay();
@@ -97,11 +97,12 @@ void DevScene::LoadTileMap()
 		shared_ptr<Tilemap> tilemap = ResourceManager::GET_SINGLE()->CreateTilemap(L"Tilemap_TEST_01");
 		tilemap->SetMapSize({ 52, 28 });
 		tilemap->SetTileSize(16);
+		tilemap->SetScale(3);
 
 		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_TEST_01", L"Tilemap\\Tilemap_TEST_01.txt");
 
 		_tilemapActor->SetTilemap(tilemap);
-		_tilemapActor->SetShowDebug(true);
+		_tilemapActor->SetShowDebug(false);
 	}
 }
 
@@ -112,49 +113,49 @@ void DevScene::LoadPlayer()
 	// IDLE
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_IdleRight");
-		fb->SetInfo({ texture, L"Player_IdleRight", {192, 192}, 0, 5, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_IdleRight", {192, 192}, 0, 5, 0, 0.6f });
 	}
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_IdleLeft");
-		fb->SetInfo({ texture, L"Player_IdleLeft", {192, 192}, 1, 5, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_IdleLeft", {192, 192}, 0, 5, 1, 0.6f });
 	}
 	// Move
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_MoveRight");
-		fb->SetInfo({ texture, L"Player_MoveRight", {192, 192}, 2, 5, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_MoveRight", {192, 192}, 0, 5, 2, 0.6f });
 	}
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_MoveLeft");
-		fb->SetInfo({ texture, L"Player_MoveLeft", {192, 192}, 3, 5, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_MoveLeft", {192, 192}, 0, 5, 3, 0.6f });
 	}
 	// Attack
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackRight1");
-		fb->SetInfo({ texture, L"Player_AttackRight1", {192, 192}, 4, 5, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_AttackRight1", {192, 192}, 0, 5, 4, 0.5f });
 	}
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackRight2");
-		fb->SetInfo({ texture, L"Player_AttackRight2", {192, 192}, 5, 5, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_AttackRight2", {192, 192}, 0, 5, 5, 0.5f });
 	}
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackLeft1");
-		fb->SetInfo({ texture, L"Player_AttackLeft1", {192, 192}, 6, 5, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_AttackLeft1", {192, 192}, 0, 5, 6, 0.5f });
 	}
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackLeft2");
-		fb->SetInfo({ texture, L"Player_AttackLeft2", {192, 192}, 7, 5, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_AttackLeft2", {192, 192}, 0, 5, 7, 0.5f });
 	}
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackDown1");
-		fb->SetInfo({ texture, L"Player_AttackDown1", {192, 192}, 8, 5, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_AttackDown1", {192, 192}, 0, 5, 8, 0.5f });
 	}
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackDown2");
-		fb->SetInfo({ texture, L"Player_AttackDown2", {192, 192}, 9, 6, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_AttackDown2", {192, 192}, 0, 6, 9, 0.5f });
 	}
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackUp1");
-		fb->SetInfo({ texture, L"Player_AttackUp1", {192, 192}, 10, 6, 0, 0.5f });
+		fb->SetInfo({ texture, L"Player_AttackUp1", {192, 192}, 0, 6, 10, 0.5f });
 	}
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackUp2");
@@ -186,7 +187,7 @@ Vec2 DevScene::ConvertPos(Vec2Int cellPos)
 	if (tileMap == nullptr)
 		return ret;
 
-	__int32 size = tileMap->GetTileSize();
+	__int32 size = tileMap->GetTileSize() * tileMap->GetScale();
 	Vec2 pos = _tilemapActor->GetPos();
 
 	ret.x = pos.x + cellPos.x * size + (size / 2);

@@ -24,13 +24,17 @@ public:
 	__int32 GetTileSize() const { return _tileSize; }
 	void SetTileSize(__int32 size) { _tileSize = size; };
 
+	__int32 GetScale() const { return _scale; }
+	void SetScale(__int32 scale) { _scale = scale; };
+
 	shared_ptr<Tile> GetTileAt(Vec2Int pos);
 	
 	vector<vector<Tile>>& GetTiles() { return _tiles; };
 
 private:
 	Vec2Int _mapSize = {};
-	__int32 _tileSize = {};
+	__int32 _tileSize = 0;
+	__int32 _scale = 1;
 	vector<vector<Tile>> _tiles = {};
 };
 

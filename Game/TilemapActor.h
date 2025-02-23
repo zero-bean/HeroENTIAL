@@ -4,14 +4,6 @@
 
 class Tilemap;
 
-enum TILE_SIZE
-{
-	TILE_WIDTH = 52,
-	TILE_HEIGHT = 28,
-	TILE_SIZEX = 16,
-	TILE_SIZEY = 16,
-};
-
 class TilemapActor : public Actor
 {
 	using Super = Actor;
