@@ -102,7 +102,7 @@ void DevScene::LoadTileMap()
 		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_TEST_01", L"Tilemap\\Tilemap_TEST_01.txt");
 
 		_tilemapActor->SetTilemap(tilemap);
-		_tilemapActor->SetShowDebug(false);
+		_tilemapActor->SetShowDebug(true);
 	}
 }
 
@@ -172,8 +172,8 @@ bool DevScene::CanGo(Vec2Int cellPos)
 	if (tileMap == nullptr)
 		return false;
 
-	auto tile = tileMap->GetTileAt(cellPos);
-	return tile->value != 1;
+	Tile& tile = tileMap->GetTileAt(cellPos);
+	return tile.value != 1;
 }
 
 Vec2 DevScene::ConvertPos(Vec2Int cellPos)

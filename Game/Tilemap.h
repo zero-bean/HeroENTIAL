@@ -27,7 +27,7 @@ public:
 	__int32 GetScale() const { return _scale; }
 	void SetScale(__int32 scale) { _scale = scale; };
 
-	shared_ptr<Tile> GetTileAt(Vec2Int pos);
+	Tile& GetTileAt(Vec2Int pos);
 	
 	vector<vector<Tile>>& GetTiles() { return _tiles; };
 
