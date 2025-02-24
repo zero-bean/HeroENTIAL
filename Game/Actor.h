@@ -28,6 +28,6 @@ protected:
 	Vec2 _pos = { 0,0 };
 	Vec2 _destPos = { 0, 0 };
 	LAYER_TYPE _layer = LAYER_TYPE::LAYER_OBJECT;
-	vector<shared_ptr<Component>> _components = {};
+	vector<shared_ptr<Component>> _components;
 };
 

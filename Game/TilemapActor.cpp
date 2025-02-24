@@ -55,10 +55,10 @@ void TilemapActor::Render(HDC hdc)
 	__int32 rightX = ((__int32)cameraPos.x + GWinSizeX / 2);
 	__int32 rightY = ((__int32)cameraPos.y + GWinSizeY / 2);
 
-	__int32 startX = (leftX - _pos.x) / tileSize;
-	__int32 startY = (leftY - _pos.y) / tileSize;
-	__int32 endX = (rightX - _pos.x) / tileSize;
-	__int32 endY = (rightY - _pos.y) / tileSize;
+	__int32 startX = (leftX - _pos.x) / scaledSize;
+	__int32 startY = (leftY - _pos.y) / scaledSize;
+	__int32 endX = (rightX - _pos.x) / scaledSize;
+	__int32 endY = (rightY - _pos.y) / scaledSize;
 
 	for (__int32 y = startY; y <= endY; y++)
 	{

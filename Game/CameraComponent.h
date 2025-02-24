@@ -13,5 +13,10 @@ public:
 	virtual void TickComponent() override;
 	virtual void Render(HDC hdc) override;
 
+public:
+	void SetBackGroundRange(const Vec2 range) { _bgRange = range; }
+
+private:
+	Vec2 _bgRange = {};
 };
 

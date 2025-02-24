@@ -29,8 +29,6 @@ Player::Player()
 	_flipbookAttack[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackDown1");
 	//_flipbookAttack[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackDown2");
 
-	shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
-	AddComponent(camera);
 
 	_stat.attack = 100;
 }

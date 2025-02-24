@@ -12,6 +12,7 @@
 #include "FlipbookActor.h"
 #include "TilemapActor.h"
 #include "Player.h"
+#include "CameraComponent.h"
 
 
 DevScene::DevScene()
@@ -43,8 +44,12 @@ void DevScene::Init()
 
 	{
 		shared_ptr<Player> player = make_shared<Player>();
-		player->SetCellPos({424, 218}, true);
+		player->SetCellPos({400, 400}, true);
 		AddActor(player);
+
+		shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
+		camera->SetBackGroundRange({ 832, 832 });
+		player->AddComponent(camera);
 
 		player->BeginPlay();
 	}
@@ -95,7 +100,7 @@ void DevScene::LoadTileMap()
 	_tilemapActor = actor;
 	{
 		shared_ptr<Tilemap> tilemap = ResourceManager::GET_SINGLE()->CreateTilemap(L"Tilemap_TEST_01");
-		tilemap->SetMapSize({ 52, 28 });
+		tilemap->SetMapSize({ 52, 52 });
 		tilemap->SetTileSize(16);
 		tilemap->SetScale(3);
 
