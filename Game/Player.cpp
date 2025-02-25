@@ -122,6 +122,11 @@ void Player::TickIdle()
 	{
 		SetWeaponType(WeaponType::Sword);
 	}
+
+	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
+	{
+		SetState(ObjectState::Skill);
+	}
 }
 
 void Player::TickMove()

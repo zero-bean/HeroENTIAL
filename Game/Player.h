@@ -30,7 +30,7 @@ private:
 private:
 	shared_ptr<Flipbook> _flipbookIdle[4] = {};
 	shared_ptr<Flipbook> _flipbookMove[4] = {};
-	shared_ptr<Flipbook> _flipbookAttack[6] = {};
+	shared_ptr<Flipbook> _flipbookAttack[4] = {};
 
 	bool _keyPressed = false;
 	WeaponType _weaponType = WeaponType::Sword;

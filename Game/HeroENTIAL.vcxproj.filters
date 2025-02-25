@@ -66,6 +66,9 @@
     <Filter Include="소스 파일\03.Objects\Game\Creature">
       <UniqueIdentifier>{beaf9250-c8d5-4c5c-b888-3f86cdb09bbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Projectile">
+      <UniqueIdentifier>{4ef1ea0e-4b49-4b25-8b73-7321af74d71d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -161,6 +164,12 @@
     <ClInclude Include="Player.h">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="SonicWave.h">
+      <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -234,6 +243,12 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="SonicWave.cpp">
+      <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
