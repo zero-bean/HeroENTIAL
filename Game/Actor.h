@@ -17,6 +17,9 @@ public:
 	void SetPos(const Vec2& pos) { _pos = pos; }
 	Vec2 GetPos() const { return _pos; }
 
+	void SetDestPos(const Vec2& pos) { _destPos = pos; }
+	Vec2 GetDestPos() const { return _destPos; }
+
 	void SetLayer(const LAYER_TYPE layer) { _layer = layer; }
 	LAYER_TYPE GetLayer() const { return _layer; }
 

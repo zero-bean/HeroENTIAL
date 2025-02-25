@@ -13,22 +13,22 @@ Scene::~Scene()
 
 void Scene::Init()
 {
-	for (const vector<shared_ptr<Actor>>& actors : _actors)
-		for (const shared_ptr<Actor>& actor : actors)
+	for (vector<shared_ptr<Actor>> actors : _actors)
+		for (shared_ptr<Actor> actor : actors)
 			actor->BeginPlay();
 }
 
 void Scene::Update()
 {
-	for (const vector<shared_ptr<Actor>>& actors : _actors)
-		for (const shared_ptr<Actor>& actor : actors)
+	for (vector<shared_ptr<Actor>> actors : _actors)
+		for (shared_ptr<Actor> actor : actors)
 			actor->Tick();
 }
 
 void Scene::Render(HDC hdc)
 {
-	for (const vector<shared_ptr<Actor>>& actors : _actors)
-		for (const shared_ptr<Actor>& actor : actors)
+	for (vector<shared_ptr<Actor>> actors : _actors)
+		for (shared_ptr<Actor> actor : actors)
 			actor->Render(hdc);
 }
 

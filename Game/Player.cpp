@@ -7,6 +7,7 @@
 #include "CameraComponent.h"
 #include "SceneManager.h"
 #include "DevScene.h"
+#include "SonicWave.h"
 
 Player::Player()
 {
@@ -173,12 +174,10 @@ void Player::TickSkill()
 
 		if (_weaponType == WeaponType::Sword)
 		{
-			shared_ptr<Creature> creature = scene->GetCreatureAt(GetFrontCellPos());
-			if (creature)
-			{
-				//scene->SpawnObject<HitEffect>(GetFrontCellPos());
-				creature->OnDamaged(dynamic_pointer_cast<Creature>(shared_from_this()));
-			}
+			shared_ptr<SonicWave> sonicWave = scene->SpawnObject<SonicWave>(_cellPos);
+			sonicWave->SetPos(scene->ConvertPos(_cellPos));
+			sonicWave->SetDestPos(InputManager::GET_SINGLE()->GetMousePos());
+			sonicWave->SetDirectionVector(sonicWave->GetPos(), sonicWave->GetDestPos());
 		}
 
 		SetState(ObjectState::Idle);

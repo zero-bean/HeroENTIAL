@@ -14,7 +14,6 @@
 #include "Player.h"
 #include "CameraComponent.h"
 
-
 DevScene::DevScene()
 {
 
@@ -42,6 +41,7 @@ void DevScene::Init()
 	LoadMap();
 	LoadPlayer();
 	LoadTileMap();
+	LoadEffect();
 
 	{
 		shared_ptr<Player> player = make_shared<Player>();
@@ -166,6 +166,16 @@ void DevScene::LoadPlayer()
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackUp2");
 		fb->SetInfo({ texture, L"Player_AttackUp2", {192, 192}, 0, 5, 11, 0.4f, false });
+	}
+}
+
+void DevScene::LoadEffect()
+{
+	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Bullet_Blue");
+
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"SonicWave_Blue");
+		fb->SetInfo({ texture, L"SonicWave_Blue", {32, 32}, 6, 9, 0, 0.4f });
 	}
 }
 

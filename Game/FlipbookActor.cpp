@@ -54,13 +54,14 @@ void FlipbookActor::Render(HDC hdc)
 		return;
 
 	const FlipbookInfo& info = _flipbook->GetInfo();
+	const Vec2Int scaledSize = info.size * _scale;
 	Vec2 cameraPos = SceneManager::GET_SINGLE()->GetCameraPos();
 
 	::TransparentBlt(hdc,
-		(__int32)_pos.x - info.size.x / 2 - ((__int32)cameraPos.x - GWinSizeX / 2),
-		(__int32)_pos.y - info.size.y / 2 - ((__int32)cameraPos.y - GWinSizeY / 2),
-		info.size.x,
-		info.size.y,
+		(__int32)_pos.x - scaledSize.x / 2 - ((__int32)cameraPos.x - GWinSizeX / 2),
+		(__int32)_pos.y - scaledSize.y / 2 - ((__int32)cameraPos.y - GWinSizeY / 2),
+		scaledSize.x,
+		scaledSize.y,
 		info.texture->GetDC(),
 		(info.start + _idx) * info.size.x,
 		info.line * info.size.y,
