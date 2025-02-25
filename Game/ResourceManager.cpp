@@ -69,10 +69,11 @@ void ResourceManager::SaveTilemap(const wstring& key, const wstring& path)
 
 shared_ptr<Tilemap> ResourceManager::LoadTilemap(const wstring& key, const wstring& path)
 {
-	if (_tilemaps.find(key) != _tilemaps.end())
-		return _tilemaps[key];
-
 	shared_ptr<Tilemap> tilemap = nullptr;
+
+	if (_tilemaps.find(key) == _tilemaps.end())
+		_tilemaps[key] = make_shared<Tilemap>();
+
 	tilemap = _tilemaps[key];
 
 	fs::path fullPath = _resourcePath / path;
