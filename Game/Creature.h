@@ -27,11 +27,17 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
+protected:
 	virtual void TickIdle() override {}
 	virtual void TickMove() override {}
-	virtual void TickSkill() override {}
+	virtual void TickAttack() {}
+	virtual void TickDeath() {}
+	virtual void TickBirth() {}
+	virtual void TickAttacked() {}
+
 	virtual void UpdateAnimation() override {}
 
+public:
 	virtual void OnDamaged(shared_ptr<Creature> attacker);
 
 	bool IsDead() const { return _stat.hp <= 0; }

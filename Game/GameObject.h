@@ -15,15 +15,15 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
+protected:
 	virtual void TickIdle() {}
 	virtual void TickMove() {}
-	virtual void TickSkill() {}
+
+	virtual void UpdateAnimation() {}
 
 public:
 	void SetState(ObjectState state);
 	void SetDir(Dir dir);
-
-	virtual void UpdateAnimation() {}
 
 	bool HasReachedDest();
 	bool CanGo(Vec2Int cellPos);
@@ -40,7 +40,8 @@ protected:
 	__int64 _objectID = 0;
 	Vec2Int _cellPos = {};
 	Vec2 _speed = {};
-	Dir _dir = DIR_DOWN;
+	Dir _dir = DIR_RIGHT;
+	Dir _animDir = DIR_RIGHT;
 	ObjectState _state = ObjectState::Idle;
 };
 

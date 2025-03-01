@@ -35,17 +35,21 @@ enum COLLISION_LAYER_TYPE : unsigned __int8
 
 enum Dir
 {
+	DIR_RIGHT,
+	DIR_LEFT,
 	DIR_UP,
 	DIR_DOWN,
-	DIR_LEFT,
-	DIR_RIGHT,
 };
 
 enum class ObjectState
 {
 	Idle,
 	Move,
+	Attack,
+	Attacked,
 	Skill,
+	Death,
+	Birth,
 };
 
 enum class WeaponType

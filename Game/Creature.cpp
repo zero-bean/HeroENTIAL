@@ -27,6 +27,21 @@ void Creature::Tick()
 {
 	Super::Tick();
 
+	switch (_state) 
+	{
+	case ObjectState::Attack:
+		TickAttack();
+		break;
+	case ObjectState::Attacked:
+		TickAttacked();
+		break;
+	case ObjectState::Death:
+		TickDeath();
+		break;
+	case ObjectState::Birth:
+		TickBirth();
+		break;
+	}
 }
 
 void Creature::Render(HDC hdc)

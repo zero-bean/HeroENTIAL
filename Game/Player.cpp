@@ -13,21 +13,21 @@ Player::Player()
 {
 	_flipbookIdle[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleLeft");
 	_flipbookIdle[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleRight");
-	_flipbookIdle[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleLeft");
-	_flipbookIdle[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleRight");
+	//_flipbookIdle[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleLeft");
+	//_flipbookIdle[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleRight");
 
 	_flipbookMove[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveLeft");
 	_flipbookMove[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveRight");
-	_flipbookMove[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveLeft");
-	_flipbookMove[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveRight");
+	//_flipbookMove[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveLeft");
+	//_flipbookMove[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveRight");
 
 	_flipbookAttack[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackRight1");
 	//_flipbookAttack[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackRight2");
 	_flipbookAttack[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackLeft1");
 	//_flipbookAttack[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackLeft2");
-	_flipbookAttack[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackUp1");
+	//_flipbookAttack[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackUp1");
 	//_flipbookAttack[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackUp");
-	_flipbookAttack[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackDown1");
+	//_flipbookAttack[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackDown1");
 	//_flipbookAttack[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackDown2");
 
 
@@ -65,7 +65,7 @@ void Player::TickIdle()
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
 
 	_keyPressed = true;
-	Vec2Int deltaXY[4] = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
+	Vec2Int deltaXY[4] = { {1, 0}, {-1, 0}, {0, -1}, {0, 1} };
 
 	if (InputManager::GET_SINGLE()->GetButton(KeyType::W))
 	{
@@ -126,7 +126,7 @@ void Player::TickIdle()
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
 	{
-		SetState(ObjectState::Skill);
+		SetState(ObjectState::Attack);
 	}
 }
 
@@ -144,23 +144,23 @@ void Player::TickMove()
 	{
 		switch (_dir)
 		{
+		case DIR_RIGHT:
+			_pos.x += 200 * deltaTime;
+			break;
+		case DIR_LEFT:
+			_pos.x -= 200 * deltaTime;
+			break;
 		case DIR_UP:
 			_pos.y -= 200 * deltaTime;
 			break;
 		case DIR_DOWN:
 			_pos.y += 200 * deltaTime;
 			break;
-		case DIR_LEFT:
-			_pos.x -= 200 * deltaTime;
-			break;
-		case DIR_RIGHT:
-			_pos.x += 200 * deltaTime;
-			break;
 		}
 	}
 }
 
-void Player::TickSkill()
+void Player::TickAttack()
 {
 	if (_flipbook == nullptr)
 		return;
@@ -190,16 +190,16 @@ void Player::UpdateAnimation()
 	{
 	case ObjectState::Idle:
 		if (_keyPressed)
-			SetFlipbook(_flipbookMove[_dir]);
+			SetFlipbook(_flipbookMove[_animDir]);
 		else
-			SetFlipbook(_flipbookIdle[_dir]);
+			SetFlipbook(_flipbookIdle[_animDir]);
 		break;
 	case ObjectState::Move:
-		SetFlipbook(_flipbookMove[_dir]);
+		SetFlipbook(_flipbookMove[_animDir]);
 		break;
-	case ObjectState::Skill:
+	case ObjectState::Attack:
 		if (_weaponType == WeaponType::Sword)
-			SetFlipbook(_flipbookAttack[_dir]);
+			SetFlipbook(_flipbookAttack[_animDir]);
 		break;
 	}
 }

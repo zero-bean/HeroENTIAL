@@ -170,6 +170,9 @@
     <ClInclude Include="SonicWave.h">
       <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
     </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -249,6 +252,9 @@
     </ClCompile>
     <ClCompile Include="SonicWave.cpp">
       <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

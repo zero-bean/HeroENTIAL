@@ -20,7 +20,12 @@ public:
 private:
 	virtual void TickIdle() override;
 	virtual void TickMove() override;
-	virtual void TickSkill() override;
+	virtual void TickAttack() override;
+	virtual void TickDeath() override {}
+	virtual void TickBirth() override {}
+	virtual void TickAttacked() override {}
+	void TickSkill() {};
+
 	virtual void UpdateAnimation() override;
 
 private:
@@ -28,9 +33,9 @@ private:
 	WeaponType GetWeaponType() const { return _weaponType; }
 
 private:
-	shared_ptr<Flipbook> _flipbookIdle[4] = {};
-	shared_ptr<Flipbook> _flipbookMove[4] = {};
-	shared_ptr<Flipbook> _flipbookAttack[4] = {};
+	shared_ptr<Flipbook> _flipbookIdle[2] = {};
+	shared_ptr<Flipbook> _flipbookMove[2] = {};
+	shared_ptr<Flipbook> _flipbookAttack[2] = {};
 
 	bool _keyPressed = false;
 	WeaponType _weaponType = WeaponType::Sword;

@@ -38,9 +38,6 @@ void GameObject::Tick()
 	case ObjectState::Move:
 		TickMove();
 		break;
-	case ObjectState::Skill:
-		TickSkill();
-		break;
 	}
 }
 
@@ -61,6 +58,12 @@ void GameObject::SetState(ObjectState state)
 void GameObject::SetDir(Dir dir)
 {
 	_dir = dir;
+
+	if (dir == DIR_RIGHT)
+		_animDir = DIR_RIGHT;
+	else if (dir == DIR_LEFT)
+		_animDir = DIR_LEFT;
+
 	UpdateAnimation();
 }
 
@@ -82,6 +85,7 @@ bool GameObject::CanGo(Vec2Int cellPos)
 Dir GameObject::GetLookAtDir(Vec2Int cellPos)
 {
 	Vec2Int dir = cellPos - GetCellPos();
+
 	if (dir.x > 0)
 		return DIR_RIGHT;
 	else if (dir.x < 0)
@@ -110,14 +114,14 @@ Vec2Int GameObject::GetFrontCellPos()
 {
 	switch (_dir)
 	{
-	case DIR_DOWN:
-		return _cellPos + Vec2Int{ 0, 1 };
-	case DIR_LEFT:
-		return _cellPos + Vec2Int{ -1, 0 };
 	case DIR_RIGHT:
 		return _cellPos + Vec2Int{ 1, 0 };
+	case DIR_LEFT:
+		return _cellPos + Vec2Int{ -1, 0 };
 	case DIR_UP:
 		return _cellPos + Vec2Int{ 0, -1 };
+	case DIR_DOWN:
+		return _cellPos + Vec2Int{ 0, 1 };
 	}
 
 	return _cellPos;
