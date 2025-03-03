@@ -9,6 +9,18 @@ class Creature;
 class Player;
 class GameObject;
 class UI;
+class Monster;
+
+struct PQNode
+{
+	PQNode(__int32 cost, Vec2Int pos) : cost(cost), pos(pos) { }
+
+	bool operator<(const PQNode& other) const { return cost < other.cost; }
+	bool operator>(const PQNode& other) const { return cost > other.cost; }
+
+	__int32 cost;
+	Vec2Int pos;
+};
 
 class DevScene : public Scene
 {
@@ -25,6 +37,7 @@ public:
 	void LoadMap();
 	void LoadTileMap();
 	void LoadPlayer();
+	void LoadMonster();
 	void LoadEffect();
 
 public:
@@ -48,7 +61,24 @@ public:
 		return ret;
 	}
 
+	template<typename T>
+	shared_ptr<T> SpawnObjectAtRandomPos()
+	{
+		Vec2Int randPos = GetRandomEmptyCellPos();
+
+		return SpawnMonster<T>(randPos);
+	}
+
+	Vec2Int GetRandomEmptyCellPos();
+
+	weak_ptr<Player> FindClosestPlayer(Vec2Int pos);
+
+	bool FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int32 maxDepth = 10);
+
 private:
 	shared_ptr<TilemapActor> _tilemapActor = nullptr;
+	const __int32 DESIRED_COUNT = 3;
+	__int32 _monsterCount = 0;
+
 };
 

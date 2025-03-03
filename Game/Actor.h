@@ -26,7 +26,7 @@ public:
 public:
 	void AddComponent(shared_ptr<Component> component);
 	void RemoveComponent(shared_ptr<Component> component);
-
+	
 protected:
 	Vec2 _pos = { 0,0 };
 	Vec2 _destPos = { 0, 0 };

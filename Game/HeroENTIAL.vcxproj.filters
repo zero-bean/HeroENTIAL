@@ -173,6 +173,7 @@
     <ClInclude Include="Monster.h">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClInclude>
+    <ClInclude Include="Goblin.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -255,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Goblin.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

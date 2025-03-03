@@ -11,7 +11,7 @@
 
 SonicWave::SonicWave()
 {
-	_flipbookIdle = ResourceManager::GET_SINGLE()->GetFlipbook(L"SonicWave_Blue");
+	_flipbookIdle = ResourceManager::GET_SINGLE()->GetFlipbook(L"SonicWave_Red");
 }
 
 SonicWave::~SonicWave()

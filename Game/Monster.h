@@ -32,17 +32,20 @@ protected:
 	virtual void TickIdle() override {}
 	virtual void TickMove() override {}
 	virtual void TickAttack() override {}
-	virtual void TickDeath() override {}
-	virtual void TickBirth() override {}
 	virtual void TickAttacked() override {}
+	virtual void TickDeath() override;
+	virtual void TickBirth() override;
 
-	virtual void UpdateAnimation() override {}
+	virtual void UpdateAnimation() override;
 
-private:
+protected:
+	virtual void DropItems() {}
+
+protected:
 	shared_ptr<Flipbook> _idle[2] = {};
 	shared_ptr<Flipbook> _move[2] = {};
-	shared_ptr<Flipbook> _hurt[2] = {};
 	shared_ptr<Flipbook> _attack[2] = {};
+	shared_ptr<Flipbook> _attacked[2] = {};
 	shared_ptr<Flipbook> _dead[2] = {};
 	shared_ptr<Flipbook> _birth[2] = {};
 
