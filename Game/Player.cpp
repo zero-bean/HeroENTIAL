@@ -177,7 +177,7 @@ void Player::TickAttack()
 			shared_ptr<SonicWave> sonicWave = scene->SpawnObject<SonicWave>(_cellPos);
 			sonicWave->SetPos(scene->ConvertPos(_cellPos));
 			sonicWave->SetDestPos(InputManager::GET_SINGLE()->GetMousePos());
-			sonicWave->SetDirectionVector(sonicWave->GetPos(), sonicWave->GetDestPos());
+			sonicWave->SetDirVec(sonicWave->GetPos(), sonicWave->GetDestPos());
 		}
 
 		SetState(ObjectState::Idle);

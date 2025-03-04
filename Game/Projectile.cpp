@@ -27,3 +27,8 @@ void Projectile::Render(HDC hdc)
 {
 	Super::Render(hdc);
 }
+
+void Projectile::UpdateAnimation()
+{
+	Reset();
+}
