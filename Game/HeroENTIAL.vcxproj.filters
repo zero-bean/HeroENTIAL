@@ -173,8 +173,12 @@
     <ClInclude Include="Monster.h">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClInclude>
-    <ClInclude Include="Goblin.h" />
-    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Goblin.h">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -259,10 +263,10 @@
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClCompile>
     <ClCompile Include="Goblin.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

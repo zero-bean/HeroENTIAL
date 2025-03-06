@@ -38,6 +38,7 @@ public:
 	void LoadTileMap();
 	void LoadPlayer();
 	void LoadMonster();
+	void LoadBullet();
 	void LoadEffect();
 
 public:

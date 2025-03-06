@@ -19,8 +19,8 @@ public:
 public:
 	void SetFlipbook(shared_ptr<Flipbook> flipbook);
 
-	void SetScale(const __int32 scale) { _scale = scale; }
-	__int32 GetScale() const { return _scale; }
+	void SetScale(const float scale) { _scale = scale; }
+	float GetScale() const { return _scale; }
 
 	void Reset();
 	bool IsAnimationEnded();
@@ -29,6 +29,6 @@ protected:
 	shared_ptr<Flipbook> _flipbook = nullptr;
 	float _sumTime = 0.f;
 	__int32 _idx = 0;
-	__int32 _scale = 1;
+	float _scale = 1.f;
 };
 

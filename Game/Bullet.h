@@ -12,7 +12,7 @@ class Bullet : public Projectile
 {
 	using Super = Projectile;
 public:
-	Bullet(BulletType type);
+	Bullet();
 	virtual ~Bullet();
 
 public:
@@ -25,6 +25,7 @@ private:
 	virtual void TickMove() override {}
 
 public:
+	void SetBulletType(BulletType type);
 	void SetDirVec(const Vec2 sp, const Vec2 lp);
 
 	void OnDestroyed();

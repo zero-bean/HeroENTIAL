@@ -1,17 +1,19 @@
 #include "pch.h"
 #include "Bullet.h"
+#include "ResourceManager.h"
 #include "SceneManager.h"
 #include "TimeManager.h"
 #include "Scene.h"
 #include "DevScene.h"
 
-Bullet::Bullet(BulletType type)
+Bullet::Bullet()
 {
-
+	_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Bullet_Red_Basic");
 }
 
 Bullet::~Bullet()
 {
+
 }
 
 void Bullet::BeginPlay()
@@ -44,6 +46,19 @@ void Bullet::TickIdle()
 
 	if (_timer <= 0.f)
 		OnDestroyed();
+}
+
+void Bullet::SetBulletType(BulletType type)
+{
+	if (_type == type)
+		return;
+
+	switch (type)
+	{
+	case BulletType::Basic:
+		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Bullet_Red_Basic");
+		break;
+	}
 }
 
 void Bullet::SetDirVec(const Vec2 sp, const Vec2 lp)

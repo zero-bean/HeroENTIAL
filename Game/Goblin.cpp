@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "Goblin.h"
+#include "Flipbook.h"
 #include "Player.h"
+#include "Bullet.h"
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
-#include "Flipbook.h"
 #include "DevScene.h"
 
 Goblin::Goblin(MonsterType type, Rank rank) : _type(type)
@@ -95,30 +96,58 @@ void Goblin::TickIdle()
 	Vec2Int dir = player->GetCellPos() - GetCellPos();
 	__int32 dist = abs(dir.x) + abs(dir.y);
 
-	if (dist == 1)
+
+	if (_type == MonsterType::Axe)
 	{
-		SetDir(GetLookAtDir(player->GetCellPos()));
-		SetState(ObjectState::Skill);
-		_waitAtkSec = 0.5f; // 공격 종료 시간
-	}
-	else
-	{
-		vector<Vec2Int> path;
-		if (scene->FindPath(GetCellPos(), player->GetCellPos(), OUT path))
+		if (dist == 1)
 		{
-			if (path.size() > 1)
+			SetDir(GetLookAtDir(player->GetCellPos()));
+
+			if (_waitAtkSec > 0.5f)
 			{
-				Vec2Int nextPos = path[1];
-				if (scene->CanGo(nextPos))
-				{
-					SetCellPos(nextPos);
-					SetState(ObjectState::Move);
-				}
+				float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
+				_waitAtkSec -= deltaTime;
+				return;
 			}
-			else
-				SetCellPos(path[0]);
+
+			SetState(ObjectState::Attack);
+			return;
 		}
 	}
+	else if (_type == MonsterType::Bow)
+	{
+		if (dist <= 8)
+		{
+			SetDir(GetLookAtDir(player->GetCellPos()));
+
+			if (_waitAtkSec > 0.5f)
+			{
+				float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
+				_waitAtkSec -= deltaTime;
+				return;
+			}
+
+			SetState(ObjectState::Attack);
+			return;
+		}
+	}
+
+	vector<Vec2Int> path;
+	if (scene->FindPath(GetCellPos(), player->GetCellPos(), OUT path))
+	{
+		if (path.size() > 1)
+		{
+			Vec2Int nextPos = path[1];
+			if (scene->CanGo(nextPos))
+			{
+				SetCellPos(nextPos);
+				SetState(ObjectState::Move);
+			}
+		}
+		else
+			SetCellPos(path[0]);
+	}
+
 }
 
 void Goblin::TickMove()
@@ -164,26 +193,34 @@ void Goblin::TickAttack()
 	if (_flipbook == nullptr)
 		return;
 
-	if (_waitAtkSec > 0)
-	{
-		float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
-		_waitAtkSec = max(0, _waitAtkSec - deltaTime);
-		return;
+	if (IsAnimationEnded()) {
+		shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+		if (scene == nullptr)
+			return;
+
+		switch (_type)
+		{
+		case MonsterType::Axe:
+			_waitAtkSec = 1.f; // 공격 종료 시간
+			break;
+		case MonsterType::Bow:
+			shared_ptr<Player> player = _target.lock();
+			if (player == nullptr)
+				break;
+
+			shared_ptr<Bullet> bullet = scene->SpawnObject<Bullet>(_cellPos);
+			bullet->SetBulletType(BulletType::Basic);
+			bullet->SetScale(2.f);
+			bullet->SetPos(scene->ConvertPos(_cellPos));
+			bullet->SetDestPos(player->GetPos());
+			bullet->SetDirVec(bullet->GetPos(), bullet->GetDestPos());
+
+			_waitAtkSec = 3.f; // 공격 종료 시간
+			break;
+		}
+
+		SetState(ObjectState::Idle);
 	}
-
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
-	if (scene == nullptr)
-		return;
-
-	switch (_type)
-	{
-	case MonsterType::Axe:
-		break;
-	case MonsterType::Bow:
-		break;
-	}
-
-	SetState(ObjectState::Idle);
 }
 
 void Goblin::TickAttacked()

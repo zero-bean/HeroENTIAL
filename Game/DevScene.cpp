@@ -14,6 +14,7 @@
 #include "CameraComponent.h"
 #include "Player.h"
 #include "Goblin.h"
+#include "Bullet.h"
 
 DevScene::DevScene()
 {
@@ -32,7 +33,8 @@ void DevScene::Init()
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Stage-T01", L"Sprite\\Map\\test-01.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Player_Blue", L"Sprite\\Player\\Warrior_Blue.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Tile_CanMove", L"Sprite\\Map\\Tile-CanMove.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Bullet_Red", L"Sprite\\Effect\\red.bmp", RGB(0, 0, 0));
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Effect_Red", L"Sprite\\Effect\\red.bmp", RGB(0, 0, 0));
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Bullet_Red", L"Sprite\\Bullet\\red.bmp", RGB(0, 0, 0));
 
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Right", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Right.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Left", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Left.bmp");
@@ -48,6 +50,7 @@ void DevScene::Init()
 	LoadTileMap();
 	LoadPlayer();
 	LoadMonster();
+	LoadBullet();
 	LoadEffect();
 
 	{
@@ -200,8 +203,8 @@ void DevScene::LoadMonster()
 		vector<tuple<wstring, int, int, float, bool>> animations = {
 			{L"Idle", 5, 0, 0.6f, true},
 			{L"Move", 4, 1, 0.5f, true},
-			{L"Attack", 6, 2, 0.5f, true},
-			{L"Attacked", 4, 3, 0.4f, true},
+			{L"Attack", 6, 2, 0.5f, false},
+			{L"Attacked", 4, 3, 0.4f, false},
 			{L"Death", 8, 4, 0.4f, false},
 			{L"Birth", 5, 5, 0.4f, false}
 		};
@@ -225,10 +228,20 @@ void DevScene::LoadMonster()
 	LoadGoblin(L"Goblin_Axe");
 }
 
+void DevScene::LoadBullet()
+{
+	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Bullet_Red");
+
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Bullet_Red_Basic");
+		fb->SetInfo({ texture, L"Bullet_Red_Basic", {16, 17}, 0, 4, 1, 0.3f });
+	}
+}
+
 
 void DevScene::LoadEffect()
 {
-	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Bullet_Red");
+	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Effect_Red");
 
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"SonicWave_Red");
