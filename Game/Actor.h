@@ -1,6 +1,7 @@
 #pragma once
 
 class Component;
+class Collider;
 
 class Actor : public enable_shared_from_this<Actor>
 {
@@ -26,7 +27,13 @@ public:
 public:
 	void AddComponent(shared_ptr<Component> component);
 	void RemoveComponent(shared_ptr<Component> component);
-	
+
+	shared_ptr<Component> GetCollider();
+
+	// OnCollisionEnter2D / OnCollisionExit2D
+	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
+	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
+
 protected:
 	Vec2 _pos = { 0,0 };
 	Vec2 _destPos = { 0, 0 };

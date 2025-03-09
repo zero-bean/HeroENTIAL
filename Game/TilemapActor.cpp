@@ -55,10 +55,10 @@ void TilemapActor::Render(HDC hdc)
 	__int32 rightX = ((__int32)cameraPos.x + GWinSizeX / 2);
 	__int32 rightY = ((__int32)cameraPos.y + GWinSizeY / 2);
 
-	__int32 startX = (leftX - _pos.x) / scaledSize;
-	__int32 startY = (leftY - _pos.y) / scaledSize;
-	__int32 endX = (rightX - _pos.x) / scaledSize;
-	__int32 endY = (rightY - _pos.y) / scaledSize;
+	__int32 startX = static_cast<__int32>((leftX - _pos.x) / scaledSize);
+	__int32 startY = static_cast<__int32>((leftY - _pos.y) / scaledSize);
+	__int32 endX = static_cast<__int32>((rightX - _pos.x) / scaledSize);
+	__int32 endY = static_cast<__int32>((rightY - _pos.y) / scaledSize);
 
 	for (__int32 y = startY; y <= endY; y++)
 	{
@@ -74,8 +74,8 @@ void TilemapActor::Render(HDC hdc)
 			case 0:
 			{
 				::TransparentBlt(hdc,
-					_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2),
-					_pos.y + y * scaledSize - ((__int32)cameraPos.y - GWinSizeY / 2),
+					static_cast<int>(_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2)),
+					static_cast<int>(_pos.y + y * scaledSize - ((__int32)cameraPos.y - GWinSizeY / 2)),
 					scaledSize,
 					scaledSize,
 					spriteO->GetDC(),
@@ -88,8 +88,8 @@ void TilemapActor::Render(HDC hdc)
 			break;
 			case 1:
 				::TransparentBlt(hdc,
-					_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2),
-					_pos.y + y * scaledSize - ((__int32)cameraPos.y - GWinSizeY / 2),
+					static_cast<int>(_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2)),
+					static_cast<int>(_pos.y + y * scaledSize - ((__int32)cameraPos.y - GWinSizeY / 2)),
 					scaledSize,
 					scaledSize,
 					spriteX->GetDC(),
@@ -110,8 +110,8 @@ void TilemapActor::TickPicking()
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
 	{
 		Vec2 cameraPos = SceneManager::GET_SINGLE()->GetCameraPos();
-		__int32 screenX = cameraPos.x - GWinSizeX / 2;
-		__int32 screenY = cameraPos.y - GWinSizeY / 2;
+		__int32 screenX = static_cast<__int32>(cameraPos.x - static_cast<float>(GWinSizeX / 2));
+		__int32 screenY = static_cast<__int32>(cameraPos.y - static_cast<float>(GWinSizeY / 2));
 
 		POINT mousePos = InputManager::GET_SINGLE()->GetMousePos();
 		__int32 posX = mousePos.x + screenX;

@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 #include "InputManager.h"
+#include "CollisionManager.h"
 #include "Texture.h"
 #include "Sprite.h"
 #include "Flipbook.h"
@@ -15,6 +16,7 @@
 #include "Player.h"
 #include "Goblin.h"
 #include "Bullet.h"
+#include "BoxCollider.h"
 
 DevScene::DevScene()
 {
@@ -61,6 +63,14 @@ void DevScene::Init()
 		shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
 		camera->SetBackGroundRange({ 832, 832 });
 		player->AddComponent(camera);
+
+		shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
+		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
+		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
+		collider->SetSize({ 50, 50 });
+		CollisionManager::GET_SINGLE()->AddCollider(collider);
+		player->AddComponent(collider);
 
 		player->BeginPlay();
 	}

@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 
 Game::Game()
 {
@@ -31,6 +32,7 @@ void Game::Init(HWND hwnd)
 	InputManager::GET_SINGLE()->Init(hwnd);
 	ResourceManager::GET_SINGLE()->Init(hwnd, fs::current_path().parent_path().string() + "\\Resources");
 	SceneManager::GET_SINGLE()->Init();
+	CollisionManager::GET_SINGLE()->Init();
 
 	SceneManager::GET_SINGLE()->ChangeScene(SceneType::DevScene);
 }
@@ -40,6 +42,7 @@ void Game::Update()
 	TimeManager::GET_SINGLE()->Update();
 	InputManager::GET_SINGLE()->Update();
 	SceneManager::GET_SINGLE()->Update();
+	CollisionManager::GET_SINGLE()->Update();
 }
 
 void Game::Render()
