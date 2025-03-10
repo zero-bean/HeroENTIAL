@@ -3,7 +3,7 @@
 #include "SceneManager.h"
 #include "Actor.h"
 
-BoxCollider::BoxCollider() : Collider(ColliderType::Box)
+BoxCollider::BoxCollider()
 {
 
 }
@@ -48,19 +48,16 @@ bool BoxCollider::CheckCollision(shared_ptr<Collider> other)
 	if (Super::CheckCollision(other) == false)
 		return false;
 
-	switch (other->GetColliderType())
-	{
-	case ColliderType::Box:
-		return CheckCollisionBox2Box(dynamic_pointer_cast<BoxCollider>(shared_from_this()), dynamic_pointer_cast<BoxCollider>(other));
-	}
+	auto self = dynamic_pointer_cast<BoxCollider>(shared_from_this());
 
-	return false;
+	return CheckCollisionBox2Box(self, dynamic_pointer_cast<BoxCollider>(other));
 }
 
 RECT BoxCollider::GetRect()
 {
 	Vec2 pos = GetOwner()->GetPos();
-	Vec2 size = GetSize();
+	float scale = GetOwner()->GetScale();
+	Vec2 size = GetSize() * scale;
 
 	RECT rect =
 	{

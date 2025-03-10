@@ -4,6 +4,7 @@
 
 class Player;
 class Flipbook;
+class Collider;
 
 enum class Rank
 {
@@ -24,6 +25,9 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
+
+	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
+	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
 
 public:
 	void SetRank(Rank rank) { _rank = rank; }

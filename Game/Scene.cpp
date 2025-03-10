@@ -13,21 +13,21 @@ Scene::~Scene()
 
 void Scene::Init()
 {
-	for (vector<shared_ptr<Actor>> actors : _actors)
+	for (const vector<shared_ptr<Actor>>& actors : _actors)
 		for (shared_ptr<Actor> actor : actors)
 			actor->BeginPlay();
 }
 
 void Scene::Update()
 {
-	for (vector<shared_ptr<Actor>> actors : _actors)
+	for (const vector<shared_ptr<Actor>> actors : _actors)
 		for (shared_ptr<Actor> actor : actors)
 			actor->Tick();
 }
 
 void Scene::Render(HDC hdc)
 {
-	for (vector<shared_ptr<Actor>> actors : _actors)
+	for (const vector<shared_ptr<Actor>>& actors : _actors)
 		for (shared_ptr<Actor> actor : actors)
 			actor->Render(hdc);
 }
@@ -44,7 +44,7 @@ void Scene::RemoveActor(shared_ptr<Actor> actor)
 {
 	if (actor == nullptr)
 		return;
-
+	
 	vector<shared_ptr<Actor>>& v = _actors[actor->GetLayer()];
 	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
 }

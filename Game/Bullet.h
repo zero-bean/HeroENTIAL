@@ -2,6 +2,8 @@
 
 #include "Projectile.h"
 
+class Collider;
+
 enum class BulletType
 {
 	Basic,
@@ -19,6 +21,9 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
+
+	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
+	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
 
 private:
 	virtual void TickIdle() override;

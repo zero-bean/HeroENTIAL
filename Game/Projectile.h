@@ -25,6 +25,6 @@ protected:
 	virtual void UpdateAnimation() override;
 
 protected:
-	float _timer = 3.f;
+	float _timer = 2.5f;
 	Vec2 DirVec = {};
 };

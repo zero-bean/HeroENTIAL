@@ -1,8 +1,12 @@
 #include "pch.h"
 #include "Bullet.h"
+#include "Collider.h"
+#include "BoxCollider.h"
+#include "Player.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "TimeManager.h"
+#include "CollisionManager.h"
 #include "Scene.h"
 #include "DevScene.h"
 
@@ -34,6 +38,25 @@ void Bullet::Render(HDC hdc)
 	Super::Render(hdc);
 
 
+}
+
+void Bullet::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
+{
+	shared_ptr<BoxCollider> b1 = dynamic_pointer_cast<BoxCollider>(collider);
+	shared_ptr<BoxCollider> b2 = dynamic_pointer_cast<BoxCollider>(other);
+
+	auto player = static_pointer_cast<Player>(b2->GetOwner());
+	if (player)
+	{
+		player->OnDamaged(static_pointer_cast<Creature>(shared_from_this()));
+		CollisionManager::GET_SINGLE()->RemoveCollider(b1);
+		OnDestroyed();
+	}
+
+}
+
+void Bullet::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
+{
 }
 
 void Bullet::TickIdle()
@@ -71,9 +94,9 @@ void Bullet::SetDirVec(const Vec2 sp, const Vec2 lp)
 void Bullet::OnDestroyed()
 {
 	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
-	
+
 	if (scene == nullptr)
 		return;
 
-	scene->RemoveActor(shared_from_this());
+	scene->RemoveActor(static_pointer_cast<Actor>(shared_from_this()));
 }

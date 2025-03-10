@@ -65,7 +65,8 @@ void DevScene::Init()
 		player->AddComponent(camera);
 
 		shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
-		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
+		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+		collider->ResetCollisionFlag();
 		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
 		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
 		collider->SetSize({ 50, 50 });

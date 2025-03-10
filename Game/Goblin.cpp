@@ -3,10 +3,13 @@
 #include "Flipbook.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "Collider.h"
+#include "BoxCollider.h"
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 #include "DevScene.h"
 
 Goblin::Goblin(MonsterType type, Rank rank) : _type(type)
@@ -209,13 +212,23 @@ void Goblin::TickAttack()
 				break;
 
 			shared_ptr<Bullet> bullet = scene->SpawnObject<Bullet>(_cellPos);
+			shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+			bullet->AddComponent(collider);
+
+			collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
+			collider->ResetCollisionFlag();
+			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
+			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+			collider->SetSize({ 32, 32 });
+			CollisionManager::GET_SINGLE()->AddCollider(collider);
+
 			bullet->SetBulletType(BulletType::Basic);
 			bullet->SetScale(2.f);
 			bullet->SetPos(scene->ConvertPos(_cellPos));
 			bullet->SetDestPos(player->GetPos());
 			bullet->SetDirVec(bullet->GetPos(), bullet->GetDestPos());
 
-			_waitAtkSec = 3.f; // 공격 종료 시간
+			_waitAtkSec = 0.7f; // 공격 종료 시간
 			break;
 		}
 

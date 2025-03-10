@@ -7,7 +7,7 @@ class BoxCollider;
 class Collider : public Component
 {
 public:
-	Collider(ColliderType colliderType);
+	Collider();
 	virtual ~Collider() override;
 
 public:
@@ -18,7 +18,6 @@ public:
 	virtual bool CheckCollision(shared_ptr<Collider> other);
 
 public:
-	ColliderType GetColliderType() const { return _colliderType; }
 	void SetShowDebug(bool show) { _showDebug = show; }
 
 public:
@@ -34,7 +33,6 @@ public:
 	unsigned __int32 GetCollisionFlag() const { return _collisionFlag; }
 
 protected:
-	ColliderType _colliderType;
 	bool _showDebug = true;
 
 public:

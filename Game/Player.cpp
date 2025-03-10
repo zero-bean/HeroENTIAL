@@ -60,6 +60,15 @@ void Player::Render(HDC hdc)
 
 }
 
+void Player::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
+{
+	int a = 10;
+}
+
+void Player::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
+{
+}
+
 void Player::TickIdle()
 {
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();

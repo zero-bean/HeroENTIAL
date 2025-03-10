@@ -21,6 +21,7 @@ SonicWave::~SonicWave()
 void SonicWave::BeginPlay()
 {
 	Super::BeginPlay();
+	_timer = 1.5f;
 }
 
 void SonicWave::Tick()

@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "Monster.h"
+#include "Collider.h"
+#include "BoxCollider.h"
 #include "DevScene.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 
 Monster::Monster()
 {
@@ -28,6 +31,20 @@ void Monster::Tick()
 void Monster::Render(HDC hdc)
 {
 	Super::Render(hdc);
+
+}
+
+void Monster::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
+{
+	shared_ptr<BoxCollider> b1 = dynamic_pointer_cast<BoxCollider>(collider);
+	shared_ptr<BoxCollider> b2 = dynamic_pointer_cast<BoxCollider>(other);
+
+	if (b1 == nullptr || b2 == nullptr)
+		return;
+}
+
+void Monster::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
+{
 
 }
 

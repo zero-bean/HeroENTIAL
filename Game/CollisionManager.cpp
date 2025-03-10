@@ -10,14 +10,15 @@ void CollisionManager::Init()
 
 void CollisionManager::Update()
 {
-	vector<shared_ptr<Collider>> colliders = _colliders;
-
 	for (__int32 i = 0; i < colliders.size(); i++)
 	{
 		for (__int32 j = i + 1; j < colliders.size(); j++)
 		{
 			shared_ptr<Collider> src = colliders[i];
 			shared_ptr<Collider> dest = colliders[j];
+
+			if (src->GetOwner() == nullptr || dest->GetOwner() == nullptr)
+				continue;
 
 			if (src->CheckCollision(dest))
 			{
@@ -41,16 +42,21 @@ void CollisionManager::Update()
 			}
 		}
 	}
-
 }
 
 void CollisionManager::AddCollider(shared_ptr<Collider> collider)
 {
-	_colliders.push_back(collider);
+	colliders.push_back(collider);
 }
 
 void CollisionManager::RemoveCollider(shared_ptr<Collider> collider)
 {
-	auto it = std::remove(_colliders.begin(), _colliders.end(), collider);
-	_colliders.erase(it, _colliders.end());
+	if (collider == nullptr)
+		return;
+
+	auto it = std::find(colliders.begin(), colliders.end(), collider);
+	if (it == colliders.end())
+		return;
+
+	colliders.erase(it);
 }

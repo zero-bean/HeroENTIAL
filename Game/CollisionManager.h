@@ -26,7 +26,7 @@ public:
 	void RemoveCollider(shared_ptr<Collider> collider);
 
 private:
-	vector<shared_ptr<Collider>> _colliders;
+	vector<shared_ptr<Collider>> colliders;
 };
 
 

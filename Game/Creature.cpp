@@ -70,4 +70,6 @@ void Creature::OnDamaged(shared_ptr<Creature> attacker)
 			scene->RemoveActor(shared_from_this());
 		}
 	}
+	else
+		SetState(ObjectState::Attacked);
 }

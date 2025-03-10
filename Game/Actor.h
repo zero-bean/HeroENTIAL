@@ -21,6 +21,9 @@ public:
 	void SetDestPos(const Vec2& pos) { _destPos = pos; }
 	Vec2 GetDestPos() const { return _destPos; }
 
+	void SetScale(const float scale) { _scale = scale; }
+	float GetScale() const { return _scale; }
+
 	void SetLayer(const LAYER_TYPE layer) { _layer = layer; }
 	LAYER_TYPE GetLayer() const { return _layer; }
 
@@ -29,14 +32,13 @@ public:
 	void RemoveComponent(shared_ptr<Component> component);
 
 	shared_ptr<Component> GetCollider();
-
-	// OnCollisionEnter2D / OnCollisionExit2D
 	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
 	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
 
 protected:
 	Vec2 _pos = { 0,0 };
 	Vec2 _destPos = { 0, 0 };
+	float _scale = 1.f;
 	LAYER_TYPE _layer = LAYER_TYPE::LAYER_OBJECT;
 	vector<shared_ptr<Component>> _components;
 };
