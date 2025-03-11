@@ -21,6 +21,19 @@ void Monster::BeginPlay()
 	Super::BeginPlay();
 
 	SetState(ObjectState::Birth);
+
+	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	if (scene == nullptr)
+		return;
+
+	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+	collider->ResetCollisionFlag();
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
+	collider->SetSize(Vec2(16, 16) * GetScale());
+	collider->SetCoorPos({ 0, -16 });
+	AddComponent(collider);
+	CollisionManager::GET_SINGLE()->AddCollider(collider);
 }
 
 void Monster::Tick()

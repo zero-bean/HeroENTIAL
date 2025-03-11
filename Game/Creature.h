@@ -5,6 +5,7 @@
 class Flipbook;
 class Collider;
 class BoxCollider;
+class Projectile;
 
 struct Stat
 {
@@ -39,6 +40,7 @@ protected:
 
 public:
 	virtual void OnDamaged(shared_ptr<Creature> attacker);
+	virtual void OnDamaged(shared_ptr<Projectile> attacker);
 
 	bool IsDead() const { return _stat.hp <= 0; }
 

@@ -26,7 +26,7 @@ private:
 	virtual void TickAttack() override;
 	virtual void TickDeath() override {}
 	virtual void TickBirth() override {}
-	virtual void TickAttacked() override {}
+	virtual void TickAttacked() override { SetState(ObjectState::Idle); }
 	void TickSkill() {};
 
 	virtual void UpdateAnimation() override;

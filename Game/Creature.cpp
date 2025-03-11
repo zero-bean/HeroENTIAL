@@ -4,6 +4,7 @@
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "Flipbook.h"
+#include "Projectile.h"
 #include "CameraComponent.h"
 #include "SceneManager.h"
 #include "DevScene.h"
@@ -58,6 +59,31 @@ void Creature::OnDamaged(shared_ptr<Creature> attacker)
 	Stat& stat = GetStat();
 
 	__int32 damage = attackerStat.attack - stat.defence;
+	if (damage <= 0)
+		return;
+
+	stat.hp = max(0, stat.hp - damage);
+	if (stat.hp == 0)
+	{
+		auto scene = SceneManager::GET_SINGLE()->GetCurrentScene();
+		if (scene)
+		{
+			scene->RemoveActor(shared_from_this());
+		}
+	}
+	else
+		SetState(ObjectState::Attacked);
+}
+
+void Creature::OnDamaged(shared_ptr<Projectile> projectile)
+{
+	if (!projectile)
+		return;
+
+	__int32 attack = projectile->GetAttack();
+	Stat& stat = GetStat();
+
+	__int32 damage = attack - stat.defence;
 	if (damage <= 0)
 		return;
 

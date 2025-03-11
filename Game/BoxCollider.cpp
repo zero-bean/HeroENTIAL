@@ -33,8 +33,8 @@ void BoxCollider::Render(HDC hdc)
 
 	Vec2 cameraPos = SceneManager::GET_SINGLE()->GetCameraPos();
 	Vec2 pos = GetOwner()->GetPos();
-	pos.x -= cameraPos.x - static_cast<float>(GWinSizeX / 2);
-	pos.y -= cameraPos.y - static_cast<float>(GWinSizeY / 2);
+	pos.x -= coorPos.x + cameraPos.x - static_cast<float>(GWinSizeX / 2);
+	pos.y -= coorPos.y + cameraPos.y - static_cast<float>(GWinSizeY / 2);
 
 	HBRUSH myBrush = (HBRUSH)::GetStockObject(NULL_BRUSH);
 	HBRUSH oldBrush = (HBRUSH)::SelectObject(hdc, myBrush);
@@ -56,8 +56,7 @@ bool BoxCollider::CheckCollision(shared_ptr<Collider> other)
 RECT BoxCollider::GetRect()
 {
 	Vec2 pos = GetOwner()->GetPos();
-	float scale = GetOwner()->GetScale();
-	Vec2 size = GetSize() * scale;
+	Vec2 size = GetSize();
 
 	RECT rect =
 	{

@@ -3,9 +3,12 @@
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
-#include "Flipbook.h"
-#include "CameraComponent.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
+#include "Flipbook.h"
+#include "Collider.h"
+#include "BoxCollider.h"
+#include "CameraComponent.h"
 #include "DevScene.h"
 #include "Bullet.h"
 
@@ -13,23 +16,12 @@ Player::Player()
 {
 	_flipbookIdle[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleLeft");
 	_flipbookIdle[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleRight");
-	//_flipbookIdle[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleLeft");
-	//_flipbookIdle[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_IdleRight");
 
 	_flipbookMove[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveLeft");
 	_flipbookMove[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveRight");
-	//_flipbookMove[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveLeft");
-	//_flipbookMove[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_MoveRight");
 
 	_flipbookAttack[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackRight1");
-	//_flipbookAttack[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackRight2");
 	_flipbookAttack[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackLeft1");
-	//_flipbookAttack[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackLeft2");
-	//_flipbookAttack[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackUp1");
-	//_flipbookAttack[DIR_UP] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackUp");
-	//_flipbookAttack[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackDown1");
-	//_flipbookAttack[DIR_DOWN] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackDown2");
-
 
 	_stat.attack = 100;
 }
@@ -183,10 +175,22 @@ void Player::TickAttack()
 
 		if (_weaponType == WeaponType::Sword)
 		{
-			shared_ptr<SonicWave> sonicWave = scene->SpawnObject<SonicWave>(_cellPos);
-			sonicWave->SetPos(scene->ConvertPos(_cellPos));
-			sonicWave->SetDestPos(InputManager::GET_SINGLE()->GetMousePos());
-			sonicWave->SetDirVec(sonicWave->GetPos(), sonicWave->GetDestPos());
+			shared_ptr<Bullet> bullet = scene->SpawnObject<Bullet>(_cellPos);
+			bullet->SetBulletType(BulletType::BladeStorm);
+			bullet->SetPos(scene->ConvertPos(_cellPos));
+			bullet->SetScale(3.f);
+			bullet->SetAttack(35);
+			bullet->SetDestPos(InputManager::GET_SINGLE()->GetMousePos());
+			bullet->SetDirVec(bullet->GetPos(), bullet->GetDestPos());
+
+			shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+			bullet->AddComponent(collider);
+			collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
+			collider->ResetCollisionFlag();
+			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
+			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+			collider->SetSize({ 80, 80 });
+			CollisionManager::GET_SINGLE()->AddCollider(collider);
 		}
 
 		SetState(ObjectState::Idle);

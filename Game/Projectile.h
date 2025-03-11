@@ -19,12 +19,16 @@ public:
 public:
 	void SetTimer(const float time) { _timer = time; }
 
+	void SetAttack(__int32 attack) { _attack = attack; }
+	__int32 GetAttack() const { return _attack; }
+
 protected:
 	virtual void TickIdle() override {}
 	virtual void TickMove() override {}
 	virtual void UpdateAnimation() override;
 
 protected:
+	__int32 _attack = 10;
 	float _timer = 2.5f;
 	Vec2 DirVec = {};
 };

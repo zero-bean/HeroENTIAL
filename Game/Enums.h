@@ -22,7 +22,9 @@ enum LAYER_TYPE
 enum COLLISION_LAYER_TYPE : unsigned __int8
 {
 	CLT_PLAYER,
+	CLT_MONSTER,
 	CLT_OBJECT,
+	CLT_BULLET,
 	CLT_GROUND,
 	CLT_WALL,
 	// ...
