@@ -7,7 +7,7 @@
 #include "CameraComponent.h"
 #include "SceneManager.h"
 #include "DevScene.h"
-#include "SonicWave.h"
+#include "Bullet.h"
 
 Player::Player()
 {

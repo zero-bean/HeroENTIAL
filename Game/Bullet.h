@@ -8,6 +8,7 @@ enum class BulletType
 {
 	Basic,
 	Circle,
+	BladeStorm,
 };
 
 class Bullet : public Projectile

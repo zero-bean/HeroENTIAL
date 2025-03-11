@@ -12,7 +12,16 @@
 
 Bullet::Bullet()
 {
-	_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Bullet_Red_Basic");
+
+	switch (_type)
+	{
+	case BulletType::Basic:
+		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Bullet_Red_Basic");
+		break;
+	case BulletType::BladeStorm:
+		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"BladeStorm_Red");
+		break;
+	}
 }
 
 Bullet::~Bullet()

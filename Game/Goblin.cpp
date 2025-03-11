@@ -228,7 +228,7 @@ void Goblin::TickAttack()
 			bullet->SetDestPos(player->GetPos());
 			bullet->SetDirVec(bullet->GetPos(), bullet->GetDestPos());
 
-			_waitAtkSec = 0.7f; // 공격 종료 시간
+			_waitAtkSec = 110.7f; // 공격 종료 시간
 			break;
 		}
 

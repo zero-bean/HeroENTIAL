@@ -255,8 +255,8 @@ void DevScene::LoadEffect()
 	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Effect_Red");
 
 	{
-		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"SonicWave_Red");
-		fb->SetInfo({ texture, L"SonicWave_Red", {32, 32}, 6, 9, 0, 0.4f });
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"BladeStorm_Red");
+		fb->SetInfo({ texture, L"BladeStorm_Red", {32, 32}, 6, 9, 0, 0.4f });
 	}
 }
 
