@@ -204,6 +204,14 @@ void Player::TickAttack()
 	}
 }
 
+void Player::TickDeath()
+{
+	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	
+	if (scene)
+		scene->RemoveActor(shared_from_this());
+}
+
 void Player::UpdateAnimation()
 {
 	switch (_state)

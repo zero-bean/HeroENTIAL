@@ -64,13 +64,7 @@ void Creature::OnDamaged(shared_ptr<Creature> attacker)
 
 	stat.hp = max(0, stat.hp - damage);
 	if (stat.hp == 0)
-	{
-		auto scene = SceneManager::GET_SINGLE()->GetCurrentScene();
-		if (scene)
-		{
-			scene->RemoveActor(shared_from_this());
-		}
-	}
+		SetState(ObjectState::Death);
 	else
 		SetState(ObjectState::Attacked);
 }
@@ -89,13 +83,7 @@ void Creature::OnDamaged(shared_ptr<Projectile> projectile)
 
 	stat.hp = max(0, stat.hp - damage);
 	if (stat.hp == 0)
-	{
-		auto scene = SceneManager::GET_SINGLE()->GetCurrentScene();
-		if (scene)
-		{
-			scene->RemoveActor(shared_from_this());
-		}
-	}
+		SetState(ObjectState::Death);
 	else
 		SetState(ObjectState::Attacked);
 }

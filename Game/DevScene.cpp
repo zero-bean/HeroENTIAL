@@ -215,7 +215,7 @@ void DevScene::LoadMonster()
 			{L"Move", 4, 1, 0.5f, true},
 			{L"Attack", 6, 2, 0.5f, false},
 			{L"Attacked", 4, 3, 0.4f, false},
-			{L"Death", 8, 4, 0.4f, false},
+			{L"Death", 8, 4, 0.8f, false},
 			{L"Birth", 5, 5, 0.4f, false}
 		};
 

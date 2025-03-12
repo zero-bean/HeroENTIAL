@@ -63,6 +63,8 @@ void Monster::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Co
 
 void Monster::TickDeath()
 {
+	Super::TickDeath();
+
 	if (_flipbook == nullptr)
 		return;
 
@@ -112,5 +114,4 @@ void Monster::UpdateAnimation()
 		SetFlipbook(_birth[_animDir]);
 		break;
 	}
-
 }
