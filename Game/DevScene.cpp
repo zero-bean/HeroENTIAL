@@ -57,7 +57,6 @@ void DevScene::Init()
 
 	{
 		shared_ptr<Player> player = make_shared<Player>();
-		player->SetCellPos({400, 400}, true);
 		AddActor(player);
 
 		shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
@@ -84,7 +83,7 @@ void DevScene::Init()
 		goblin_axe->BeginPlay();
 
 		shared_ptr<Goblin> goblin_bow = make_shared<Goblin>(MonsterType::Bow);
-		goblin_bow->SetCellPos({ 8, 12 }, true);
+		goblin_bow->SetCellPos({ 12, 6 }, true);
 		goblin_bow->SetScale(4);
 		AddActor(goblin_bow);
 		goblin_bow->BeginPlay();

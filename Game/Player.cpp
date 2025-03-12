@@ -176,20 +176,27 @@ void Player::TickAttack()
 		if (_weaponType == WeaponType::Sword)
 		{
 			shared_ptr<Bullet> bullet = scene->SpawnObject<Bullet>(_cellPos);
+			Vec2 mousePos = InputManager::GET_SINGLE()->GetMousePos();
+			Vec2 cameraPos = SceneManager::GET_SINGLE()->GetCameraPos();
+			Vec2 coordiPos = {
+				mousePos.x + (cameraPos.x - static_cast<float>(GWinSizeX) / 2),
+				mousePos.y + (cameraPos.y - static_cast<float>(GWinSizeY) / 2)
+			};
 			bullet->SetBulletType(BulletType::BladeStorm);
-			bullet->SetPos(scene->ConvertPos(_cellPos));
+			bullet->SetPos(GetPos());
+			bullet->SetDestPos(coordiPos);
 			bullet->SetScale(3.f);
 			bullet->SetAttack(35);
-			bullet->SetDestPos(InputManager::GET_SINGLE()->GetMousePos());
-			bullet->SetDirVec(bullet->GetPos(), bullet->GetDestPos());
+			bullet->SetDirVec(GetPos(), coordiPos);
 
 			shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
-			bullet->AddComponent(collider);
 			collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
 			collider->ResetCollisionFlag();
 			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
 			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
 			collider->SetSize({ 80, 80 });
+
+			bullet->AddComponent(collider);
 			CollisionManager::GET_SINGLE()->AddCollider(collider);
 		}
 
