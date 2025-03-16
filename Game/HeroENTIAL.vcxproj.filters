@@ -72,6 +72,9 @@
     <Filter Include="소스 파일\05.Components\Collision">
       <UniqueIdentifier>{5f216b8d-0e43-42c9-a991-e770c5101e6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Item">
+      <UniqueIdentifier>{c5bb2a81-b920-42b7-b2ab-f4664279c437}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -188,6 +191,15 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>소스 파일\01.Managers</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>소스 파일\03.Objects\Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Consumable.h">
+      <Filter>소스 파일\03.Objects\Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Potion.h">
+      <Filter>소스 파일\03.Objects\Game\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -282,6 +294,15 @@
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일\01.Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>소스 파일\03.Objects\Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Consumable.cpp">
+      <Filter>소스 파일\03.Objects\Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Potion.cpp">
+      <Filter>소스 파일\03.Objects\Game\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

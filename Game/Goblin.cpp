@@ -3,6 +3,7 @@
 #include "Flipbook.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "Potion.h"
 #include "Collider.h"
 #include "BoxCollider.h"
 #include "InputManager.h"
@@ -246,4 +247,24 @@ void Goblin::TickAttacked()
 	{
 		SetState(ObjectState::Idle);
 	}
+}
+
+void Goblin::DropItems()
+{
+	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	if (scene == nullptr)
+		return;
+
+	shared_ptr<Potion> potion = scene->SpawnObject<Potion>(_cellPos);
+	potion->SetScale(1);
+	potion->SetPotionType(PotionType::Steak);
+
+	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+	potion->AddComponent(collider);
+
+	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
+	collider->ResetCollisionFlag();
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+	collider->SetSize({ 32, 32 });
+	CollisionManager::GET_SINGLE()->AddCollider(collider);
 }

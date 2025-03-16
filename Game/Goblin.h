@@ -26,7 +26,7 @@ private:
 	virtual void TickAttack() override;
 	virtual void TickAttacked() override;
 
-	virtual void DropItems() override {}
+	virtual void DropItems() override;
 
 private:
 	MonsterType _type = MonsterType::Axe;

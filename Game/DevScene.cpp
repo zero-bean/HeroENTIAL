@@ -16,6 +16,8 @@
 #include "Player.h"
 #include "Goblin.h"
 #include "Bullet.h"
+#include "Item.h"
+#include "Potion.h"
 #include "BoxCollider.h"
 
 DevScene::DevScene()
@@ -37,7 +39,7 @@ void DevScene::Init()
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Tile_CanMove", L"Sprite\\Map\\Tile-CanMove.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Effect_Red", L"Sprite\\Effect\\red.bmp", RGB(0, 0, 0));
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Bullet_Red", L"Sprite\\Bullet\\red.bmp", RGB(0, 0, 0));
-
+	
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Right", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Right.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Left", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Left.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Right", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Right.bmp");
@@ -54,6 +56,7 @@ void DevScene::Init()
 	LoadMonster();
 	LoadBullet();
 	LoadEffect();
+	LoadItem();
 
 	{
 		shared_ptr<Player> player = make_shared<Player>();
@@ -256,6 +259,33 @@ void DevScene::LoadEffect()
 	{
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"BladeStorm_Red");
 		fb->SetInfo({ texture, L"BladeStorm_Red", {32, 32}, 6, 9, 0, 0.4f });
+	}
+}
+
+void DevScene::LoadItem()
+{
+	shared_ptr<Texture> texture = nullptr;
+	shared_ptr<Flipbook> flipbook = nullptr;
+
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Burger", L"Sprite/Item/Food/burger.bmp");
+		texture = ResourceManager::GET_SINGLE()->GetTexture(L"Burger");
+		flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Burger");
+		flipbook->SetInfo({ texture, L"Burger", {32, 32}, 0, 0, 0 });
+	}
+
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Steak", L"Sprite/Item/Food/steak.bmp");
+		texture = ResourceManager::GET_SINGLE()->GetTexture(L"Steak");
+		flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Steak");
+		flipbook->SetInfo({ texture, L"Steak", {32, 32}, 0, 0, 0 });
+	}
+
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Sandwitch", L"Sprite/Item/Food/sandwitch.bmp");
+		texture = ResourceManager::GET_SINGLE()->GetTexture(L"Sandwitch");
+		flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Sandwitch");
+		flipbook->SetInfo({ texture, L"Sandwitch", {32, 32}, 0, 0, 0 });
 	}
 }
 

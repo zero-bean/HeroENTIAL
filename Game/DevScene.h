@@ -8,6 +8,8 @@ class TilemapActor;
 class Creature;
 class Player;
 class GameObject;
+class Item;
+class Potion;
 class UI;
 class Monster;
 
@@ -40,6 +42,7 @@ public:
 	void LoadMonster();
 	void LoadBullet();
 	void LoadEffect();
+	void LoadItem();
 
 public:
 	bool CanGo(Vec2Int cellPos);

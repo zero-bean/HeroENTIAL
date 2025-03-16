@@ -11,8 +11,11 @@ void CollisionManager::Init()
 void CollisionManager::Update()
 {
     std::vector<std::shared_ptr<Collider>> toRemove;
-    int sz = colliders.size();
-    int cy = colliders.capacity();
+    // µð¹ö±ë
+    {
+        int sz = colliders.size();
+        int cy = colliders.capacity();
+    }
 
     for (__int32 i = 0; i < colliders.size(); i++)
     {

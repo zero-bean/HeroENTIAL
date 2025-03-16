@@ -24,6 +24,7 @@ Player::Player()
 	_flipbookAttack[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackLeft1");
 
 	_stat.attack = 100;
+	_stat.hp = 500;
 }
 
 Player::~Player()
@@ -44,6 +45,7 @@ void Player::BeginPlay()
 void Player::Tick()
 {
 	Super::Tick();
+
 }
 
 void Player::Render(HDC hdc)
@@ -54,7 +56,6 @@ void Player::Render(HDC hdc)
 
 void Player::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
 {
-	int a = 10;
 }
 
 void Player::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
