@@ -19,6 +19,8 @@
 #include "Item.h"
 #include "Potion.h"
 #include "BoxCollider.h"
+#include "Inventory.h"
+#include "InventoryPanel.h"
 
 DevScene::DevScene()
 {
@@ -45,11 +47,46 @@ void DevScene::Init()
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Right", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Right.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Left", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Left.bmp");
 	
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Button", L"Sprite\\UI\\Buttons\\Button_Blue.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Pressed", L"Sprite\\UI\\Buttons\\Button_Blue_Pressed.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Inventory_Slot", L"Sprite\\UI\\Banners\\Carved_Regular.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Inventory_UseSlot", L"Sprite\\UI\\Banners\\Carved_3Slides.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Inventory_AllSlot", L"Sprite\\UI\\Banners\\Carved_9Slides.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Vertical", L"Sprite\\UI\\Banners\\Banner_Vertical.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_1", L"Sprite\\UI\\Icons\\Regular_04.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_2", L"Sprite\\UI\\Icons\\Regular_05.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_3", L"Sprite\\UI\\Icons\\Regular_06.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_1_Pressed", L"Sprite\\UI\\Icons\\Pressed_04.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_2_Pressed", L"Sprite\\UI\\Icons\\Pressed_05.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_3_Pressed", L"Sprite\\UI\\Icons\\Pressed_06.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_1_Disabled", L"Sprite\\UI\\Icons\\Disable_04.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_2_Disabled", L"Sprite\\UI\\Icons\\Disable_05.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_3_Disabled", L"Sprite\\UI\\Icons\\Disable_06.bmp");
+
+
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Coin", ResourceManager::GET_SINGLE()->GetTexture(L"Coin"), 0, 0, 128, 16);
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Stage-T01", ResourceManager::GET_SINGLE()->GetTexture(L"Stage-T01"));
 	ResourceManager::GET_SINGLE()->CreateSprite(L"TileO", ResourceManager::GET_SINGLE()->GetTexture(L"Tile_CanMove"), 0, 0, 16, 16);
 	ResourceManager::GET_SINGLE()->CreateSprite(L"TileX", ResourceManager::GET_SINGLE()->GetTexture(L"Tile_CanMove"), 16, 0, 32, 16);
 	
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Button", ResourceManager::GET_SINGLE()->GetTexture(L"Button"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Pressed"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Inventory_Slot", ResourceManager::GET_SINGLE()->GetTexture(L"Inventory_Slot"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Inventory_UseSlot", ResourceManager::GET_SINGLE()->GetTexture(L"Inventory_UseSlot"), 0, 0, 192, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Inventory_AllSlot", ResourceManager::GET_SINGLE()->GetTexture(L"Inventory_AllSlot"), 0, 0, 192, 192);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Vertical", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Vertical"), 0, 0, 192, 192);
+
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_1", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_1"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_2", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_2"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_3", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_3"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_1_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_1_Pressed"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_2_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_2_Pressed"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_3_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_3_Pressed"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_1_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_1_Disabled"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_2_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_2_Disabled"), 0, 0, 64, 64);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_3_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_3_Disabled"), 0, 0, 64, 64);
+
+
 	LoadMap();
 	LoadTileMap();
 	LoadPlayer();
@@ -58,25 +95,29 @@ void DevScene::Init()
 	LoadEffect();
 	LoadItem();
 
-	{
-		shared_ptr<Player> player = make_shared<Player>();
-		AddActor(player);
 
-		shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
-		camera->SetBackGroundRange({ 832, 832 });
-		player->AddComponent(camera);
+	shared_ptr<Player> player = make_shared<Player>();
+	AddActor(player);
 
-		shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
-		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
-		collider->ResetCollisionFlag();
-		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
-		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
-		collider->SetSize({ 50, 50 });
-		CollisionManager::GET_SINGLE()->AddCollider(collider);
-		player->AddComponent(collider);
+	shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
+	camera->SetBackGroundRange({ 832, 832 });
+	player->AddComponent(camera);
 
-		player->BeginPlay();
-	}
+	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
+	collider->SetSize({ 50, 50 });
+	CollisionManager::GET_SINGLE()->AddCollider(collider);
+	player->AddComponent(collider);
+
+	player->BeginPlay();
+
+	shared_ptr<Inventory> inventory = make_shared<Inventory>();
+	player->AddComponent(inventory);
+
+
+	LoadUI(player);
 
 	{
 		shared_ptr<Goblin> goblin_axe = make_shared<Goblin>(MonsterType::Axe);
@@ -264,29 +305,33 @@ void DevScene::LoadEffect()
 
 void DevScene::LoadItem()
 {
-	shared_ptr<Texture> texture = nullptr;
-	shared_ptr<Flipbook> flipbook = nullptr;
-
 	{
 		ResourceManager::GET_SINGLE()->LoadTexture(L"Burger", L"Sprite/Item/Food/burger.bmp");
-		texture = ResourceManager::GET_SINGLE()->GetTexture(L"Burger");
-		flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Burger");
+		shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Burger");
+		shared_ptr<Flipbook> flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Burger");
 		flipbook->SetInfo({ texture, L"Burger", {32, 32}, 0, 0, 0 });
 	}
 
 	{
 		ResourceManager::GET_SINGLE()->LoadTexture(L"Steak", L"Sprite/Item/Food/steak.bmp");
-		texture = ResourceManager::GET_SINGLE()->GetTexture(L"Steak");
-		flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Steak");
+		shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Steak");
+		shared_ptr<Flipbook> flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Steak");
 		flipbook->SetInfo({ texture, L"Steak", {32, 32}, 0, 0, 0 });
 	}
 
 	{
 		ResourceManager::GET_SINGLE()->LoadTexture(L"Sandwitch", L"Sprite/Item/Food/sandwitch.bmp");
-		texture = ResourceManager::GET_SINGLE()->GetTexture(L"Sandwitch");
-		flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Sandwitch");
+		shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Sandwitch");
+		shared_ptr<Flipbook> flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Sandwitch");
 		flipbook->SetInfo({ texture, L"Sandwitch", {32, 32}, 0, 0, 0 });
 	}
+}
+
+void DevScene::LoadUI(shared_ptr<Player> player)
+{
+	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
+	invenUI->SetInventory(player->GetInventory());
+	AddUI(invenUI);
 }
 
 bool DevScene::CanGo(Vec2Int cellPos)

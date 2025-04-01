@@ -3,7 +3,7 @@
 
 Consumable::Consumable()
 {
-	
+	SetItemType(ItemType::Consumable);
 }
 
 Consumable::~Consumable()

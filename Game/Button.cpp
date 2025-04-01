@@ -76,9 +76,20 @@ void Button::Render(HDC hdc)
 			_currentSprite->GetSize().y,
 			_currentSprite->GetTransparent());
 	}
-	else
+
+	if (_currentCoverSprite)
 	{
-		Utils::DrawRect(hdc, _pos, _size.x, _size.y);
+		::TransparentBlt(hdc,
+			(__int32)_pos.x - _size.x / 2,
+			(__int32)_pos.y - _size.y / 2,
+			_size.x,
+			_size.y,
+			_currentCoverSprite->GetDC(),
+			_currentCoverSprite->GetPos().x,
+			_currentCoverSprite->GetPos().y,
+			_currentCoverSprite->GetSize().x,
+			_currentCoverSprite->GetSize().y,
+			_currentCoverSprite->GetTransparent());
 	}
 }
 
@@ -88,4 +99,7 @@ void Button::SetButtonState(ButtonState state)
 
 	if (_sprites[state])
 		SetCurrentSprite(_sprites[state]);
+
+	if (_coverSprites[state])
+		SetCurrentCoverSprite(_coverSprites[state]);
 }

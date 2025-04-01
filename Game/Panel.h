@@ -17,10 +17,10 @@ public:
 	virtual void Render(HDC hdc);
 
 public:
-	void		AddChild(shared_ptr<UI> ui);
-	bool		RemoveChild(shared_ptr<UI> ui);
+	void AddChild(shared_ptr<UI> ui);
+	bool RemoveChild(shared_ptr<UI> ui);
 
-private:
+protected:
 	vector<shared_ptr<UI>> _children;
 };
 

@@ -43,6 +43,7 @@ public:
 	void LoadBullet();
 	void LoadEffect();
 	void LoadItem();
+	void LoadUI(shared_ptr<Player> player);
 
 public:
 	bool CanGo(Vec2Int cellPos);

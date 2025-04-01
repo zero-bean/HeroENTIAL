@@ -5,6 +5,15 @@
 class Actor;
 class Collider;
 
+enum class ItemType
+{
+	None,
+	Equipment,
+	Consumable,
+	Others,
+	MAX_COUNT
+};
+
 enum class ItemRarity
 {
 	Common,
@@ -41,6 +50,11 @@ public:
 	void SetOwner(weak_ptr<Actor> owner) { _owner = owner; }
 	shared_ptr<Actor> GetOwner() { return _owner.lock(); }
 
+	void SetItemType(ItemType type) { _itemType = type; }
+	ItemType GetItemType() const { return _itemType; }
+
+	int GetItemTypeIndex() { return static_cast<int>(_itemType); }
+
 	void SetItemRarity(ItemRarity rarity) { _rarity = rarity; }
 	ItemRarity GetItemRarity() const { return _rarity; }
 
@@ -50,6 +64,7 @@ public:
 protected:
 	weak_ptr<Actor> _owner;
 	ItemRarity _rarity = ItemRarity::Common;
-	unsigned __int32 _itemCount = 0;
+	ItemType _itemType = ItemType::None;
+	unsigned __int32 _itemCount = 1;
 };
 
