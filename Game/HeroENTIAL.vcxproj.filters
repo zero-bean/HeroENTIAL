@@ -75,6 +75,9 @@
     <Filter Include="소스 파일\03.Objects\Game\Item">
       <UniqueIdentifier>{c5bb2a81-b920-42b7-b2ab-f4664279c437}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\06.UIs\Game">
+      <UniqueIdentifier>{04667565-4740-4ad1-b71b-da41fc5c4ea8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -200,6 +203,30 @@
     <ClInclude Include="Potion.h">
       <Filter>소스 파일\03.Objects\Game\Item</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>소스 파일\06.UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>소스 파일\06.UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>소스 파일\06.UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="InventorySlot.h">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>소스 파일\05.Components\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryPanel.h">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryContainer.h">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryTooltip.h">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -303,6 +330,30 @@
     </ClCompile>
     <ClCompile Include="Potion.cpp">
       <Filter>소스 파일\03.Objects\Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>소스 파일\06.UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>소스 파일\06.UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>소스 파일\06.UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="InventorySlot.cpp">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>소스 파일\05.Components\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryPanel.cpp">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryContainer.cpp">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryTooltip.cpp">
+      <Filter>소스 파일\06.UIs\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

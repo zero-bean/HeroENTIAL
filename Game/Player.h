@@ -2,6 +2,7 @@
 
 #include "FlipbookActor.h"
 #include "Creature.h"
+#include "Inventory.h"
 
 class Flipbook;
 
@@ -31,6 +32,9 @@ private:
 
 	virtual void UpdateAnimation() override;
 
+public:
+	shared_ptr<Inventory> GetInventory() { return _inventory; }
+
 private:
 	void SetWeaponType(WeaponType weaponType) { _weaponType = weaponType; }
 	WeaponType GetWeaponType() const { return _weaponType; }
@@ -40,6 +44,7 @@ private:
 	shared_ptr<Flipbook> _flipbookMove[2] = {};
 	shared_ptr<Flipbook> _flipbookAttack[2] = {};
 
+	shared_ptr<Inventory> _inventory = make_shared<Inventory>();
 	bool _keyPressed = false;
 	WeaponType _weaponType = WeaponType::Sword;
 };

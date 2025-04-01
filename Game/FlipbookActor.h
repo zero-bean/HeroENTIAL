@@ -18,6 +18,7 @@ public:
 
 public:
 	void SetFlipbook(shared_ptr<Flipbook> flipbook);
+	shared_ptr<Flipbook> GetFlipbook() const { return _flipbook; }
 
 	void Reset();
 	bool IsAnimationEnded();

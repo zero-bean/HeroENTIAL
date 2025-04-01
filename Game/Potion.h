@@ -23,19 +23,21 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
+	virtual void UpdateAnimation() override;
+
 	virtual void Use() override;
 	virtual void DisUse() override {}
 
 	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
 	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
 
-public:
-	void SetPotionType(PotionType type) { _type = type; }
-	PotionType GetPotionType() const { return _type; }
-
 private:
 	virtual void TickIdle() override;
 	virtual void TickMove() override {}
+
+public:
+	void SetPotionType(PotionType type);
+	PotionType GetPotionType() const { return _type; }
 
 private:
 	PotionType _type = PotionType::Burger;

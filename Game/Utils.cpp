@@ -10,6 +10,18 @@ void Utils::DrawText(HDC hdc, Pos pos, const wstring& str)
 		static_cast<__int32>(str.size()));
 }
 
+void Utils::DrawTextMultiline(HDC hdc, const wstring& str, const RECT& rect, HFONT font, COLORREF color)
+{
+	HFONT oldFont = (HFONT)::SelectObject(hdc, font);
+	::SetTextColor(hdc, color);
+	::SetBkMode(hdc, TRANSPARENT);
+
+	::DrawTextW(hdc, str.c_str(), -1, const_cast<RECT*>(&rect),
+		DT_LEFT | DT_TOP | DT_WORDBREAK);
+
+	::SelectObject(hdc, oldFont);
+}
+
 void Utils::DrawRect(HDC hdc, Pos pos, __int32 w, __int32 h)
 {
 	::Rectangle(hdc,
@@ -17,6 +29,26 @@ void Utils::DrawRect(HDC hdc, Pos pos, __int32 w, __int32 h)
 		static_cast<__int32>(pos.y - static_cast<float>(h / 2)),
 		static_cast<__int32>(pos.x + static_cast<float>(w / 2)),
 		static_cast<__int32>(pos.y + static_cast<float>(h / 2)));
+}
+
+void Utils::DrawRectColored(HDC hdc, Pos pos, __int32 w, __int32 h, COLORREF color, COLORREF borderColor)
+{
+	HBRUSH hbrush = CreateSolidBrush(color);
+
+	HPEN hPen = CreatePen(PS_SOLID, 1, borderColor);
+
+	RECT r = { pos.x, pos.y, pos.x + w, pos.y + h };
+
+	HGDIOBJ oldBrush = SelectObject(hdc, hbrush);
+	HGDIOBJ oldPen = SelectObject(hdc, hPen);
+
+	RoundRect(hdc, pos.x, pos.y, pos.x + w, pos.y + h, 10, 10);
+
+	// 리소스 정리
+	SelectObject(hdc, oldBrush);
+	SelectObject(hdc, oldPen);
+	DeleteObject(hbrush);
+	DeleteObject(hPen);
 }
 
 void Utils::DrawCircle(HDC hdc, Pos pos, __int32 radius)

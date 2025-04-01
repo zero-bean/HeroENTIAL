@@ -5,6 +5,7 @@
 #include "BoxCollider.h"
 #include "Player.h"
 #include "CollisionManager.h"
+#include "Inventory.h"
 
 Item::Item()
 {
@@ -33,7 +34,6 @@ void Item::Render(HDC hdc)
 
 void Item::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
 {
-
 	shared_ptr<BoxCollider> b1 = dynamic_pointer_cast<BoxCollider>(collider);
 	shared_ptr<BoxCollider> b2 = dynamic_pointer_cast<BoxCollider>(other);
 
@@ -41,7 +41,7 @@ void Item::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Col
 	if (player)
 	{
 		CollisionManager::GET_SINGLE()->RemoveCollider(b1);
-		/* 인벤토리로 이동 */
+		player->GetInventory()->AddItem(dynamic_pointer_cast<Item>(shared_from_this()));
 		return;
 	}
 }

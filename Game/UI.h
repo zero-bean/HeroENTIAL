@@ -13,7 +13,10 @@ public:
 
 public:
 	void SetPos(Vec2 pos) { _pos = pos; }
-	Vec2 GetPos() { return _pos; }
+	Vec2 GetPos() const { return _pos; }
+
+	void SetSize(Vec2Int size) { _size = size; }
+	Vec2Int GetSize() const { return _size; }
 
 	RECT GetRect();
 	bool IsMouseInRect();
