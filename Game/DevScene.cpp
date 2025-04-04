@@ -19,6 +19,7 @@
 #include "Item.h"
 #include "Potion.h"
 #include "BoxCollider.h"
+#include "Inventory.h"
 
 DevScene::DevScene()
 {
@@ -76,6 +77,9 @@ void DevScene::Init()
 		player->AddComponent(collider);
 
 		player->BeginPlay();
+
+		shared_ptr<Inventory> inventory = make_shared<Inventory>();
+		player->AddComponent(inventory);
 	}
 
 	{

@@ -7,6 +7,7 @@
 #include "ResourceManager.h"
 #include "CollisionManager.h"
 #include "SceneManager.h"
+#include "Inventory.h"
 
 unordered_map<PotionType, function<void(shared_ptr<Player>&)>> Potion::_effect = {
 	{PotionType::Sandwitch,  [](std::shared_ptr<Player>& player) {
@@ -32,12 +33,15 @@ Potion::Potion()
 	{
 	case PotionType::Burger:
 		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Burger");
+		SetObjectID(110);
 			break;
 	case PotionType::Steak:
 		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Steak");
+		SetObjectID(111);
 		break;
 	case PotionType::Sandwitch:
 		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Sandwitch");
+		SetObjectID(112);
 		break;
 	}
 }
@@ -84,8 +88,7 @@ void Potion::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<C
 	auto player = static_pointer_cast<Player>(b2->GetOwner());
 	if (player)
 	{
-		// 인벤토리에 귀속 //
-		_effect[_type](player);
+		player->GetInventory().AddItem(dynamic_pointer_cast<Item>(shared_from_this()));
 		CollisionManager::GET_SINGLE()->RemoveCollider(b1);
 
 		shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());

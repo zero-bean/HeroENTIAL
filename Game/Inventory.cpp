@@ -4,8 +4,9 @@
 #include "Consumable.h"
 #include "Potion.h"
 
-Inventory::Inventory() : _equipmentItems(16, nullptr), _consumableItems(16, nullptr), _otherItems(16, nullptr)
+Inventory::Inventory()
 {
+	_items.resize(3, vector<shared_ptr<Item>>(16));
 }
 
 Inventory::~Inventory()
@@ -33,69 +34,27 @@ void Inventory::Render(HDC hdc)
 
 bool Inventory::AddItem(shared_ptr<Item> item)
 {
-    vector<shared_ptr<Item>>* targetInventory = nullptr;
+    shared_ptr<Item> emptySlot = nullptr;
+	const int itemIdx = item->GetItemTypeIndex();
 
-    if (dynamic_pointer_cast<ItemEquipment>(item))
-        targetInventory = &_equipmentItems;
-    else if (dynamic_pointer_cast<ItemConsumable>(item))
-        targetInventory = &_consumableItems;
-    else
-        targetInventory = &_miscItems;
-
-    for (auto& slot : *targetInventory)
+    // Find
+    for (auto& slot : _items[itemIdx])
     {
-        if (slot == nullptr)
+        if (slot && slot->GetObjectID() == item->GetObjectID()) 
+        {
+            slot->SetItemCount(slot->GetItemCount() + 1);
+            return true;
+        }
+    }
+
+    for (auto& slot : _items[itemIdx])
+    {
+        if (!slot)
         {
             slot = item;
             return true;
         }
     }
-    return false; // 인벤토리 공간 부족
-}
 
-bool Inventory::RemoveItem()
-{
-    vector<shared_ptr<Item>>* targetInventory = nullptr;
-
-    if (dynamic_pointer_cast<ItemEquipment>(item))
-        targetInventory = &_equipmentItems;
-    else if (dynamic_pointer_cast<ItemConsumable>(item))
-        targetInventory = &_consumableItems;
-    else
-        targetInventory = &_miscItems;
-
-    for (auto& slot : *targetInventory)
-    {
-        if (slot == item)
-        {
-            slot.reset(); // 아이템 제거
-            return true;
-        }
-    }
-    return false; // 해당 아이템을 찾을 수 없음
-}
-
-shared_ptr<Item> Inventory::GetItem(int index, ItemType type)
-{
-    vector<shared_ptr<Item>>* targetInventory = nullptr;
-
-    switch (type)
-    {
-    case ItemType::Equipment:
-        targetInventory = &_equipmentItems;
-        break;
-    case ItemType::Consumable:
-        targetInventory = &_consumableItems;
-        break;
-    case ItemType::Misc:
-        targetInventory = &_miscItems;
-        break;
-    default:
-        return nullptr;
-    }
-
-    if (index < 0 || index >= targetInventory->size())
-        return nullptr;
-
-    return (*targetInventory)[index];
+	return false;
 }
