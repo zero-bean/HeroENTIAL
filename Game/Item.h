@@ -4,6 +4,7 @@
 
 class Actor;
 class Collider;
+class Player;
 
 enum class ItemType
 {
@@ -41,12 +42,14 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
+	virtual void AddCollider() override;
+	
 	virtual void Use() {}
 	virtual void DisUse() {}
 
 	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
 	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
-
+	
 protected:
 	virtual void TickIdle() override {}
 	virtual void TickMove() override {}
@@ -54,13 +57,13 @@ protected:
 	virtual void UpdateAnimation() override;
 
 public:
-	void SetOwner(weak_ptr<Actor> owner) { _owner = owner; }
+	void SetOwner(shared_ptr<Actor> owner) { _owner = owner; }
 	shared_ptr<Actor> GetOwner() { return _owner.lock(); }
 
 	void SetItemType(ItemType type) { _itemType = type; }
 	ItemType GetItemType() const { return _itemType; }
 
-	int GetItemTypeIndex() { return static_cast<int>(_itemType); }
+	int GetItemTypeIndex() { return static_cast<int>(_itemType) - 1; }
 
 	void SetItemRarity(ItemRarity rarity) { _rarity = rarity; }
 	ItemRarity GetItemRarity() const { return _rarity; }
@@ -68,8 +71,14 @@ public:
 	void SetItemContent(ItemContent itemContent) { _itemContent = itemContent; }
 	ItemContent GetItemContent() const { return _itemContent; }
 
-	void SetItemCount(unsigned __int32 count) { if (count <= 999) _itemCount = count; }
+	void SetItemCount(unsigned __int32 count) { _itemCount = min(count, 999u); }
+	void AddItemCount(unsigned __int32 count) { _itemCount = min(_itemCount + count, 999u); }
 	unsigned __int32 GetItemCount() const { return _itemCount; }
+
+	void SetCanPickedUp(bool canPickedUp) { _canPickedUp = canPickedUp; }
+	bool GetCanPickedUp() const { return _canPickedUp; }
+
+	void PickedUp(shared_ptr<Player> player);
 
 protected:
 	weak_ptr<Actor> _owner;
@@ -77,5 +86,6 @@ protected:
 	ItemType _itemType = ItemType::None;
 	ItemContent _itemContent = {};
 	unsigned __int32 _itemCount = 1;
+	bool _canPickedUp = false;
 };
 

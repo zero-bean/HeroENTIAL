@@ -15,6 +15,8 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
+	virtual void AddCollider() {}
+
 protected:
 	virtual void TickIdle() {}
 	virtual void TickMove() {}

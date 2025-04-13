@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Scene.h"
 #include <type_traits>
 
@@ -46,8 +45,15 @@ public:
 	void LoadUI(shared_ptr<Player> player);
 
 public:
-	bool CanGo(Vec2Int cellPos);
+	bool CanGo(Vec2Int cellPos, bool checkItem = false);
+
 	Vec2 ConvertPos(Vec2Int cellPos);
+
+public:
+	void MarkTileHasItem(const Vec2Int pos, const bool check);
+
+	void PickUpItem(shared_ptr<Item> item, shared_ptr<Player> player);
+	void DropItem(shared_ptr<Item> item, Vec2Int pos);
 
 public:
 	template<typename T>
@@ -75,6 +81,7 @@ public:
 	}
 
 	Vec2Int GetRandomEmptyCellPos();
+	Vec2Int GetClosestEmptyCellPos(const Vec2Int& center);
 
 	weak_ptr<Player> FindClosestPlayer(Vec2Int pos);
 

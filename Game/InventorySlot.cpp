@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "InputManager.h"
 #include "InventorySlot.h"
 #include "Item.h"
 #include "Flipbook.h"
@@ -26,11 +27,19 @@ void InventorySlot::Tick()
 	Super::Tick();
 
 	if (IsMouseInRect()) {
+		// 슬롯 위에 커서가 있는지
 		if (!isHovered) {
 			isHovered = true;
 
 			if (_hover)
 				_hover(shared_from_this());
+		}
+
+		// 슬롯을 클릭했는지 . . .
+		if (!isClicked && InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
+		{
+			if (_onClick)
+				_onClick(shared_from_this());
 		}
 	}
 	else {
@@ -41,10 +50,13 @@ void InventorySlot::Tick()
 				_unhover();
 		}
 	}
+
+	isClicked = InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE);
 }
+
 void InventorySlot::Render(HDC hdc)
 {
-	shared_ptr<Item> item = _owner.lock();
+	shared_ptr<Item> item = GetOwner();
 
 	if (!item)
 		return;

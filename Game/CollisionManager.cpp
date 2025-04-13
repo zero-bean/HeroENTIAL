@@ -10,29 +10,42 @@ void CollisionManager::Init()
 
 void CollisionManager::Update()
 {
-    std::vector<std::shared_ptr<Collider>> toRemove;
-    // 디버깅
+    // 1. Remove 먼저 처리
+    while (!_removeQueue.empty())
     {
-        int sz = colliders.size();
-        int cy = colliders.capacity();
+        auto target = _removeQueue.front();
+        _removeQueue.pop();
+
+        auto it = std::find(colliders.begin(), colliders.end(), target);
+        if (it != colliders.end())
+            colliders.erase(it);
     }
 
+    // 2. Add 처리
+    while (!_addQueue.empty())
+    {
+        auto target = _addQueue.front();
+        _addQueue.pop();
+
+        colliders.push_back(target);
+    }
+
+    // 3. 충돌 검사 시작
     for (__int32 i = 0; i < colliders.size(); i++)
     {
-        if (colliders[i].use_count() == 1) 
-            toRemove.push_back(colliders[i]); 
+        shared_ptr<Collider> src = colliders[i];
+        if (src == nullptr || src->GetOwner() == nullptr)
+            continue;
 
         for (__int32 j = i + 1; j < colliders.size(); j++)
         {
-            shared_ptr<Collider> src = colliders[i];
             shared_ptr<Collider> dest = colliders[j];
-
-            if (src->GetOwner() == nullptr || dest->GetOwner() == nullptr)
+            if (dest == nullptr || dest->GetOwner() == nullptr)
                 continue;
 
             if (src->CheckCollision(dest))
             {
-                if (src->_collisionMap.contains(dest) == false)
+                if (!src->_collisionMap.contains(dest))
                 {
                     src->GetOwner()->OnComponentBeginOverlap(src, dest);
                     dest->GetOwner()->OnComponentBeginOverlap(dest, src);
@@ -52,29 +65,17 @@ void CollisionManager::Update()
             }
         }
     }
-
-    for (auto& collider : toRemove)
-    {
-        auto it = std::find(colliders.begin(), colliders.end(), collider);
-
-        if (it != colliders.end())
-            colliders.erase(it);
-    }
 }
+
 
 void CollisionManager::AddCollider(shared_ptr<Collider> collider)
 {
-	colliders.push_back(collider);
+    if (collider)
+        _addQueue.push(collider);
 }
 
 void CollisionManager::RemoveCollider(shared_ptr<Collider> collider)
 {
-	if (collider == nullptr)
-		return;
-
-	auto it = std::find(colliders.begin(), colliders.end(), collider);
-	if (it == colliders.end())
-		return;
-
-	colliders.erase(it);
+    if (collider)
+        _removeQueue.push(collider);
 }

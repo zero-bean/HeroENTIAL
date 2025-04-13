@@ -258,26 +258,13 @@ void Goblin::DropItems()
 		shared_ptr<Potion> potion = scene->SpawnObject<Potion>(_cellPos);
 		potion->SetScale(1);
 		potion->SetPotionType(PotionType::Steak);
-
-		shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
-		potion->AddComponent(collider);
-
-		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
-		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
-		collider->SetSize({ 32, 32 });
-		CollisionManager::GET_SINGLE()->AddCollider(collider);
+		potion->AddCollider();
 	}
 
-
-	shared_ptr<Potion> potion2 = scene->SpawnObject<Potion>({_cellPos.x, _cellPos.y + 1});
-	potion2->SetScale(1);
-	potion2->SetPotionType(PotionType::Sandwitch);
-
-	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
-	potion2->AddComponent(collider);
-
-	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
-	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
-	collider->SetSize({ 32, 32 });
-	CollisionManager::GET_SINGLE()->AddCollider(collider);
+	{
+		shared_ptr<Potion> potion2 = scene->SpawnObject<Potion>({ _cellPos.x, _cellPos.y + 1 });
+		potion2->SetScale(1);
+		potion2->SetPotionType(PotionType::Sandwitch);
+		potion2->AddCollider();
+	}
 }

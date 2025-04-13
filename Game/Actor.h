@@ -1,6 +1,6 @@
 #pragma once
+#include "Component.h"
 
-class Component;
 class Collider;
 
 class Actor : public enable_shared_from_this<Actor>
@@ -31,7 +31,22 @@ public:
 	void AddComponent(shared_ptr<Component> component);
 	void RemoveComponent(shared_ptr<Component> component);
 
-	shared_ptr<Component> GetCollider();
+	template<typename T>
+	shared_ptr<T> FindComponent()
+	{
+		for (auto& component : _components)
+		{
+			shared_ptr<T> casted = dynamic_pointer_cast<T>(component);
+			
+			if (casted)
+				return casted;
+		}
+
+		return nullptr;
+	}
+
+	shared_ptr<Collider> GetCollider();
+
 	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
 	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
 

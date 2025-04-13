@@ -27,6 +27,9 @@ public:
 
 private:
 	vector<shared_ptr<Collider>> colliders;
+	queue<shared_ptr<Collider>> _addQueue;
+	queue<shared_ptr<Collider>> _removeQueue;
+
 };
 
 

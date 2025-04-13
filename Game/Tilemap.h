@@ -5,6 +5,7 @@
 struct Tile
 {
 	__int32 value = 0;
+	bool hasItem = false;
 };
 
 class Tilemap : public ResourceBase

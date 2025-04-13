@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Actor.h"
-#include "Component.h"
 #include "Collider.h"
 
 Actor::Actor()
@@ -53,12 +52,13 @@ void Actor::RemoveComponent(shared_ptr<Component> component)
     _components.erase(findIt);
 }
 
-shared_ptr<Component> Actor::GetCollider()
+shared_ptr<Collider> Actor::GetCollider()
 {
 	for (shared_ptr<Component>& component : _components)
 	{
-		if (dynamic_pointer_cast<Collider>(component))
-			return component;
+		shared_ptr<Collider> collider = dynamic_pointer_cast<Collider>(component);
+		if (collider)
+			return collider;
 	}
 
 	return nullptr;

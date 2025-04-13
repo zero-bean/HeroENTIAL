@@ -11,6 +11,8 @@
 #include "CameraComponent.h"
 #include "DevScene.h"
 #include "Bullet.h"
+#include "Item.h"
+#include "Inventory.h"
 
 Player::Player()
 {
@@ -56,10 +58,20 @@ void Player::Render(HDC hdc)
 
 void Player::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
 {
+	shared_ptr<Item> item = dynamic_pointer_cast<Item>(other->GetOwner());
+	if (item)
+	{
+		_overlappingItem = item;
+	}
 }
 
 void Player::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
 {
+	shared_ptr<Item> item = dynamic_pointer_cast<Item>(other->GetOwner());
+	if (item && item == _overlappingItem)
+	{
+		_overlappingItem = nullptr;
+	}
 }
 
 void Player::TickIdle()
@@ -129,6 +141,15 @@ void Player::TickIdle()
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
 	{
 		SetState(ObjectState::Attack);
+	}
+
+	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::Z))
+	{
+		if (_overlappingItem)
+		{
+			_overlappingItem->PickedUp(dynamic_pointer_cast<Player>(shared_from_this()));
+			_overlappingItem = nullptr;
+		}
 	}
 }
 

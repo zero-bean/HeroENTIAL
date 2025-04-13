@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Inventory.h"
 #include "Item.h"
+#include "Flipbook.h"
+#include "Texture.h"
 #include "InventoryPanel.h"
 #include "InventorySlot.h"
 #include "InventoryTooltip.h"
@@ -90,19 +92,40 @@ void InventoryPanel::BeginPlay()
 			Vec2 pos(dx, dy);
 
 			_slots[index]->SetPos(pos);
+			
 			_slots[index]->SetHover([this, &pos, &index](shared_ptr<InventorySlot> slot) {
 				shared_ptr<Item> item = slot->GetOwner();
-				if (item)
-				{
-					_tooltip->SetOwner(item);
-					_tooltip->SetPos(slot->GetPos() + Vec2(48, 48));
-					_tooltip->SetVisible(true);
-				}
+				if (!item) return;
+				
+				_tooltip->SetOwner(item);
+				_tooltip->SetPos(slot->GetPos() + Vec2(48, 0));
+				_tooltip->SetVisible(true);
 				});
 
 			_slots[index]->SetUnhover([this]() {
 				_tooltip->SetVisible(false);
 				});
+
+			_slots[index]->SetOnClick([this](shared_ptr<InventorySlot> slot) {
+				if (!slot && !_drag.IsDrag()) 
+					return;
+
+				if (_drag.IsDrag())
+				{
+					shared_ptr<Item>* srcPtr = _drag.GetSlot()->GetOwnerPtr();
+					shared_ptr<Item>* dstPtr = slot->GetOwnerPtr();
+
+					if (srcPtr && dstPtr)
+						std::swap(*srcPtr, *dstPtr);
+
+					_drag.EndDrag();
+					return;
+				}
+
+				// 드래그 활성화
+				_drag.BeginDrag(slot);
+				});
+
 		}
 	}
 
@@ -113,10 +136,17 @@ void InventoryPanel::Tick()
 {
 	Super::Tick();
 
-	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::I))
+	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::I)) 
 	{
 		_isActivated = !_isActivated;
+
+		// 인벤토리 닫으면 드래그 정보 초기화
+		if (!_isActivated)
+			_drag.EndDrag();
 	}
+
+	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
+		DropDraggedItem();
 }
 
 void InventoryPanel::Render(HDC hdc)
@@ -125,6 +155,29 @@ void InventoryPanel::Render(HDC hdc)
 		return;
 
 	Super::Render(hdc);
+
+	// 드래그 된 아이템 표시
+	if (_drag.IsDrag())
+	{
+		if (shared_ptr<Item> item = _drag.GetSlot()->GetOwner())
+		{
+			const auto& info = item->GetFlipbook()->GetInfo();
+			Vec2 mousePos = InputManager::GET_SINGLE()->GetMousePos();
+
+			TransparentBlt(hdc,
+				mousePos.x - info.size.x,
+				mousePos.y - info.size.y,
+				info.size.x * 2,
+				info.size.y * 2,
+				info.texture->GetDC(),
+				info.start * info.size.x,
+				info.line * info.size.y,
+				info.size.x,
+				info.size.y,
+				info.texture->GetTransparent());
+		}
+	}
+
 }
 
 void InventoryPanel::OnClickEquitmentButton()
@@ -142,13 +195,30 @@ void InventoryPanel::OnClickOthersButton()
 	UpdateSlots(2);
 }
 
-void InventoryPanel::UpdateSlots(const int idx)
+void InventoryPanel::UpdateSlots(int category)
 {
-	shared_ptr<Inventory> owner = _inventory.lock();
-	if (!owner)
+	if (shared_ptr<Inventory> inventory = _inventory.lock())
+	{
+		vector<shared_ptr<Item>>& items = inventory->GetItemsRef(category);
+
+		for (int i = 0; i < _slots.size(); i++)
+			_slots[i]->SetOwnerPtr(&items[i]);
+	}
+}
+
+void InventoryPanel::DropDraggedItem()
+{
+	if (!_drag.IsDrag() || IsMouseInRect()) 
 		return;
 
-	vector<shared_ptr<Item>> items = owner->GetItems(idx);
-	for (int i = 0; i < _slots.size(); i++)
-		_slots[i]->SetOwner(items[i]);
+	shared_ptr<Item> item = _drag.GetSlot()->GetOwner();
+	if (!item) return;
+
+	if (shared_ptr<Inventory> inventory = _inventory.lock()) {
+		int idx = item->GetItemTypeIndex();
+		inventory->DropItem(item);
+		_drag.EndDrag();
+		UpdateSlots(idx);
+	}
 }
+

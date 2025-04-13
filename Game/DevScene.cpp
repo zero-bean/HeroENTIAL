@@ -111,12 +111,8 @@ void DevScene::Init()
 	CollisionManager::GET_SINGLE()->AddCollider(collider);
 	player->AddComponent(collider);
 
-	player->BeginPlay();
-
 	shared_ptr<Inventory> inventory = make_shared<Inventory>();
 	player->AddComponent(inventory);
-
-
 	LoadUI(player);
 
 	{
@@ -124,13 +120,11 @@ void DevScene::Init()
 		goblin_axe->SetCellPos({ 12, 12 }, true);
 		goblin_axe->SetScale(4);
 		AddActor(goblin_axe);
-		goblin_axe->BeginPlay();
 
 		shared_ptr<Goblin> goblin_bow = make_shared<Goblin>(MonsterType::Bow);
 		goblin_bow->SetCellPos({ 12, 6 }, true);
 		goblin_bow->SetScale(4);
 		AddActor(goblin_bow);
-		goblin_bow->BeginPlay();
 	}
 
 	Super::Init();
@@ -330,11 +324,11 @@ void DevScene::LoadItem()
 void DevScene::LoadUI(shared_ptr<Player> player)
 {
 	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
-	invenUI->SetInventory(player->GetInventory());
+	invenUI->SetInventory(player->FindComponent<Inventory>());
 	AddUI(invenUI);
 }
 
-bool DevScene::CanGo(Vec2Int cellPos)
+bool DevScene::CanGo(Vec2Int cellPos, bool checkItem)
 {
 	if (_tilemapActor == nullptr)
 		return false;
@@ -344,7 +338,13 @@ bool DevScene::CanGo(Vec2Int cellPos)
 		return false;
 
 	Tile& tile = tileMap->GetTileAt(cellPos);
-	return tile.value != 1;
+	if (tile.value == 1)
+		return false;
+
+	if (checkItem && tile.hasItem)
+		return false;
+
+	return true;
 }
 
 Vec2 DevScene::ConvertPos(Vec2Int cellPos)
@@ -367,6 +367,56 @@ Vec2 DevScene::ConvertPos(Vec2Int cellPos)
 	return ret;
 }
 
+void DevScene::MarkTileHasItem(const Vec2Int pos, const bool check)
+{
+	if (!_tilemapActor)
+		return;
+
+	shared_ptr<Tilemap> tm = _tilemapActor->GetTilemap();
+	if (tm == nullptr)
+		return;
+
+	tm->GetTileAt(pos).hasItem = check;
+}
+
+void DevScene::PickUpItem(shared_ptr<Item> item, shared_ptr<Player> player)
+{
+	if (!item || !player)
+		return;
+
+	// 충돌체 제거
+	shared_ptr<Collider> collider = item->GetCollider();
+	if (collider)
+		CollisionManager::GET_SINGLE()->RemoveCollider(collider);
+
+	// 인벤토리 귀속
+	auto inventory = player->FindComponent<Inventory>();
+	if (inventory)
+		inventory->AddItem(item);
+
+	// 타일 정보 갱신 및 드랍
+	MarkTileHasItem(item->GetCellPos(), false);
+	RemoveActor(item);
+}
+
+void DevScene::DropItem(shared_ptr<Item> item, Vec2Int desiredPos)
+{
+	if (!item) return;
+
+	// 실제 드랍 가능한 위치 계산
+	Vec2Int dropPos = GetClosestEmptyCellPos(desiredPos);
+
+	// 아이템 정보 초기화
+	item->GetOwner().reset();
+	item->SetCellPos(dropPos, true);
+	item->SetScale(1);
+	item->AddCollider();
+
+	// 타일 정보 갱신 및 드랍
+	MarkTileHasItem(dropPos, true);
+	AddActor(item);
+}
+
 Vec2Int DevScene::GetRandomEmptyCellPos()
 {
 	Vec2Int ret = { -1, -1 };
@@ -375,7 +425,6 @@ Vec2Int DevScene::GetRandomEmptyCellPos()
 		return ret;
 
 	shared_ptr<Tilemap> tm = _tilemapActor->GetTilemap();
-
 	if (tm == nullptr)
 		return ret;
 
@@ -390,6 +439,54 @@ Vec2Int DevScene::GetRandomEmptyCellPos()
 		if (CanGo(cellPos))
 			return cellPos;
 	}
+}
+
+Vec2Int DevScene::GetClosestEmptyCellPos(const Vec2Int& center)
+{
+	Vec2Int ret = { -1, -1 };
+
+	if (_tilemapActor == nullptr)
+		return ret;
+
+	shared_ptr<Tilemap> tm = _tilemapActor->GetTilemap();
+	if (tm == nullptr)
+		return ret;
+
+	Vec2Int size = tm->GetMapSize();
+	queue<Vec2Int> q;
+	set<Vec2Int> visited;
+
+	q.push(center);
+	visited.insert(center);
+
+	const Vec2Int directions[4] = {
+		{1, 0}, {-1, 0}, {0, 1}, {0, -1}
+	};
+
+	while (!q.empty())
+	{
+		Vec2Int curr = q.front();
+		q.pop();
+
+		if (CanGo(curr, true))
+			return curr;
+
+		for (const Vec2Int& dir : directions)
+		{
+			Vec2Int next = curr + dir;
+
+			if (next.x < 0 || next.y < 0 || next.x >= size.x || next.y >= size.y)
+				continue;
+
+			if (visited.find(next) != visited.end())
+				continue;
+
+			q.push(next);
+			visited.insert(next);
+		}
+	}
+
+	return ret;
 }
 
 weak_ptr<Player> DevScene::FindClosestPlayer(Vec2Int pos)

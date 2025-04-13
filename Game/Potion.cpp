@@ -97,28 +97,12 @@ void Potion::Use()
 
 void Potion::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
 {
-	shared_ptr<BoxCollider> b1 = dynamic_pointer_cast<BoxCollider>(collider);
-	shared_ptr<BoxCollider> b2 = dynamic_pointer_cast<BoxCollider>(other);
-
-	auto player = static_pointer_cast<Player>(b2->GetOwner());
-	if (player)
-	{
-		player->GetInventory()->AddItem(dynamic_pointer_cast<Item>(shared_from_this()));
-		CollisionManager::GET_SINGLE()->RemoveCollider(b1);
-
-		shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
-
-		if (scene == nullptr)
-			return;
-
-		scene->RemoveActor(static_pointer_cast<Actor>(shared_from_this()));
-		//
-		return;
-	}
+	Super::OnComponentBeginOverlap(collider, other);
 }
 
 void Potion::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
 {
+	Super::OnComponentEndOverlap(collider, other);
 }
 
 void Potion::TickIdle()
