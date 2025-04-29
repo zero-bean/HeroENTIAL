@@ -21,6 +21,7 @@
 #include "BoxCollider.h"
 #include "Inventory.h"
 #include "InventoryPanel.h"
+#include "QuickslotPanel.h"
 
 DevScene::DevScene()
 {
@@ -53,6 +54,7 @@ void DevScene::Init()
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Inventory_UseSlot", L"Sprite\\UI\\Banners\\Carved_3Slides.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Inventory_AllSlot", L"Sprite\\UI\\Banners\\Carved_9Slides.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Vertical", L"Sprite\\UI\\Banners\\Banner_Vertical.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Horizontal", L"Sprite\\UI\\Banners\\Banner_Horizontal.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_1", L"Sprite\\UI\\Icons\\Regular_04.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_2", L"Sprite\\UI\\Icons\\Regular_05.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_3", L"Sprite\\UI\\Icons\\Regular_06.bmp");
@@ -75,6 +77,7 @@ void DevScene::Init()
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Inventory_UseSlot", ResourceManager::GET_SINGLE()->GetTexture(L"Inventory_UseSlot"), 0, 0, 192, 64);
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Inventory_AllSlot", ResourceManager::GET_SINGLE()->GetTexture(L"Inventory_AllSlot"), 0, 0, 192, 192);
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Vertical", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Vertical"), 0, 0, 192, 192);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Horizontal", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Horizontal"), 0, 0, 192, 192);
 
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_1", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_1"), 0, 0, 64, 64);
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_2", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_2"), 0, 0, 64, 64);
@@ -323,9 +326,15 @@ void DevScene::LoadItem()
 
 void DevScene::LoadUI(shared_ptr<Player> player)
 {
+	// ÀÎº¥Åä¸® UI
 	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
 	invenUI->SetInventory(player->FindComponent<Inventory>());
 	AddUI(invenUI);
+
+	// Äü½½·Ô UI
+	shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
+	//
+	AddUI(quickslotUI);
 }
 
 bool DevScene::CanGo(Vec2Int cellPos, bool checkItem)

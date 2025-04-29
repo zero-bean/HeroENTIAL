@@ -174,6 +174,9 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Potion.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="QuickslotContainer.h" />
+    <ClInclude Include="QuickslotPanel.h" />
+    <ClInclude Include="QuickslotSlot.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceBase.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -225,6 +228,9 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Potion.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="QuickslotContainer.cpp" />
+    <ClCompile Include="QuickslotPanel.cpp" />
+    <ClCompile Include="QuickslotSlot.cpp" />
     <ClCompile Include="ResourceBase.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />

@@ -78,6 +78,12 @@
     <Filter Include="소스 파일\06.UIs\Game">
       <UniqueIdentifier>{04667565-4740-4ad1-b71b-da41fc5c4ea8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\06.UIs\Game\Inventory">
+      <UniqueIdentifier>{7e6decd5-bd37-4c50-987a-564b81793791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\06.UIs\Game\Quickslot">
+      <UniqueIdentifier>{f5f7fc63-0820-4229-9844-6980924acae5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -212,20 +218,29 @@
     <ClInclude Include="Button.h">
       <Filter>소스 파일\06.UIs</Filter>
     </ClInclude>
-    <ClInclude Include="InventorySlot.h">
-      <Filter>소스 파일\06.UIs\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>소스 파일\05.Components\Game</Filter>
     </ClInclude>
-    <ClInclude Include="InventoryPanel.h">
-      <Filter>소스 파일\06.UIs\Game</Filter>
+    <ClInclude Include="InventoryTooltip.h">
+      <Filter>소스 파일\06.UIs\Game\Inventory</Filter>
     </ClInclude>
     <ClInclude Include="InventoryContainer.h">
-      <Filter>소스 파일\06.UIs\Game</Filter>
+      <Filter>소스 파일\06.UIs\Game\Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="InventoryTooltip.h">
-      <Filter>소스 파일\06.UIs\Game</Filter>
+    <ClInclude Include="InventoryPanel.h">
+      <Filter>소스 파일\06.UIs\Game\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="InventorySlot.h">
+      <Filter>소스 파일\06.UIs\Game\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="QuickslotPanel.h">
+      <Filter>소스 파일\06.UIs\Game\Quickslot</Filter>
+    </ClInclude>
+    <ClInclude Include="QuickslotContainer.h">
+      <Filter>소스 파일\06.UIs\Game\Quickslot</Filter>
+    </ClInclude>
+    <ClInclude Include="QuickslotSlot.h">
+      <Filter>소스 파일\06.UIs\Game\Quickslot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -340,20 +355,29 @@
     <ClCompile Include="Button.cpp">
       <Filter>소스 파일\06.UIs</Filter>
     </ClCompile>
-    <ClCompile Include="InventorySlot.cpp">
-      <Filter>소스 파일\06.UIs\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>소스 파일\05.Components\Game</Filter>
     </ClCompile>
-    <ClCompile Include="InventoryPanel.cpp">
-      <Filter>소스 파일\06.UIs\Game</Filter>
-    </ClCompile>
     <ClCompile Include="InventoryContainer.cpp">
-      <Filter>소스 파일\06.UIs\Game</Filter>
+      <Filter>소스 파일\06.UIs\Game\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryPanel.cpp">
+      <Filter>소스 파일\06.UIs\Game\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="InventorySlot.cpp">
+      <Filter>소스 파일\06.UIs\Game\Inventory</Filter>
     </ClCompile>
     <ClCompile Include="InventoryTooltip.cpp">
-      <Filter>소스 파일\06.UIs\Game</Filter>
+      <Filter>소스 파일\06.UIs\Game\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickslotPanel.cpp">
+      <Filter>소스 파일\06.UIs\Game\Quickslot</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickslotContainer.cpp">
+      <Filter>소스 파일\06.UIs\Game\Quickslot</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickslotSlot.cpp">
+      <Filter>소스 파일\06.UIs\Game\Quickslot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
