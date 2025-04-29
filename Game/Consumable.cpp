@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Consumable.h"
+#include "SceneManager.h"
+#include "Scene.h"
+#include "DevScene.h"
 
 Consumable::Consumable()
 {
@@ -27,3 +30,11 @@ void Consumable::Render(HDC hdc)
 	Super::Render(hdc);
 
 }
+
+void Consumable::Use()
+{
+	Super::Use();
+
+
+}
+

@@ -12,7 +12,11 @@
 
 Inventory::Inventory()
 {
-	_items.resize(3, vector<shared_ptr<Item>>(16));
+	_items.resize((int)ItemType::MAX_COUNT);
+    _items[static_cast<int>(ItemType::Equipment)].resize(16); // 장비
+    _items[static_cast<int>(ItemType::Consumable)].resize(16); // 소비
+    _items[static_cast<int>(ItemType::Others)].resize(16); // 기타
+    _items[static_cast<int>(ItemType::Quick)].resize(3); // 퀵슬롯
 }
 
 Inventory::~Inventory()
@@ -73,13 +77,16 @@ bool Inventory::DropItem(shared_ptr<Item>& item)
 
     Vec2Int pos = player->GetCellPos();
 
-    // 1. 인벤토리에서 해당 아이템 제거
+    // 1. owner 해제
+    item->GetOwner().reset();
+
+    // 2. 인벤토리에서 해당 아이템 제거
     const int category = item->GetItemTypeIndex();
     const int idx = FindItemIndex(item, category);
     if (idx != -1)
         _items[category][idx] = nullptr;
 
-    // 2. 씬에게 드랍 요청
+    // 3. 씬에게 드랍 요청
     scene->DropItem(item, pos);
 
     return true;

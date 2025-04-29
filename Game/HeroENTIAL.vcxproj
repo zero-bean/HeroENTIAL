@@ -164,7 +164,6 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryContainer.h" />
-    <ClInclude Include="InventorySlot.h" />
     <ClInclude Include="InventoryPanel.h" />
     <ClInclude Include="InventoryTooltip.h" />
     <ClInclude Include="Item.h" />
@@ -174,11 +173,15 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Potion.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="QuickslotContainer.h" />
+    <ClInclude Include="QuickslotPanel.h" />
+    <ClInclude Include="QuickslotSlot.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceBase.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Slot.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteActor.h" />
     <ClInclude Include="targetver.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Values.h" />
   </ItemGroup>
@@ -212,7 +216,6 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryContainer.cpp" />
-    <ClCompile Include="InventorySlot.cpp" />
     <ClCompile Include="InventoryPanel.cpp" />
     <ClCompile Include="InventoryTooltip.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -225,10 +228,14 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Potion.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="QuickslotContainer.cpp" />
+    <ClCompile Include="QuickslotPanel.cpp" />
+    <ClCompile Include="QuickslotSlot.cpp" />
     <ClCompile Include="ResourceBase.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Slot.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteActor.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -236,6 +243,7 @@
     <ClCompile Include="TilemapActor.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>

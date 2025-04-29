@@ -10,6 +10,19 @@ void Utils::DrawText(HDC hdc, Pos pos, const wstring& str)
 		static_cast<__int32>(str.size()));
 }
 
+void Utils::DrawTextTransparent(HDC hdc, Pos pos, const wstring& str)
+{
+	int oldDC = ::SaveDC(hdc);
+	::SetBkMode(hdc, TRANSPARENT);
+	::SetTextColor(hdc, RGB(0, 0, 0));
+	::TextOut(hdc,
+		static_cast<__int32>(pos.x),
+		static_cast<__int32>(pos.y),
+		str.c_str(),
+		static_cast<__int32>(str.size()));
+	::RestoreDC(hdc, oldDC);
+}
+
 void Utils::DrawTextMultiline(HDC hdc, const wstring& str, const RECT& rect, HFONT font, COLORREF color)
 {
 	HFONT oldFont = (HFONT)::SelectObject(hdc, font);

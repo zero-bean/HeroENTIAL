@@ -4,12 +4,12 @@
 
 class Item;
 
-class InventorySlot : public UI, public enable_shared_from_this<InventorySlot>
+class Slot : public UI, public enable_shared_from_this<Slot>
 {
 	using Super = UI;
 public:
-	InventorySlot();
-	virtual ~InventorySlot();
+	Slot();
+	virtual ~Slot();
 
 public:
 	virtual void BeginPlay();
@@ -21,18 +21,22 @@ public:
 	shared_ptr<Item> GetOwner() const { return _owner ? *_owner : nullptr; }
 	shared_ptr<Item>* GetOwnerPtr() const { return _owner; }
 
-	void SetHover(function<void(shared_ptr<InventorySlot>)> hover) { _hover = hover; }
-	void SetUnhover(function<void()> unhover) { _unhover = unhover; }
-	
-	void SetOnClick(function<void(shared_ptr<InventorySlot>)> onClick) { _onClick = onClick; }
+	void SetSlotType(ItemType type) { _slotType = type; }
+	ItemType GetSlotType() const { return _slotType; }
 
-private:
+	void SetHover(function<void(shared_ptr<Slot>)> hover) { _hover = hover; }
+	void SetUnhover(function<void()> unhover) { _unhover = unhover; }
+
+	void SetOnClick(function<void(shared_ptr<Slot>)> onClick) { _onClick = onClick; }
+
+protected:
 	shared_ptr<Item>* _owner = nullptr;
+	ItemType _slotType = ItemType::MAX_COUNT;
 
 	bool isHovered = false;
-	function<void(shared_ptr<InventorySlot>)> _hover;
+	function<void(shared_ptr<Slot>)> _hover;
 	function<void()> _unhover;
 
 	bool isClicked = false;
-	function<void(shared_ptr<InventorySlot>)> _onClick;
+	function<void(shared_ptr<Slot>)> _onClick;
 };

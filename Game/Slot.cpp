@@ -1,28 +1,28 @@
 #include "pch.h"
+#include "Slot.h"
 #include "InputManager.h"
-#include "InventorySlot.h"
 #include "Item.h"
 #include "Flipbook.h"
 #include "Texture.h"
 
-InventorySlot::InventorySlot()
+Slot::Slot()
 {
 	SetSize({ 48,48 });
 }
 
-InventorySlot::~InventorySlot()
+Slot::~Slot()
 {
 
 }
 
-void InventorySlot::BeginPlay()
+void Slot::BeginPlay()
 {
 	Super::BeginPlay();
 
 
 }
 
-void InventorySlot::Tick()
+void Slot::Tick()
 {
 	Super::Tick();
 
@@ -54,7 +54,7 @@ void InventorySlot::Tick()
 	isClicked = InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE);
 }
 
-void InventorySlot::Render(HDC hdc)
+void Slot::Render(HDC hdc)
 {
 	shared_ptr<Item> item = GetOwner();
 
@@ -77,10 +77,6 @@ void InventorySlot::Render(HDC hdc)
 		info.texture->GetTransparent());
 
 	wstring str = ::format(L"{0}", item->GetItemCount());
-	int oldDC = ::SaveDC(hdc); 
-	::SetBkMode(hdc, TRANSPARENT); 
-	::SetTextColor(hdc, RGB(0, 0, 0));
-	::TextOut(hdc, (__int32)_pos.x + 15, (__int32)_pos.y + 14, 
-		str.c_str(), static_cast<__int32>(str.size()));
-	::RestoreDC(hdc, oldDC);
+	Pos strPos = { _pos.x + 15, _pos.y + 14 };
+	Utils::DrawTextTransparent(hdc, strPos, str);
 }

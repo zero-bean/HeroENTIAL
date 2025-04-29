@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "CollisionManager.h"
+#include "UIManager.h"
 
 Game::Game()
 {
@@ -35,6 +36,7 @@ void Game::Init(HWND hwnd)
 	CollisionManager::GET_SINGLE()->Init();
 
 	SceneManager::GET_SINGLE()->ChangeScene(SceneType::DevScene);
+	UIManager::GET_SINGLE()->Init(hwnd);
 }
 
 void Game::Update()
@@ -42,12 +44,14 @@ void Game::Update()
 	TimeManager::GET_SINGLE()->Update();
 	InputManager::GET_SINGLE()->Update();
 	SceneManager::GET_SINGLE()->Update();
+	UIManager::GET_SINGLE()->Update();
 	CollisionManager::GET_SINGLE()->Update();
 }
 
 void Game::Render()
 {
 	SceneManager::GET_SINGLE()->Render(hdcBack);
+	UIManager::GET_SINGLE()->Render(hdcBack);
 
 	unsigned __int32 fps = TimeManager::GET_SINGLE()->GetFPS();
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();

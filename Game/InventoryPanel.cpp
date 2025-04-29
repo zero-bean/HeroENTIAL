@@ -4,12 +4,13 @@
 #include "Flipbook.h"
 #include "Texture.h"
 #include "InventoryPanel.h"
-#include "InventorySlot.h"
+#include "Slot.h"
 #include "InventoryTooltip.h"
 #include "InventoryContainer.h"
 #include "Button.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
+#include "UIManager.h"
 
 InventoryPanel::InventoryPanel()
 {
@@ -43,8 +44,8 @@ InventoryPanel::InventoryPanel()
 
 	// 슬롯
 	_slots.resize(16);
-	for (shared_ptr<InventorySlot>& slot : _slots) {
-		slot = make_shared<InventorySlot>();
+	for (shared_ptr<Slot>& slot : _slots) {
+		slot = make_shared<Slot>();
 		AddChild(slot);
 	}
 
@@ -92,8 +93,8 @@ void InventoryPanel::BeginPlay()
 			Vec2 pos(dx, dy);
 
 			_slots[index]->SetPos(pos);
-			
-			_slots[index]->SetHover([this, &pos, &index](shared_ptr<InventorySlot> slot) {
+
+			_slots[index]->SetHover([this, &pos, &index](shared_ptr<Slot> slot) {
 				shared_ptr<Item> item = slot->GetOwner();
 				if (!item) return;
 				
@@ -106,30 +107,38 @@ void InventoryPanel::BeginPlay()
 				_tooltip->SetVisible(false);
 				});
 
-			_slots[index]->SetOnClick([this](shared_ptr<InventorySlot> slot) {
-				if (!slot && !_drag.IsDrag()) 
+			_slots[index]->SetOnClick([this](shared_ptr<Slot> slot) {
+				DragState& drag = UIManager::GET_SINGLE()->GetDragState();
+
+				if (!slot) 
 					return;
 
-				if (_drag.IsDrag())
+				if (drag.IsDrag())
 				{
-					shared_ptr<Item>* srcPtr = _drag.GetSlot()->GetOwnerPtr();
+				// 아이템 타입이 다르면 스왑 불가능
+				const ItemType from = drag.GetSlot()->GetSlotType();
+				const ItemType To = slot->GetSlotType();
+				if (from != To)
+					return;
+
+					shared_ptr<Item>* srcPtr = drag.GetSlot()->GetOwnerPtr();
 					shared_ptr<Item>* dstPtr = slot->GetOwnerPtr();
 
 					if (srcPtr && dstPtr)
 						std::swap(*srcPtr, *dstPtr);
 
-					_drag.EndDrag();
+					drag.EndDrag();
 					return;
 				}
 
 				// 드래그 활성화
-				_drag.BeginDrag(slot);
+				drag.BeginDrag(slot);
 				});
 
 		}
 	}
 
-	UpdateSlots(0);
+	UpdateSlots(ItemType::Equipment);
 }
 
 void InventoryPanel::Tick()
@@ -142,7 +151,10 @@ void InventoryPanel::Tick()
 
 		// 인벤토리 닫으면 드래그 정보 초기화
 		if (!_isActivated)
-			_drag.EndDrag();
+		{
+			DragState& drag = UIManager::GET_SINGLE()->GetDragState();
+			drag.EndDrag();
+		}
 	}
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
@@ -157,9 +169,10 @@ void InventoryPanel::Render(HDC hdc)
 	Super::Render(hdc);
 
 	// 드래그 된 아이템 표시
-	if (_drag.IsDrag())
+	const DragState& drag = UIManager::GET_SINGLE()->GetDragState();
+	if (drag.IsDrag())
 	{
-		if (shared_ptr<Item> item = _drag.GetSlot()->GetOwner())
+		if (shared_ptr<Item> item = drag.GetSlot()->GetOwner())
 		{
 			const auto& info = item->GetFlipbook()->GetInfo();
 			Vec2 mousePos = InputManager::GET_SINGLE()->GetMousePos();
@@ -182,43 +195,48 @@ void InventoryPanel::Render(HDC hdc)
 
 void InventoryPanel::OnClickEquitmentButton()
 {
-	UpdateSlots(0);
+	UpdateSlots(ItemType::Equipment);
 }
 
 void InventoryPanel::OnClickConsumableButton()
 {
-	UpdateSlots(1);
+	UpdateSlots(ItemType::Consumable);
 }
 
 void InventoryPanel::OnClickOthersButton()
 {
-	UpdateSlots(2);
+	UpdateSlots(ItemType::Others);
 }
 
-void InventoryPanel::UpdateSlots(int category)
+void InventoryPanel::UpdateSlots(const ItemType category)
 {
 	if (shared_ptr<Inventory> inventory = _inventory.lock())
 	{
-		vector<shared_ptr<Item>>& items = inventory->GetItemsRef(category);
+		vector<shared_ptr<Item>>& items = inventory->GetItemsRef(static_cast<int>(category));
 
 		for (int i = 0; i < _slots.size(); i++)
+		{
 			_slots[i]->SetOwnerPtr(&items[i]);
+			_slots[i]->SetSlotType(category);
+		}
 	}
 }
 
 void InventoryPanel::DropDraggedItem()
 {
-	if (!_drag.IsDrag() || IsMouseInRect()) 
+	DragState& drag = UIManager::GET_SINGLE()->GetDragState();
+
+	if (!drag.IsDrag() || UIManager::GET_SINGLE()->IsMouseInUIs())
 		return;
 
-	shared_ptr<Item> item = _drag.GetSlot()->GetOwner();
+	shared_ptr<Item> item = drag.GetSlot()->GetOwner();
 	if (!item) return;
 
 	if (shared_ptr<Inventory> inventory = _inventory.lock()) {
-		int idx = item->GetItemTypeIndex();
+		const ItemType itemtype = item->GetItemType();
 		inventory->DropItem(item);
-		_drag.EndDrag();
-		UpdateSlots(idx);
+		drag.EndDrag();
+		UpdateSlots(itemtype);
 	}
 }
 

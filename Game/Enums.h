@@ -55,3 +55,12 @@ enum class WeaponType
 	Bow,
 	Staff
 };
+
+enum class ItemType
+{
+	Equipment,
+	Consumable,
+	Others,
+	Quick,
+	MAX_COUNT
+};
