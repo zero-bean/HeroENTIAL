@@ -8,11 +8,11 @@
 
 QuickslotPanel::QuickslotPanel()
 {
-	// ÄÁÅ×ÀÌ³Ê
+	// Ã„ÃÃ…Ã—Ã€ÃŒÂ³ÃŠ
 	_container = make_shared<QuickslotContainer>();
 	AddChild(_container);
 	
-	// ½½·Ô
+	// Â½Â½Â·Ã”
 	_slots.resize(static_cast<int>(ItemType::Quick));
 	for (shared_ptr<QuickslotSlot>& slot : _slots) {
 		slot = make_shared<QuickslotSlot>();
@@ -28,14 +28,14 @@ void QuickslotPanel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ÆĞ³Î
+	// Ã†ÃÂ³Ã
 	SetSize({ 192 * 3, 192 });
 	SetPos({ GWinSizeX / 2, (float)GWinSizeY });
 
-	// ÄÁÅ×ÀÌ³Ê
+	// Ã„ÃÃ…Ã—Ã€ÃŒÂ³ÃŠ
 	_container->SetPos(GetPos());
 
-	// ½½·Ô
+	// Â½Â½Â·Ã”
 	const int slotCount = _slots.size();
 	const int padding = 6;
 	const int width = slotCount * 64 + (slotCount - 1) * padding;
@@ -58,7 +58,7 @@ void QuickslotPanel::BeginPlay()
 
 			if (drag.IsDrag())
 			{
-				// ¾ÆÀÌÅÛ Å¸ÀÔÀÌ ´Ù¸£¸é ½º¿Ò ºÒ°¡´É
+				// Â¾Ã†Ã€ÃŒÃ…Ã› Ã…Â¸Ã€Ã”Ã€ÃŒ Â´Ã™Â¸Â£Â¸Ã© Â½ÂºÂ¿Ã’ ÂºÃ’Â°Â¡Â´Ã‰
 				const ItemType from = drag.GetSlot()->GetSlotType();
 				const ItemType To = slot->GetSlotType();
 				if (from != To)
@@ -74,11 +74,11 @@ void QuickslotPanel::BeginPlay()
 				return;
 			}
 
-			// µå·¡±× È°¼ºÈ­
+			// ÂµÃ¥Â·Â¡Â±Ã— ÃˆÂ°Â¼ÂºÃˆÂ­
 			drag.BeginDrag(slot);
 			});
-
 	}
+  
 }
 
 void QuickslotPanel::Tick()
@@ -110,4 +110,3 @@ void QuickslotPanel::SetSlotsOwnerPtr(shared_ptr<Inventory> inventory)
 			_slots[i]->SetOwnerPtr(&items[i]);
 	}
 }
-

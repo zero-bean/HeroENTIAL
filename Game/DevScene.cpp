@@ -331,12 +331,12 @@ void DevScene::LoadUI(shared_ptr<Player> player)
 	if (!inven)
 		return;
 
-	// Äü½½·Ô UI
+	// í€µìŠ¬ë¡¯ UI
 	shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
 	quickslotUI->SetSlotsOwnerPtr(inven);
 	UIManager::GET_SINGLE()->AddUI(quickslotUI);
 
-	// ÀÎº¥Åä¸® UI
+	// ì¸ë²¤í† ë¦¬ UI
 	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
 	invenUI->SetInventory(inven);
 	UIManager::GET_SINGLE()->AddUI(invenUI);
@@ -398,17 +398,17 @@ void DevScene::PickUpItem(shared_ptr<Item> item, shared_ptr<Player> player)
 	if (!item || !player)
 		return;
 
-	// Ãæµ¹Ã¼ Á¦°Å
+	// ì¶©ëŒì²´ ì œê±°
 	shared_ptr<Collider> collider = item->GetCollider();
 	if (collider)
 		CollisionManager::GET_SINGLE()->RemoveCollider(collider);
 
-	// ÀÎº¥Åä¸® ±Í¼Ó
+	// ì¸ë²¤í† ë¦¬ ê·€ì†
 	auto inventory = player->FindComponent<Inventory>();
 	if (inventory)
 		inventory->AddItem(item);
 
-	// Å¸ÀÏ Á¤º¸ °»½Å ¹× µå¶ø
+	// íƒ€ì¼ ì •ë³´ ê°±ì‹  ë° ë“œë
 	MarkTileHasItem(item->GetCellPos(), false);
 	RemoveActor(item);
 }
@@ -417,16 +417,16 @@ void DevScene::DropItem(shared_ptr<Item> item, Vec2Int desiredPos)
 {
 	if (!item) return;
 
-	// ½ÇÁ¦ µå¶ø °¡´ÉÇÑ À§Ä¡ °è»ê
+	// ì‹¤ì œ ë“œë ê°€ëŠ¥í•œ ìœ„ì¹˜ ê³„ì‚°
 	Vec2Int dropPos = GetClosestEmptyCellPos(desiredPos);
 
-	// ¾ÆÀÌÅÛ Á¤º¸ ÃÊ±âÈ­
+	// ì•„ì´í…œ ì •ë³´ ì´ˆê¸°í™”
 	item->GetOwner().reset();
 	item->SetCellPos(dropPos, true);
 	item->SetScale(1);
 	item->AddCollider();
 
-	// Å¸ÀÏ Á¤º¸ °»½Å ¹× µå¶ø
+	// íƒ€ì¼ ì •ë³´ ê°±ì‹  ë° ë“œë
 	MarkTileHasItem(dropPos, true);
 	AddActor(item);
 }
@@ -531,9 +531,9 @@ weak_ptr<Player> DevScene::FindClosestPlayer(Vec2Int pos)
 bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int32 maxDepth)
 {
 	// F = G + H
-	// F = ÃÖÁ¾ Á¡¼ö(ÀÛÀ» ¼ö·Ï ÁÁÀ½)
-	// G = ½ÃÀÛÁ¡¿¡¼­ ÇØ´ç ÁÂÇ¥±îÁö ÀÌµ¿ÇÏ´Âµ¥ µå´Â ºñ¿ë
-	// H = ¸ñÀûÁö¿¡¼­ ÇØ´ç ÁÂÇ¥±îÁö ÀÌµ¿ÇÏ´Âµ¥ µå´Â ºñ¿ë
+	// F = ìµœì¢… ì ìˆ˜(ì‘ì„ ìˆ˜ë¡ ì¢‹ìŒ)
+	// G = ì‹œì‘ì ì—ì„œ í•´ë‹¹ ì¢Œí‘œê¹Œì§€ ì´ë™í•˜ëŠ”ë° ë“œëŠ” ë¹„ìš©
+	// H = ëª©ì ì§€ì—ì„œ í•´ë‹¹ ì¢Œí‘œê¹Œì§€ ì´ë™í•˜ëŠ”ë° ë“œëŠ” ë¹„ìš©
 	__int32 depth = abs(src.y - dest.y) + abs(src.x - dest.x);
 	if (depth >= maxDepth)
 		return false;
@@ -542,7 +542,7 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int3
 	map<Vec2Int, __int32> best;
 	map<Vec2Int, Vec2Int> parent;
 
-	// ÃÊ±â°ª
+	// ì´ˆê¸°ê°’
 	{
 		__int32 cost = abs(dest.y - src.y) + abs(dest.x - src.x);
 
@@ -563,22 +563,22 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int3
 
 	while (pq.empty() == false)
 	{
-		// Á¦ÀÏ ÁÁÀº ÈÄº¸¸¦ Ã£´Â´Ù
+		// ì œì¼ ì¢‹ì€ í›„ë³´ë¥¼ ì°¾ëŠ”ë‹¤
 		PQNode node = pq.top();
 		pq.pop();
 
-		// ´õ ÂªÀº °æ·Î¸¦ µÚ´Ê°Ô Ã£¾Ò´Ù¸é ½ºÅµ
+		// ë” ì§§ì€ ê²½ë¡œë¥¼ ë’¤ëŠ¦ê²Œ ì°¾ì•˜ë‹¤ë©´ ìŠ¤í‚µ
 		if (best[node.pos] < node.cost)
 			continue;
 
-		// ¸ñÀûÁö¿¡ µµÂøÇßÀ¸¸é ¹Ù·Î Á¾·á
+		// ëª©ì ì§€ì— ë„ì°©í–ˆìœ¼ë©´ ë°”ë¡œ ì¢…ë£Œ
 		if ((Vec2Int)node.pos == (Vec2Int)dest)
 		{
 			found = true;
 			break;
 		}
 
-		// ¹æ¹®
+		// ë°©ë¬¸
 		for (__int32 dir = 0; dir < 4; dir++)
 		{
 			Vec2Int nextPos = node.pos + front[dir];
@@ -594,12 +594,12 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int3
 			__int32 bestValue = best[nextPos];
 			if (bestValue != 0)
 			{
-				// ´Ù¸¥ °æ·Î¿¡¼­ ´õ ºü¸¥ ±æÀ» Ã£¾ÒÀ¸¸é ½ºÅµ
+				// ë‹¤ë¥¸ ê²½ë¡œì—ì„œ ë” ë¹ ë¥¸ ê¸¸ì„ ì°¾ì•˜ìœ¼ë©´ ìŠ¤í‚µ
 				if (bestValue <= cost)
 					continue;
 			}
 
-			// ¿¹¾à ÁøÇà
+			// ì˜ˆì•½ ì§„í–‰
 			best[nextPos] = cost;
 			pq.push(PQNode(cost, nextPos));
 			parent[nextPos] = node.pos;
@@ -615,7 +615,7 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int3
 			Vec2Int pos = item.first;
 			__int32 score = item.second;
 
-			// µ¿Á¡ÀÌ¶ó¸é, ÃÖÃÊ À§Ä¡¿¡¼­ °¡Àå ´ú ÀÌµ¿ÇÏ´Â ÂÊÀ¸·Î
+			// ë™ì ì´ë¼ë©´, ìµœì´ˆ ìœ„ì¹˜ì—ì„œ ê°€ì¥ ëœ ì´ë™í•˜ëŠ” ìª½ìœ¼ë¡œ
 			if (bestScore == score)
 			{
 				__int32 dist1 = abs(dest.x - src.x) + abs(dest.y - src.y);
@@ -638,7 +638,7 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int3
 	{
 		path.push_back(pos);
 
-		// ½ÃÀÛÁ¡
+		// ì‹œì‘ì 
 		if (pos == parent[pos])
 			break;
 

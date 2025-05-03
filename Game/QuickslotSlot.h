@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Slot.h"
 
 class QuickslotSlot : public Slot
@@ -15,5 +16,4 @@ public:
 
 public:
 	void UseItem();
-
 };

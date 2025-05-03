@@ -17,13 +17,12 @@ QuickslotSlot::~QuickslotSlot()
 void QuickslotSlot::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void QuickslotSlot::Tick()
 {
 	if (IsMouseInRect()) {
-		// ½½·ÔÀ» Å¬¸¯Çß´ÂÁö . . .
+		// ìŠ¬ë¡¯ì„ í´ë¦­í–ˆëŠ”ì§€ . . .
 		if (!isClicked && InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
 		{
 			if (_onClick)
@@ -54,4 +53,3 @@ void QuickslotSlot::UseItem()
 		}
 	}
 }
-
