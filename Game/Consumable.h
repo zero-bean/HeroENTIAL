@@ -23,7 +23,7 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
-	virtual void Use() override {}
+	virtual void Use() override;
 	virtual void DisUse() override {}
 
 protected:

@@ -18,11 +18,11 @@ public:
 
 public:
 	bool AddItem(shared_ptr<Item>& item);
-
 	bool DropItem(shared_ptr<Item>& item);
 
 	vector<shared_ptr<Item>> GetItems(const int category) { return _items[category]; }
 	vector<shared_ptr<Item>>& GetItemsRef(int category) { return _items[category]; }
+
 private:
 	int FindItemIndex(shared_ptr<Item> item, const int idx);
 

@@ -2,6 +2,8 @@
 #include "Panel.h"
 
 class QuickslotContainer;
+class QuickslotSlot;
+class Inventory;
 
 class QuickslotPanel : public Panel
 {
@@ -15,8 +17,11 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc);
 
+public:
+	void SetSlotsOwnerPtr(shared_ptr<Inventory> inventory);
+
 private:
 	shared_ptr<QuickslotContainer> _container = nullptr;
-
+	vector<shared_ptr<QuickslotSlot>> _slots = {};
 };
 

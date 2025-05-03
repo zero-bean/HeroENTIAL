@@ -88,11 +88,23 @@ void Potion::UpdateAnimation()
 
 void Potion::Use()
 {
+	if (_itemCount == 0)
+		return;
+
 	shared_ptr<Player> player = dynamic_pointer_cast<Player>(GetOwner());
 	if (player == nullptr)
 		return;
 
 	_effect[_type](player);
+
+	_itemCount = (_itemCount > 0) ? _itemCount - 1 : 0;
+
+	if (_itemCount == 0)
+	{
+		auto scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+		if (scene)
+			scene->RemoveActor(shared_from_this());
+	}
 }
 
 void Potion::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)

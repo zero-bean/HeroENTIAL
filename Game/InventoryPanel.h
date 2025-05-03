@@ -3,34 +3,10 @@
 #include "Panel.h"
 
 class Inventory;
-class InventorySlot;
 class InventoryContainer;
 class InventoryTooltip;
+class Slot;
 class Button;
-
-struct DragState
-{
-public:
-	void BeginDrag(shared_ptr<InventorySlot> slot)
-	{
-		active = true;
-		this->slot = slot;
-	}
-
-	void EndDrag()
-	{
-		active = false;
-		slot = nullptr;
-	}
-
-	bool IsDrag() const { return active; }
-
-	shared_ptr<InventorySlot> GetSlot() const { return slot; }
-
-private:
-	bool active = false;
-	shared_ptr<InventorySlot> slot = nullptr;
-};
 
 class InventoryPanel : public Panel, public enable_shared_from_this<InventoryPanel>
 {
@@ -52,16 +28,15 @@ public:
 	void OnClickOthersButton();
 
 private:
-	void UpdateSlots(const int idx);
+	void UpdateSlots(const ItemType idx);
 	
 	void DropDraggedItem();
 
 private:
 	bool _isActivated = true;
-	DragState _drag = {};
 	shared_ptr<InventoryContainer> _container = nullptr;
 	vector<shared_ptr<Button>> _buttons = {};
-	vector<shared_ptr<InventorySlot>> _slots = {};
+	vector<shared_ptr<Slot>> _slots = {};
 	shared_ptr<InventoryTooltip> _tooltip = nullptr;
 	weak_ptr<Inventory> _inventory = {};
 };

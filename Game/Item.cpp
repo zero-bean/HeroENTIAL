@@ -76,5 +76,8 @@ void Item::PickedUp(shared_ptr<Player> player)
 	shared_ptr<Item> item = dynamic_pointer_cast<Item>(shared_from_this());
 	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 	if (scene)
+	{
 		scene->PickUpItem(item, player);
+		item->SetOwner(player);
+	}
 }
