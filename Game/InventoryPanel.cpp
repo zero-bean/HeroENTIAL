@@ -143,6 +143,9 @@ void InventoryPanel::BeginPlay()
 
 void InventoryPanel::Tick()
 {
+	if (!_inventory.lock())
+		return;
+
 	Super::Tick();
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::I)) 
@@ -163,6 +166,9 @@ void InventoryPanel::Tick()
 
 void InventoryPanel::Render(HDC hdc)
 {
+	if (!_inventory.lock())
+		return;
+
 	if (!_isActivated)
 		return;
 

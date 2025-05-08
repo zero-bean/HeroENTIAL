@@ -2,12 +2,14 @@
 #include "Creature.h"
 #include "InputManager.h"
 #include "TimeManager.h"
-#include "ResourceManager.h"
 #include "Flipbook.h"
 #include "Projectile.h"
 #include "CameraComponent.h"
+#include "ResourceManager.h"
 #include "SceneManager.h"
+#include "UIManager.h"
 #include "DevScene.h"
+#include "HPbar.h"
 
 Creature::Creature()
 {
@@ -22,6 +24,10 @@ Creature::~Creature()
 void Creature::BeginPlay()
 {
 	Super::BeginPlay();
+
+	_hpBar = make_shared<HPbar>();
+	_hpBar->SetOwner(dynamic_pointer_cast<Creature>(shared_from_this()));
+	UIManager::GET_SINGLE()->AddUI(_hpBar);
 }
 
 void Creature::Tick()

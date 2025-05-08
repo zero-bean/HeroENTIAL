@@ -242,6 +242,9 @@
     <ClInclude Include="Slot.h">
       <Filter>소스 파일\06.UIs\Game</Filter>
     </ClInclude>
+    <ClInclude Include="HPbar.h">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -380,6 +383,9 @@
       <Filter>소스 파일\01.Managers</Filter>
     </ClCompile>
     <ClCompile Include="Slot.cpp">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HPbar.cpp">
       <Filter>소스 파일\06.UIs\Game</Filter>
     </ClCompile>
   </ItemGroup>

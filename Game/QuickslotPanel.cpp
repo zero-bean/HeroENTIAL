@@ -83,6 +83,9 @@ void QuickslotPanel::BeginPlay()
 
 void QuickslotPanel::Tick()
 {
+	if (!_inventory.lock())
+		return;
+
 	Super::Tick();
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::KEY_1))
@@ -96,12 +99,15 @@ void QuickslotPanel::Tick()
 
 void QuickslotPanel::Render(HDC hdc)
 {
-	Super::Render(hdc);
+	if (!_inventory.lock())
+		return;
 
+	Super::Render(hdc);
 }
 
 void QuickslotPanel::SetSlotsOwnerPtr(shared_ptr<Inventory> inventory)
 {
+	_inventory = inventory;
 	if (inventory)
 	{
 		vector<shared_ptr<Item>>& items = inventory->GetItemsRef(static_cast<int>(ItemType::Quick));

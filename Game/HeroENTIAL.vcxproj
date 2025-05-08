@@ -161,6 +161,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goblin.h" />
     <ClInclude Include="HeroENTIAL.h" />
+    <ClInclude Include="HPbar.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryContainer.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="HeroENTIAL.cpp" />
+    <ClCompile Include="HPbar.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryContainer.cpp" />

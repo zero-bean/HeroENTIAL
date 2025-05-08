@@ -23,5 +23,6 @@ public:
 private:
 	shared_ptr<QuickslotContainer> _container = nullptr;
 	vector<shared_ptr<QuickslotSlot>> _slots = {};
+	weak_ptr<Inventory> _inventory;
 };
 
