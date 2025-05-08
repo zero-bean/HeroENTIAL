@@ -45,11 +45,6 @@ public:
 	void LoadUI(shared_ptr<Player> player);
 
 public:
-	bool CanGo(Vec2Int cellPos, bool checkItem = false);
-
-	Vec2 ConvertPos(Vec2Int cellPos);
-
-public:
 	void MarkTileHasItem(const Vec2Int pos, const bool check);
 
 	void PickUpItem(shared_ptr<Item> item, shared_ptr<Player> player);
@@ -88,7 +83,6 @@ public:
 	bool FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int32 maxDepth = 10);
 
 private:
-	shared_ptr<TilemapActor> _tilemapActor = nullptr;
 	const __int32 DESIRED_COUNT = 3;
 	__int32 _monsterCount = 0;
 

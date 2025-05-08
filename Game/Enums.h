@@ -4,6 +4,7 @@ enum class SceneType
 {
 	None,
 	DevScene,
+	LobbyScene,
 	EditScene,
 	BasicScene,
 };
@@ -22,6 +23,7 @@ enum LAYER_TYPE
 enum COLLISION_LAYER_TYPE : unsigned __int8
 {
 	CLT_PLAYER,
+	CLT_NPC,
 	CLT_MONSTER,
 	CLT_OBJECT,
 	CLT_BULLET,

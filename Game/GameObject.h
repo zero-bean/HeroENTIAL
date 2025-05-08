@@ -15,7 +15,7 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
-	virtual void AddCollider() {}
+	virtual void AddCollider(const Vec2 size) {}
 
 protected:
 	virtual void TickIdle() {}

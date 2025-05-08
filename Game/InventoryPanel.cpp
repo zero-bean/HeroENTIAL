@@ -78,9 +78,9 @@ void InventoryPanel::BeginPlay()
 		_buttons[i]->SetPos({ startX + 64.f * i, btnY });
 	}
 
-	_buttons[0]->AddOnClickDelegate(shared_from_this(), &InventoryPanel::OnClickEquitmentButton);
-	_buttons[1]->AddOnClickDelegate(shared_from_this(), &InventoryPanel::OnClickConsumableButton);
-	_buttons[2]->AddOnClickDelegate(shared_from_this(), &InventoryPanel::OnClickOthersButton);
+	_buttons[0]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Equipment); });
+	_buttons[1]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Consumable); });
+	_buttons[2]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Others); });
 
 	// ½½·Ô
 	for (int y = 0; y < 4; y++)
@@ -143,6 +143,9 @@ void InventoryPanel::BeginPlay()
 
 void InventoryPanel::Tick()
 {
+	if (!_inventory.lock())
+		return;
+
 	Super::Tick();
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::I)) 
@@ -163,6 +166,9 @@ void InventoryPanel::Tick()
 
 void InventoryPanel::Render(HDC hdc)
 {
+	if (!_inventory.lock())
+		return;
+
 	if (!_isActivated)
 		return;
 

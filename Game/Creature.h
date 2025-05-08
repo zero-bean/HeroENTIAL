@@ -4,8 +4,8 @@
 
 class Flipbook;
 class Collider;
-class BoxCollider;
 class Projectile;
+class HPbar;
 
 struct Stat
 {
@@ -49,4 +49,5 @@ public:
 
 protected:
 	Stat _stat;
+	shared_ptr<HPbar> _hpBar;
 };

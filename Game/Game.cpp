@@ -35,7 +35,7 @@ void Game::Init(HWND hwnd)
 	SceneManager::GET_SINGLE()->Init();
 	CollisionManager::GET_SINGLE()->Init();
 
-	SceneManager::GET_SINGLE()->ChangeScene(SceneType::DevScene);
+	SceneManager::GET_SINGLE()->ChangeScene(SceneType::LobbyScene);
 	UIManager::GET_SINGLE()->Init(hwnd);
 }
 

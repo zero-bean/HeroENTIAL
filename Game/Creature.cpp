@@ -2,12 +2,15 @@
 #include "Creature.h"
 #include "InputManager.h"
 #include "TimeManager.h"
-#include "ResourceManager.h"
 #include "Flipbook.h"
 #include "Projectile.h"
 #include "CameraComponent.h"
+#include "ResourceManager.h"
 #include "SceneManager.h"
+#include "UIManager.h"
 #include "DevScene.h"
+#include "HPbar.h"
+#include "DamageSkin.h"
 
 Creature::Creature()
 {
@@ -22,6 +25,10 @@ Creature::~Creature()
 void Creature::BeginPlay()
 {
 	Super::BeginPlay();
+
+	_hpBar = make_shared<HPbar>();
+	_hpBar->SetOwner(dynamic_pointer_cast<Creature>(shared_from_this()));
+	UIManager::GET_SINGLE()->AddUI(_hpBar);
 }
 
 void Creature::Tick()
@@ -86,4 +93,12 @@ void Creature::OnDamaged(shared_ptr<Projectile> projectile)
 		SetState(ObjectState::Death);
 	else
 		SetState(ObjectState::Attacked);
+
+	// 피격 데미지 이펙트 추가
+	shared_ptr<DamageSkin> dmg = make_shared<DamageSkin>();
+	dmg->SetDamage(stat.attack);
+	dmg->SetPos(GetPos() + Vec2(0, -60));
+	dmg->SetFont(ResourceManager::GET_SINGLE()->GetFont(L"DungeonFont"));
+	dmg->SetColor(RGB(255, 80, 80));
+	SceneManager::GET_SINGLE()->GetCurrentScene()->AddActor(dmg);
 }

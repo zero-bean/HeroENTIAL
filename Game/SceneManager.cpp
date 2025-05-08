@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "SceneManager.h"
-#include "DevScene.h"
 #include "Scene.h"
+#include "DevScene.h"
+#include "LobbyScene.h"
 
 void SceneManager::Init()
 {
@@ -36,6 +37,9 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	{
 	case SceneType::DevScene:
 		newScene = make_shared<DevScene>();
+		break;
+	case SceneType::LobbyScene:
+		newScene = make_shared<LobbyScene>();
 		break;
 	}
 

@@ -33,7 +33,7 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
-	virtual void AddCollider() override;
+	virtual void AddCollider(const Vec2 size) override;
 	
 	virtual void Use() {}
 	virtual void DisUse() {}

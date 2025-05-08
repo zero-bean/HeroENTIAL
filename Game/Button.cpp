@@ -91,6 +91,7 @@ void Button::Render(HDC hdc)
 			_currentCoverSprite->GetSize().y,
 			_currentCoverSprite->GetTransparent());
 	}
+
 }
 
 void Button::SetButtonState(ButtonState state)

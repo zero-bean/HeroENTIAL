@@ -81,6 +81,15 @@
     <Filter Include="소스 파일\06.UIs\Game\Quickslot">
       <UniqueIdentifier>{f5f7fc63-0820-4229-9844-6980924acae5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Effect">
+      <UniqueIdentifier>{415d12bf-85c2-45f3-bbdb-2849ac6789f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04.Resources\Font">
+      <UniqueIdentifier>{9e4e8aa8-6678-42d5-8a7e-0bda690e2742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\06.UIs\Game\Dungeon">
+      <UniqueIdentifier>{05c5646b-7e94-4d99-aba7-863027774884}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -242,6 +251,27 @@
     <ClInclude Include="Slot.h">
       <Filter>소스 파일\06.UIs\Game</Filter>
     </ClInclude>
+    <ClInclude Include="HPbar.h">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageSkin.h">
+      <Filter>소스 파일\03.Objects\Game\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>소스 파일\04.Resources\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyScene.h">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonEnterPanel.h">
+      <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonEnterContainer.h">
+      <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -381,6 +411,27 @@
     </ClCompile>
     <ClCompile Include="Slot.cpp">
       <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HPbar.cpp">
+      <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageSkin.cpp">
+      <Filter>소스 파일\03.Objects\Game\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>소스 파일\04.Resources\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyScene.cpp">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonEnterPanel.cpp">
+      <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonEnterContainer.cpp">
+      <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

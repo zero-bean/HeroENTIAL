@@ -59,6 +59,18 @@ public:
 
 	bool IsMouseInUIs();
 
+public:
+	template<typename T>
+	shared_ptr<T> GetUI()
+	{
+		for (auto& ui : _uis) {
+			if (auto casted = dynamic_pointer_cast<T>(ui)) 
+				return casted;
+		}
+
+		return nullptr;
+	}
+
 private:
     HWND _hwnd = nullptr;
 	DragState _drag = {};

@@ -14,6 +14,7 @@ InventoryContainer::InventoryContainer()
 
 InventoryContainer::~InventoryContainer()
 {
+
 }
 
 void InventoryContainer::BeginPlay()

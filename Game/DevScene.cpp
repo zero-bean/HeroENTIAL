@@ -23,6 +23,7 @@
 #include "Inventory.h"
 #include "InventoryPanel.h"
 #include "QuickslotPanel.h"
+#include "Font.h"
 
 DevScene::DevScene()
 {
@@ -90,6 +91,7 @@ void DevScene::Init()
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_2_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_2_Disabled"), 0, 0, 64, 64);
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_3_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_3_Disabled"), 0, 0, 64, 64);
 
+	ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont", L"Font\\DungeonFont.ttf", L"DungeonFont", 24);
 
 	LoadMap();
 	LoadTileMap();
@@ -101,6 +103,7 @@ void DevScene::Init()
 
 
 	shared_ptr<Player> player = make_shared<Player>();
+	player->SetCellPos({ 7,7 }, true);
 	AddActor(player);
 
 	shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
@@ -140,14 +143,6 @@ void DevScene::Update()
 
 	// TODO
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
-
-	{
-		if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
-			ResourceManager::GET_SINGLE()->SaveTilemap(L"Tilemap_TEST_01", L"Tilemap\\Tilemap_TEST_01.txt");
-		if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::G))
-			ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_TEST_01", L"Tilemap\\Tilemap_TEST_01.txt");
-	}
-
 }
 
 void DevScene::Render(HDC hdc)
@@ -342,45 +337,6 @@ void DevScene::LoadUI(shared_ptr<Player> player)
 	UIManager::GET_SINGLE()->AddUI(invenUI);
 }
 
-bool DevScene::CanGo(Vec2Int cellPos, bool checkItem)
-{
-	if (_tilemapActor == nullptr)
-		return false;
-
-	shared_ptr<Tilemap> tileMap = _tilemapActor->GetTilemap();
-	if (tileMap == nullptr)
-		return false;
-
-	Tile& tile = tileMap->GetTileAt(cellPos);
-	if (tile.value == 1)
-		return false;
-
-	if (checkItem && tile.hasItem)
-		return false;
-
-	return true;
-}
-
-Vec2 DevScene::ConvertPos(Vec2Int cellPos)
-{
-	Vec2 ret = {};
-
-	if (_tilemapActor == nullptr)
-		return ret;
-
-	shared_ptr<Tilemap> tileMap = _tilemapActor->GetTilemap();
-	if (tileMap == nullptr)
-		return ret;
-
-	__int32 size = tileMap->GetTileSize() * tileMap->GetScale();
-	Vec2 pos = _tilemapActor->GetPos();
-
-	ret.x = pos.x + cellPos.x * size + (size / 2);
-	ret.y = pos.y + cellPos.y * size + (size / 2);
-
-	return ret;
-}
-
 void DevScene::MarkTileHasItem(const Vec2Int pos, const bool check)
 {
 	if (!_tilemapActor)
@@ -424,7 +380,7 @@ void DevScene::DropItem(shared_ptr<Item> item, Vec2Int desiredPos)
 	item->GetOwner().reset();
 	item->SetCellPos(dropPos, true);
 	item->SetScale(1);
-	item->AddCollider();
+	item->AddCollider({ 32, 32 });
 
 	// 타일 정보 갱신 및 드랍
 	MarkTileHasItem(dropPos, true);

@@ -44,17 +44,10 @@ protected:
 
 public:
 	template<typename T>
-	void AddOnClickDelegate(shared_ptr<T> owner, void(T::* func)())
+	void AddOnClickDelegate(shared_ptr<T> owner, function<void()> func)
 	{
-		std::weak_ptr<T> weakOwner = owner;
-
-		_onClick = [weakOwner, func]()
-			{
-				if (auto shared = weakOwner.lock())
-					(shared.get()->*func)();
-			};
+		_onClick = std::move(func);
 	}
-
 
 	// 함수 포인터 + 함수 객체
 	std::function<void(void)> _onClick = nullptr;

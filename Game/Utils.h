@@ -9,6 +9,8 @@ class Utils
 public:
 	static void DrawText(HDC hdc, Pos pos, const wstring& str);
 
+	static void DrawTextColored(HDC hdc, Pos pos, const wstring& str, HFONT font, COLORREF color);
+
 	static void DrawTextTransparent(HDC hdc, Pos pos, const wstring& str);
 
 	static void DrawTextMultiline(HDC hdc, const wstring& str, const RECT& rect, HFONT font, COLORREF color);

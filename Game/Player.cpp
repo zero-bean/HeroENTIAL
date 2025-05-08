@@ -41,7 +41,6 @@ void Player::BeginPlay()
 	SetState(ObjectState::Move);
 	SetState(ObjectState::Idle);
 
-	SetCellPos({ 5, 5 }, true);
 }
 
 void Player::Tick()
@@ -140,7 +139,7 @@ void Player::TickIdle()
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
 	{
-		SetState(ObjectState::Attack);
+		//SetState(ObjectState::Attack);
 	}
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::Z))
