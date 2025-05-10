@@ -81,6 +81,12 @@
     <Filter Include="소스 파일\06.UIs\Game\Quickslot">
       <UniqueIdentifier>{f5f7fc63-0820-4229-9844-6980924acae5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Effect">
+      <UniqueIdentifier>{415d12bf-85c2-45f3-bbdb-2849ac6789f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04.Resources\Font">
+      <UniqueIdentifier>{9e4e8aa8-6678-42d5-8a7e-0bda690e2742}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -245,6 +251,12 @@
     <ClInclude Include="HPbar.h">
       <Filter>소스 파일\06.UIs\Game</Filter>
     </ClInclude>
+    <ClInclude Include="DamageSkin.h">
+      <Filter>소스 파일\03.Objects\Game\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>소스 파일\04.Resources\Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -387,6 +399,12 @@
     </ClCompile>
     <ClCompile Include="HPbar.cpp">
       <Filter>소스 파일\06.UIs\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageSkin.cpp">
+      <Filter>소스 파일\03.Objects\Game\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>소스 파일\04.Resources\Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

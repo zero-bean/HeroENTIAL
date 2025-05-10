@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Flipbook.h"
 #include "Tilemap.h"
+#include "Font.h"
 
 shared_ptr<Texture> ResourceManager::LoadTexture(const wstring& key, const wstring& path, unsigned __int32 transparent)
 {
@@ -81,3 +82,23 @@ shared_ptr<Tilemap> ResourceManager::LoadTilemap(const wstring& key, const wstri
 
 	return tilemap;
 }
+
+shared_ptr<Font> ResourceManager::LoadFont(const wstring& key, const wstring& ttfFileName, const wstring& fontName, int size)
+{
+	if (_fonts.contains(key))
+		return _fonts[key];
+
+	fs::path fontPath = _resourcePath / ttfFileName;
+
+	if (AddFontResourceExW(fontPath.c_str(), FR_PRIVATE, nullptr) == 0)
+	{
+		MessageBox(_hwnd, L"폰트 로드 실패", L"오류", MB_OK);
+		return nullptr;
+	}
+
+	shared_ptr<Font> font = make_shared<Font>(fontName, size);
+	_fonts[key] = font;
+
+	return font;
+}
+

@@ -23,6 +23,7 @@
 #include "Inventory.h"
 #include "InventoryPanel.h"
 #include "QuickslotPanel.h"
+#include "Font.h"
 
 DevScene::DevScene()
 {
@@ -90,6 +91,7 @@ void DevScene::Init()
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_2_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_2_Disabled"), 0, 0, 64, 64);
 	ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_3_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_3_Disabled"), 0, 0, 64, 64);
 
+	ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont", L"Font\\DungeonFont.ttf", L"DungeonFont", 24);
 
 	LoadMap();
 	LoadTileMap();
