@@ -257,6 +257,9 @@
     <ClInclude Include="Font.h">
       <Filter>소스 파일\04.Resources\Font</Filter>
     </ClInclude>
+    <ClInclude Include="LobbyScene.h">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -405,6 +408,9 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>소스 파일\04.Resources\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyScene.cpp">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

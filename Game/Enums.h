@@ -4,6 +4,7 @@ enum class SceneType
 {
 	None,
 	DevScene,
+	LobbyScene,
 	EditScene,
 	BasicScene,
 };

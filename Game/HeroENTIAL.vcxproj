@@ -170,6 +170,7 @@
     <ClInclude Include="InventoryPanel.h" />
     <ClInclude Include="InventoryTooltip.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="pch.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="InventoryPanel.cpp" />
     <ClCompile Include="InventoryTooltip.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="pch.cpp">

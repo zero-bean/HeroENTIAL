@@ -74,7 +74,7 @@ bool GameObject::HasReachedDest()
 
 bool GameObject::CanGo(Vec2Int cellPos)
 {
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	shared_ptr<Scene> scene = SceneManager::GET_SINGLE()->GetCurrentScene();
 	if (scene == nullptr)
 		return false;
 
@@ -99,7 +99,7 @@ void GameObject::SetCellPos(Vec2Int cellPos, bool teleport)
 {
 	_cellPos = cellPos;
 
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	shared_ptr<Scene> scene = SceneManager::GET_SINGLE()->GetCurrentScene();
 	if (scene == nullptr)
 		return;
 
