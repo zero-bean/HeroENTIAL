@@ -4,7 +4,6 @@
 
 class Flipbook;
 class Collider;
-class BoxCollider;
 class Projectile;
 class HPbar;
 

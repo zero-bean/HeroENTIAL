@@ -258,13 +258,13 @@ void Goblin::DropItems()
 		shared_ptr<Potion> potion = scene->SpawnObject<Potion>(_cellPos);
 		potion->SetScale(1);
 		potion->SetPotionType(PotionType::Steak);
-		potion->AddCollider();
+		potion->AddCollider({32, 32});
 	}
 
 	{
 		shared_ptr<Potion> potion2 = scene->SpawnObject<Potion>({ _cellPos.x, _cellPos.y + 1 });
 		potion2->SetScale(1);
 		potion2->SetPotionType(PotionType::Sandwitch);
-		potion2->AddCollider();
+		potion2->AddCollider({ 32, 32 });
 	}
 }

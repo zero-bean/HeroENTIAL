@@ -260,6 +260,9 @@
     <ClInclude Include="LobbyScene.h">
       <Filter>소스 파일\02.Scenes\Game</Filter>
     </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -411,6 +414,9 @@
     </ClCompile>
     <ClCompile Include="LobbyScene.cpp">
       <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

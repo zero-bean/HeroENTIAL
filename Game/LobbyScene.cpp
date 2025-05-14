@@ -25,18 +25,10 @@ LobbyScene::~LobbyScene()
 
 void LobbyScene::Init()
 {
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Stage-Lobby", L"Sprite\\Map\\Lobby.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Tile_CanMove", L"Sprite\\Map\\Tile-CanMove.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Player_Blue", L"Sprite\\Player\\Warrior_Blue.bmp");
-
-	ResourceManager::GET_SINGLE()->CreateSprite(L"Stage-Lobby", ResourceManager::GET_SINGLE()->GetTexture(L"Stage-Lobby"));
-	ResourceManager::GET_SINGLE()->CreateSprite(L"TileO", ResourceManager::GET_SINGLE()->GetTexture(L"Tile_CanMove"), 0, 0, 16, 16);
-	ResourceManager::GET_SINGLE()->CreateSprite(L"TileX", ResourceManager::GET_SINGLE()->GetTexture(L"Tile_CanMove"), 16, 0, 32, 16);
-
 	LoadMap();
 	LoadTileMap();
 	shared_ptr<Player> player = LoadPlayer();
-
+	LoadNPC();
 
 	Super::Init();
 }
@@ -58,6 +50,8 @@ void LobbyScene::Render(HDC hdc)
 
 void LobbyScene::LoadMap()
 {
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Stage-Lobby", L"Sprite\\Map\\Lobby.bmp");
+	ResourceManager::GET_SINGLE()->CreateSprite(L"Stage-Lobby", ResourceManager::GET_SINGLE()->GetTexture(L"Stage-Lobby"));
 	shared_ptr<Sprite> sprite = ResourceManager::GET_SINGLE()->GetSprite(L"Stage-Lobby");
 	shared_ptr<SpriteActor> background = make_shared<SpriteActor>();
 	background->SetSprite(sprite);
@@ -69,6 +63,11 @@ void LobbyScene::LoadMap()
 
 void LobbyScene::LoadTileMap()
 {
+	// TilemapActor - TickPicking에 사용
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Tile_CanMove", L"Sprite\\Map\\Tile-CanMove.bmp");
+	ResourceManager::GET_SINGLE()->CreateSprite(L"TileO", ResourceManager::GET_SINGLE()->GetTexture(L"Tile_CanMove"), 0, 0, 16, 16);
+	ResourceManager::GET_SINGLE()->CreateSprite(L"TileX", ResourceManager::GET_SINGLE()->GetTexture(L"Tile_CanMove"), 16, 0, 32, 16);
+
 	shared_ptr<TilemapActor> actor = make_shared<TilemapActor>();
 	AddActor(actor);
 
@@ -88,6 +87,7 @@ void LobbyScene::LoadTileMap()
 
 shared_ptr<Player> LobbyScene::LoadPlayer()
 {
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Player_Blue", L"Sprite\\Player\\Warrior_Blue.bmp");
 	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Player_Blue");
 	// IDLE
 	{
@@ -158,4 +158,66 @@ shared_ptr<Player> LobbyScene::LoadPlayer()
 	player->AddComponent(collider);
 
 	return player;
+}
+
+void LobbyScene::LoadNPC()
+{
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Pawn_Blue", L"Sprite\\NPC\\Pawn_Blue.bmp");
+	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Pawn_Blue");
+	// IDLE
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_IdleRight");
+		fb->SetInfo({ texture, L"Pawn_IdleRight", {192, 192}, 0, 5, 0, 0.6f });
+	}
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_IdleLeft");
+		fb->SetInfo({ texture, L"Pawn_IdleLeft", {192, 192}, 0, 5, 6, 0.6f });
+	}
+	// Move
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_MoveRight");
+		fb->SetInfo({ texture, L"Pawn_MoveRight", {192, 192}, 0, 5, 1, 0.6f });
+	}
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_MoveLeft");
+		fb->SetInfo({ texture, L"Pawn_MoveLeft", {192, 192}, 0, 5, 7, 0.6f });
+	}
+	// Axe
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_AxeRight");
+		fb->SetInfo({ texture, L"Pawn_AxeRight", {192, 192}, 0, 5, 2, 0.6f });
+	}
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_AxeLeft");
+		fb->SetInfo({ texture, L"Pawn_AxeLeft", {192, 192}, 0, 5, 8, 0.6f });
+	}
+	// Hammer
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_HammerRight");
+		fb->SetInfo({ texture, L"Pawn_HammerRight", {192, 192}, 0, 5, 3, 0.6f });
+	}
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_HammerLeft");
+		fb->SetInfo({ texture, L"Pawn_HammerLeft", {192, 192}, 0, 5, 9, 0.6f });
+	}
+	// IDLE - with holding
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_HoldIdleRight");
+		fb->SetInfo({ texture, L"Pawn_HoldIdleRight", {192, 192}, 0, 5, 4, 0.6f });
+	}
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_HoldIdleLeft");
+		fb->SetInfo({ texture, L"Pawn_HoldIdleLeft", {192, 192}, 0, 5, 10, 0.6f });
+	}
+	// Move - with holding
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_HoldMoveRight");
+		fb->SetInfo({ texture, L"Pawn_HoldMoveRight", {192, 192}, 0, 5, 5, 0.6f });
+	}
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Pawn_HoldMoveLeft");
+		fb->SetInfo({ texture, L"Pawn_HoldMoveLeft", {192, 192}, 0, 5, 11, 0.6f });
+	}
+
+	/* 소환 */
 }

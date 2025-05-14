@@ -34,13 +34,13 @@ void Item::Render(HDC hdc)
 	Super::Render(hdc);
 }
 
-void Item::AddCollider()
+void Item::AddCollider(const Vec2 size)
 {
 	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
-	collider->SetSize({ 32, 32 });
-	shared_from_this()->AddComponent(collider);
+	collider->SetSize(size);
+	AddComponent(collider);
 	CollisionManager::GET_SINGLE()->AddCollider(collider);
 }
 

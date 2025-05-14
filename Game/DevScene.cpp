@@ -380,7 +380,7 @@ void DevScene::DropItem(shared_ptr<Item> item, Vec2Int desiredPos)
 	item->GetOwner().reset();
 	item->SetCellPos(dropPos, true);
 	item->SetScale(1);
-	item->AddCollider();
+	item->AddCollider({ 32, 32 });
 
 	// 타일 정보 갱신 및 드랍
 	MarkTileHasItem(dropPos, true);

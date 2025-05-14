@@ -14,6 +14,9 @@ public:
 	virtual void Tick();
 	virtual void Render(HDC hdc);
 
+	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
+	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
+
 public:
 	void SetPos(const Vec2& pos) { _pos = pos; }
 	Vec2 GetPos() const { return _pos; }
@@ -46,9 +49,6 @@ public:
 	}
 
 	shared_ptr<Collider> GetCollider();
-
-	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
-	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) {}
 
 protected:
 	Vec2 _pos = { 0,0 };
