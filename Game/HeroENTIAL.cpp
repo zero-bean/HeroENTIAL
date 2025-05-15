@@ -44,13 +44,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             unsigned __int64 now = ::GetTickCount64();
 
-            //if (now - prevTick >= 16)
-            //{
-            //    game.Update();
-            //    game.Render();
+            if (now - prevTick >= 64)
+            {
+                game.Update();
+                game.Render();
 
-            //    prevTick = now;
-            //}
+               prevTick = now;
+            }
 
             game.Update();
             game.Render();

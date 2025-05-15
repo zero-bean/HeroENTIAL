@@ -35,7 +35,7 @@ void SpriteActor::Render(HDC hdc)
 	Vec2Int size = _sprite->GetSize();
 	Vec2 cameraPos = SceneManager::GET_SINGLE()->GetCameraPos();
 
-	::TransparentBlt(hdc,
+	::BitBlt(hdc,
 		(__int32)_pos.x - size.x / 2 - ((__int32)cameraPos.x - GWinSizeX / 2),
 		(__int32)_pos.y - size.y / 2 - ((__int32)cameraPos.y - GWinSizeY / 2),
 		size.x,
@@ -43,17 +43,5 @@ void SpriteActor::Render(HDC hdc)
 		_sprite->GetDC(),
 		_sprite->GetPos().x,
 		_sprite->GetPos().y,
-		_sprite->GetSize().x,
-		_sprite->GetSize().y,
-		_sprite->GetTransparent());
-
-	/*::BitBlt(hdc,
-		(__int32)_pos.x - size.x / 2 - ((__int32)cameraPos.x - GWinSizeX / 2),
-		(__int32)_pos.y - size.y / 2 - ((__int32)cameraPos.y - GWinSizeY / 2),
-		size.x,
-		size.y,
-		_sprite->GetDC(),
-		_sprite->GetPos().x,
-		_sprite->GetPos().y,
-		SRCCOPY); */
+		SRCCOPY); 
 }
