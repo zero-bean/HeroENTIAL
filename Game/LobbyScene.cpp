@@ -8,12 +8,15 @@
 #include "Flipbook.h"
 #include "Tilemap.h"
 #include "Player.h"
+#include "NPC.h"
 #include "BoxCollider.h"
 #include "CameraComponent.h"
+#include "DungeonEnterPanel.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "CollisionManager.h"
+#include "UIManager.h"
 
 LobbyScene::LobbyScene()
 {
@@ -29,6 +32,9 @@ void LobbyScene::Init()
 	LoadTileMap();
 	shared_ptr<Player> player = LoadPlayer();
 	LoadNPC();
+	LoadUI();
+
+	ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont64", L"Font\\DungeonFont.ttf", L"DungeonFont", 64);
 
 	Super::Init();
 }
@@ -220,4 +226,72 @@ void LobbyScene::LoadNPC()
 	}
 
 	/* 소환 */
+	shared_ptr<NPC> npc_Quest = make_shared<NPC>();
+	npc_Quest->AddCollider({ 128,128 });
+	npc_Quest->SetCellPos({ 8,10 }, true);
+	AddActor(npc_Quest);
+
+	shared_ptr<NPC> npc_Shop = make_shared<NPC>();
+	npc_Shop->AddCollider({ 128,128 });
+	npc_Shop->SetCellPos({ 33,10 }, true);
+	AddActor(npc_Shop);
+
+	shared_ptr<NPC> npc_Dungeon = make_shared<NPC>();
+	npc_Dungeon->AddCollider({ 128,128 });
+	npc_Dungeon->SetCellPos({ 21,6 }, true);
+	AddActor(npc_Dungeon);
+}
+
+void LobbyScene::LoadUI()
+{
+	// Dungeon 입장 패널 - 패널 커버
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Dungeon", L"Sprite\\UI\\Banners\\Banner_Dungeon.bmp");
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Dungeon", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Dungeon"), 0, 0, 192, 192);
+	}
+	// Dungeon 입장 패널 - 스테이지 1 입장 버튼
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage1_Regular", L"Sprite\\UI\\Buttons\\Stage1_Regular.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage1_Pressed", L"Sprite\\UI\\Buttons\\Stage1_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage1_Regular", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage1_Regular"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage1_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage1_Pressed"), 0, 0, 64, 64);
+	}
+	// Dungeon 입장 패널 - 스테이지 2 입장 버튼
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage2_Regular", L"Sprite\\UI\\Buttons\\Stage2_Regular.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage2_Pressed", L"Sprite\\UI\\Buttons\\Stage2_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage2_Regular", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage2_Regular"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage2_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage2_Pressed"), 0, 0, 64, 64);
+	}
+	// Dungeon 입장 패널 - 스테이지 3 입장 버튼
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage3_Regular", L"Sprite\\UI\\Buttons\\Stage3_Regular.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage3_Pressed", L"Sprite\\UI\\Buttons\\Stage3_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage3_Regular", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage3_Regular"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage3_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage3_Pressed"), 0, 0, 64, 64);
+	}
+	// Dungeon 입장 패널 - 스테이지 4 입장 버튼
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage4_Regular", L"Sprite\\UI\\Buttons\\Stage4_Regular.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage4_Pressed", L"Sprite\\UI\\Buttons\\Stage4_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage4_Regular", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage4_Regular"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage4_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage4_Pressed"), 0, 0, 64, 64);
+	}
+	// Dungeon 입장 패널 - 스테이지 5 입장 버튼
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage5_Regular", L"Sprite\\UI\\Buttons\\Stage5_Regular.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage5_Pressed", L"Sprite\\UI\\Buttons\\Stage5_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage5_Regular", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage5_Regular"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage5_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage5_Pressed"), 0, 0, 64, 64);
+	}
+	// Dungeon 입장 패널 - 스테이지 6 입장 버튼
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage6_Regular", L"Sprite\\UI\\Buttons\\Stage6_Regular.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage6_Pressed", L"Sprite\\UI\\Buttons\\Stage6_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage6_Regular", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage6_Regular"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage6_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage6_Pressed"), 0, 0, 64, 64);
+	}
+
+	shared_ptr<DungeonEnterPanel> dungeonPanel = make_shared<DungeonEnterPanel>();
+	UIManager::GET_SINGLE()->AddUI(dungeonPanel);
 }

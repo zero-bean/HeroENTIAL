@@ -9,6 +9,8 @@ Font::Font(const wstring& fontName, int size)
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
 		DEFAULT_PITCH | FF_DONTCARE, fontName.c_str()
 	);
+
+	_size = size;
 }
 
 Font::~Font()

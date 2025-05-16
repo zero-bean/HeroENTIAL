@@ -11,7 +11,10 @@ public:
 public:
 	HFONT GetHandle() const { return _hFont; }
 
+	int GetSize() const { return _size; }
+	
 private:
 	HFONT _hFont = nullptr;
+	int _size = 0;
 };
 
