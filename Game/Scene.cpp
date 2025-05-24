@@ -62,7 +62,7 @@ bool Scene::CanGo(Vec2Int cellPos, bool checkItem)
 		return false;
 
 	Tile& tile = tileMap->GetTileAt(cellPos);
-	if (tile.value == 1)
+	if (tile.type != TILE_TYPE::EMPTY)
 		return false;
 
 	if (checkItem && tile.hasItem)

@@ -187,13 +187,13 @@ void Player::TickAttack()
 	if (_flipbook == nullptr)
 		return;
 
+	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	if (scene == nullptr)
+		return;
+
 	// TODO : Damage?
 	if (IsAnimationEnded())
 	{
-		shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
-		if (scene == nullptr)
-			return;
-
 		if (_weaponType == WeaponType::Sword)
 		{
 			shared_ptr<Bullet> bullet = scene->SpawnObject<Bullet>(_cellPos);

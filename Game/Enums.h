@@ -5,6 +5,7 @@ enum class SceneType
 	None,
 	DevScene,
 	LobbyScene,
+	BattleScene,
 	EditScene,
 	BasicScene,
 };
@@ -65,4 +66,15 @@ enum class ItemType
 	Others,
 	Quick,
 	MAX_COUNT
+};
+
+enum class  TILE_TYPE
+{
+	EMPTY,
+	WALL,
+	OBJECT,
+	PLAYER,
+	MONSTER,
+	NPC,
+	ITEM,
 };

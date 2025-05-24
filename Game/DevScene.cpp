@@ -285,7 +285,6 @@ void DevScene::LoadBullet()
 	}
 }
 
-
 void DevScene::LoadEffect()
 {
 	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Effect_Red");

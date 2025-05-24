@@ -76,9 +76,9 @@ void TilemapActor::Render(HDC hdc)
 			if (y < 0 || y >= mapSize.y)
 				continue;
 			// 왼쪽 상단 모서리를 기준으로 맞추자
-			switch (tiles[y][x].value)
+			switch (tiles[y][x].type)
 			{
-			case 0:
+			case TILE_TYPE::EMPTY:
 			{
 				::TransparentBlt(hdc,
 					static_cast<int>(_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2)),
@@ -93,7 +93,7 @@ void TilemapActor::Render(HDC hdc)
 					spriteO->GetTransparent());
 			}
 			break;
-			case 1:
+			case TILE_TYPE::WALL:
 				::TransparentBlt(hdc,
 					static_cast<int>(_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2)),
 					static_cast<int>(_pos.y + y * scaledSize - ((__int32)cameraPos.y - GWinSizeY / 2)),
@@ -132,13 +132,13 @@ void TilemapActor::TickPicking()
 
 		Tile& tile = _tilemap->GetTileAt({ x, y });
 
-		if (tile.value == 0)
+		if (tile.type != TILE_TYPE::EMPTY)
 		{
-			tile.value = 1;
+			tile.type = TILE_TYPE::WALL;
 		}
 		else
 		{
-			tile.value = 0;
+			tile.type = TILE_TYPE::EMPTY;
 		}
 
 	}

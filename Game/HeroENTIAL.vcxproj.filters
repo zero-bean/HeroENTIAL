@@ -272,6 +272,12 @@
     <ClInclude Include="DungeonEnterContainer.h">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
     </ClInclude>
+    <ClInclude Include="BattleScene.h">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -432,6 +438,12 @@
     </ClCompile>
     <ClCompile Include="DungeonEnterContainer.cpp">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleScene.cpp">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "DevScene.h"
 #include "LobbyScene.h"
+#include "BattleScene.h"
 
 void SceneManager::Init()
 {
@@ -40,6 +41,9 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		break;
 	case SceneType::LobbyScene:
 		newScene = make_shared<LobbyScene>();
+		break;
+	case SceneType::BattleScene:
+		newScene = make_shared<BattleScene>();
 		break;
 	}
 

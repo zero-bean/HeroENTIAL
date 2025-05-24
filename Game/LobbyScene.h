@@ -27,7 +27,8 @@ private:
 	void LoadTileMap();
 	shared_ptr<Player> LoadPlayer();
 	void LoadNPC();
-	void LoadUI();
+	void LoadItem();
+	void LoadUI(shared_ptr<Player> player);
 
 };
 

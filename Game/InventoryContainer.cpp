@@ -7,7 +7,7 @@ InventoryContainer::InventoryContainer()
 {
 	SetSize({ 266, 266 });
 	_sprites.resize(3);
-	_sprites[0] = ResourceManager::GET_SINGLE()->GetSprite(L"Banner_Vertical");
+	_sprites[0] = ResourceManager::GET_SINGLE()->GetSprite(L"Banner_Dungeon");
 	_sprites[1] = ResourceManager::GET_SINGLE()->GetSprite(L"Inventory_AllSlot");
 	_sprites[2] = ResourceManager::GET_SINGLE()->GetSprite(L"Inventory_Slot");
 }
@@ -32,11 +32,11 @@ void InventoryContainer::Render(HDC hdc)
 	Super::Render(hdc);
 
 	// 인벤토리 컨테이너
-	const Vec2Int containerSize = { 600, 650 };
+	const Vec2Int containerSize = { 330, 340 };
 
-	::TransparentBlt(hdc,
+	::StretchBlt(hdc,
 		(__int32)_pos.x - containerSize.x / 2,
-		(__int32)_pos.y - containerSize.y / 2,
+		(__int32)_pos.y - containerSize.y / 2 - 20,
 		containerSize.x,
 		containerSize.y,
 		_sprites[0]->GetDC(),
@@ -44,7 +44,7 @@ void InventoryContainer::Render(HDC hdc)
 		_sprites[0]->GetPos().y,
 		_sprites[0]->GetSize().x,
 		_sprites[0]->GetSize().y,
-		_sprites[0]->GetTransparent());
+		SRCCOPY);
 
 	// 슬롯 커버
 	::TransparentBlt(hdc,
