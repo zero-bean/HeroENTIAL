@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "InputManager.h"
+#include "TimeManager.h"
 
 void InputManager::Init(HWND hwnd)
 {

@@ -123,12 +123,12 @@ void DevScene::Init()
 	LoadUI(player);
 
 	{
-		shared_ptr<Goblin> goblin_axe = make_shared<Goblin>(MonsterType::Axe);
+		shared_ptr<Goblin> goblin_axe = make_shared<Goblin>();
 		goblin_axe->SetCellPos({ 12, 12 }, true);
 		goblin_axe->SetScale(4);
 		AddActor(goblin_axe);
 
-		shared_ptr<Goblin> goblin_bow = make_shared<Goblin>(MonsterType::Bow);
+		shared_ptr<Goblin> goblin_bow = make_shared<Goblin>();
 		goblin_bow->SetCellPos({ 12, 6 }, true);
 		goblin_bow->SetScale(4);
 		AddActor(goblin_bow);
@@ -284,7 +284,6 @@ void DevScene::LoadBullet()
 		fb->SetInfo({ texture, L"Bullet_Red_Basic", {16, 17}, 0, 4, 1, 0.3f });
 	}
 }
-
 
 void DevScene::LoadEffect()
 {

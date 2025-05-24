@@ -4,22 +4,44 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Potion.h"
-#include "Collider.h"
-#include "BoxCollider.h"
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
-#include "CollisionManager.h"
-#include "DevScene.h"
+#include "BattleScene.h"
 
-Goblin::Goblin(MonsterType type, Rank rank) : _type(type)
+Goblin::Goblin()
 {
-	SetRank(rank);
+	SetGoblinType(_type);
+}
+
+Goblin::~Goblin()
+{
+
+}
+
+void Goblin::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void Goblin::Tick()
+{
+	Super::Tick();
+}
+
+void Goblin::Render(HDC hdc)
+{
+	Super::Render(hdc);
+}
+
+void Goblin::SetGoblinType(GoblinType type)
+{
+	_type = type;
 
 	switch (_type)
 	{
-	case MonsterType::Axe:
+	case GoblinType::Axe:
 		_idle[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Right_Idle");
 		_idle[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Left_Idle");
 
@@ -38,7 +60,7 @@ Goblin::Goblin(MonsterType type, Rank rank) : _type(type)
 		_birth[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Right_Birth");
 		_birth[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Left_Birth");
 		break;
-	case MonsterType::Bow:
+	case GoblinType::Bow:
 		_idle[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Right_Idle");
 		_idle[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Left_Idle");
 
@@ -60,33 +82,9 @@ Goblin::Goblin(MonsterType type, Rank rank) : _type(type)
 	}
 }
 
-Goblin::~Goblin()
-{
-
-}
-
-void Goblin::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void Goblin::Tick()
-{
-	Super::Tick();
-
-
-}
-
-void Goblin::Render(HDC hdc)
-{
-	Super::Render(hdc);
-
-
-}
-
 void Goblin::TickIdle()
 {
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 	if (scene == nullptr)
 		return;
 
@@ -101,7 +99,7 @@ void Goblin::TickIdle()
 	__int32 dist = abs(dir.x) + abs(dir.y);
 
 
-	if (_type == MonsterType::Axe)
+	if (_type == GoblinType::Axe)
 	{
 		if (dist == 1)
 		{
@@ -118,7 +116,7 @@ void Goblin::TickIdle()
 			return;
 		}
 	}
-	else if (_type == MonsterType::Bow)
+	else if (_type == GoblinType::Bow)
 	{
 		if (dist <= 8)
 		{
@@ -198,34 +196,23 @@ void Goblin::TickAttack()
 		return;
 
 	if (IsAnimationEnded()) {
-		shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+		shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 		if (scene == nullptr)
 			return;
 
 		switch (_type)
 		{
-		case MonsterType::Axe:
+		case GoblinType::Axe:
 			_waitAtkSec = 1.f; // 공격 종료 시간
 			break;
-		case MonsterType::Bow:
+		case GoblinType::Bow:
 			shared_ptr<Player> player = _target.lock();
 			if (player == nullptr)
 				break;
 
 			shared_ptr<Bullet> bullet = scene->SpawnObject<Bullet>(_cellPos);
-			shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
-			bullet->AddComponent(collider);
-
-			collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
-			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
-			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
-			collider->SetSize({ 32, 32 });
-			CollisionManager::GET_SINGLE()->AddCollider(collider);
-
 			bullet->SetBulletType(BulletType::Basic);
-			bullet->SetScale(2.f);
 			bullet->SetAttack(50);
-			bullet->SetPos(scene->ConvertPos(_cellPos));
 			bullet->SetDestPos(player->GetPos());
 			bullet->SetDirVec(bullet->GetPos(), bullet->GetDestPos());
 
@@ -250,7 +237,7 @@ void Goblin::TickAttacked()
 
 void Goblin::DropItems()
 {
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 	if (scene == nullptr)
 		return;
 

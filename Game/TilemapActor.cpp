@@ -27,7 +27,7 @@ void TilemapActor::Tick()
 
 	//TickPicking();
 
-	/*
+	/* 해당 씬에서 사용
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
 		ResourceManager::GET_SINGLE()->SaveTilemap(L"Tilemap_TEST_01", L"Tilemap\\Tilemap_TEST_01.txt");
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::G))
@@ -76,9 +76,9 @@ void TilemapActor::Render(HDC hdc)
 			if (y < 0 || y >= mapSize.y)
 				continue;
 			// 왼쪽 상단 모서리를 기준으로 맞추자
-			switch (tiles[y][x].value)
+			switch (tiles[y][x].type)
 			{
-			case 0:
+			case TILE_TYPE::EMPTY:
 			{
 				::TransparentBlt(hdc,
 					static_cast<int>(_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2)),
@@ -93,7 +93,7 @@ void TilemapActor::Render(HDC hdc)
 					spriteO->GetTransparent());
 			}
 			break;
-			case 1:
+			case TILE_TYPE::WALL:
 				::TransparentBlt(hdc,
 					static_cast<int>(_pos.x + x * scaledSize - ((__int32)cameraPos.x - GWinSizeX / 2)),
 					static_cast<int>(_pos.y + y * scaledSize - ((__int32)cameraPos.y - GWinSizeY / 2)),
@@ -132,15 +132,19 @@ void TilemapActor::TickPicking()
 
 		Tile& tile = _tilemap->GetTileAt({ x, y });
 
-		if (tile.value == 0)
+		// Debug
+		wchar_t buf[256];
+		swprintf(buf, 256, L"Clicked tile at (%d, %d) oldType=%d\n", x, y, static_cast<int>(tile.type));
+		OutputDebugString(buf);
+
+		if (tile.type == TILE_TYPE::EMPTY)
 		{
-			tile.value = 1;
+			tile.type = TILE_TYPE::WALL;
 		}
 		else
 		{
-			tile.value = 0;
+			tile.type = TILE_TYPE::EMPTY;
 		}
-
 	}
 
 }

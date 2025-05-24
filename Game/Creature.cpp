@@ -70,6 +70,7 @@ void Creature::OnDamaged(shared_ptr<Creature> attacker)
 		return;
 
 	stat.hp = max(0, stat.hp - damage);
+
 	if (stat.hp == 0)
 		SetState(ObjectState::Death);
 	else
@@ -96,7 +97,7 @@ void Creature::OnDamaged(shared_ptr<Projectile> projectile)
 
 	// 피격 데미지 이펙트 추가
 	shared_ptr<DamageSkin> dmg = make_shared<DamageSkin>();
-	dmg->SetDamage(stat.attack);
+	dmg->SetDamage(damage);
 	dmg->SetPos(GetPos() + Vec2(0, -60));
 	dmg->SetFont(ResourceManager::GET_SINGLE()->GetFont(L"DungeonFont"));
 	dmg->SetColor(RGB(255, 80, 80));

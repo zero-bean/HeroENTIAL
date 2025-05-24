@@ -10,11 +10,11 @@
 #include "TimeManager.h"
 #include "CollisionManager.h"
 #include "Scene.h"
-#include "DevScene.h"
+#include "BattleScene.h"
 
 Bullet::Bullet()
 {
-	_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Bullet_Red_Basic");
+
 }
 
 Bullet::~Bullet()
@@ -24,9 +24,9 @@ Bullet::~Bullet()
 
 void Bullet::BeginPlay()
 {
+	SetBulletType(_type);
+
 	Super::BeginPlay();
-
-
 }
 
 void Bullet::Tick()
@@ -63,6 +63,17 @@ void Bullet::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Col
 
 }
 
+void Bullet::AddCollider(const Vec2 size)
+{
+	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+	collider->SetSize(size);
+	CollisionManager::GET_SINGLE()->AddCollider(collider);
+	AddComponent(collider);
+}
+
 void Bullet::TickIdle()
 {
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
@@ -77,13 +88,14 @@ void Bullet::TickIdle()
 
 void Bullet::SetBulletType(BulletType type)
 {
-	if (_type == type)
-		return;
+	_type = type;
 
 	switch (type)
 	{
 	case BulletType::Basic:
 		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Bullet_Red_Basic");
+		SetScale(2.f);
+		AddCollider({ 32,32 });
 		break;
 	case BulletType::BladeStorm:
 		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"BladeStorm_Red");
@@ -100,10 +112,7 @@ void Bullet::SetDirVec(const Vec2 sp, const Vec2 lp)
 
 void Bullet::OnDestroyed()
 {
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
-
-	if (scene == nullptr)
-		return;
-
-	scene->RemoveActor(static_pointer_cast<Actor>(shared_from_this()));
+	if (shared_ptr<BattleScene> scene
+		= static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene()))
+		scene->RemoveActor(static_pointer_cast<Actor>(shared_from_this()));
 }

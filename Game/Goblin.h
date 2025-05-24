@@ -2,7 +2,7 @@
 
 #include "Monster.h"
 
-enum class MonsterType
+enum class GoblinType
 {
 	Axe,
 	Bow,
@@ -12,13 +12,16 @@ class Goblin : public Monster
 {
 	using Super = Monster;
 public:
-	Goblin(MonsterType type = MonsterType::Axe, Rank rank = Rank::Common);
+	Goblin();
 	virtual ~Goblin();
 
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
+
+public:
+	void SetGoblinType(GoblinType type);
 
 private:
 	virtual void TickIdle() override;
@@ -29,7 +32,7 @@ private:
 	virtual void DropItems() override;
 
 private:
-	MonsterType _type = MonsterType::Axe;
+	GoblinType _type = GoblinType::Axe;
 	float _waitAtkSec = 0.f;
 };
 

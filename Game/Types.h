@@ -1,5 +1,7 @@
 #pragma once
 #include <cmath>
+#include <string>
+#include <map>
 #include <Windows.h>
 
 struct Vector {
@@ -186,3 +188,21 @@ public:
 using Pos = Vector;
 using Vec2 = Vector;
 using Vec2Int = VectorInt;
+
+struct PQNode
+{
+	PQNode(__int32 cost, Vec2Int pos) : cost(cost), pos(pos) { }
+
+	bool operator<(const PQNode& other) const { return cost < other.cost; }
+	bool operator>(const PQNode& other) const { return cost > other.cost; }
+
+	__int32 cost;
+	Vec2Int pos;
+};
+
+/* BattleScene에서 메타데이터를 사용할 초기 데이터 */
+struct ObjectConfig
+{
+	std::wstring className;
+	std::map<std::wstring, std::wstring> properties;
+};

@@ -9,7 +9,7 @@
 #include "Collider.h"
 #include "BoxCollider.h"
 #include "CameraComponent.h"
-#include "DevScene.h"
+#include "BattleScene.h"
 #include "Bullet.h"
 #include "Item.h"
 #include "Inventory.h"
@@ -25,8 +25,12 @@ Player::Player()
 	_flipbookAttack[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackRight1");
 	_flipbookAttack[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackLeft1");
 
+	_flipbookAttacked[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackedRight");
+	_flipbookAttacked[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackedLeft");
+
 	_stat.attack = 100;
 	_stat.hp = 500;
+	_stat.speed = 200;
 }
 
 Player::~Player()
@@ -156,44 +160,54 @@ void Player::TickMove()
 {
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
 
-	Vec2 dir = (_destPos - _pos);
-	if (dir.Length() < 5.f)
+	Vec2 dir = _destPos - _pos;
+	float distance = dir.Length();
+
+	if (distance < 5.f)
 	{
-		SetState(ObjectState::Idle);
 		_pos = _destPos;
+		SetState(ObjectState::Idle);
+		return;
+	}
+
+	// 이동 처리
+	dir.Normalize();
+
+	// 1프레임 최대 이동 거리
+	const float MAX_MOVE_PER_TICK = 50.f;
+	Vec2 move = dir * _stat.speed * deltaTime;
+	if (move.Length() > MAX_MOVE_PER_TICK)
+	{
+		move.Normalize();
+		move *= MAX_MOVE_PER_TICK;
+	}
+
+	// 남은 거리보다 이동량이 많으면 도착 처리
+	if (move.Length() >= distance)
+	{
+		_pos = _destPos;
+		SetState(ObjectState::Idle);
 	}
 	else
 	{
-		switch (_dir)
-		{
-		case DIR_RIGHT:
-			_pos.x += 200 * deltaTime;
-			break;
-		case DIR_LEFT:
-			_pos.x -= 200 * deltaTime;
-			break;
-		case DIR_UP:
-			_pos.y -= 200 * deltaTime;
-			break;
-		case DIR_DOWN:
-			_pos.y += 200 * deltaTime;
-			break;
-		}
+		_pos += move;
 	}
 }
+
+
 
 void Player::TickAttack()
 {
 	if (_flipbook == nullptr)
 		return;
 
+	shared_ptr<BattleScene> scene = dynamic_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	if (scene == nullptr)
+		return;
+
 	// TODO : Damage?
 	if (IsAnimationEnded())
 	{
-		shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
-		if (scene == nullptr)
-			return;
-
 		if (_weaponType == WeaponType::Sword)
 		{
 			shared_ptr<Bullet> bullet = scene->SpawnObject<Bullet>(_cellPos);
@@ -204,7 +218,6 @@ void Player::TickAttack()
 				mousePos.y + (cameraPos.y - static_cast<float>(GWinSizeY) / 2)
 			};
 			bullet->SetBulletType(BulletType::BladeStorm);
-			bullet->SetPos(GetPos());
 			bullet->SetDestPos(coordiPos);
 			bullet->SetScale(3.f);
 			bullet->SetAttack(35);
@@ -227,10 +240,16 @@ void Player::TickAttack()
 
 void Player::TickDeath()
 {
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
-	
-	if (scene)
+	if (shared_ptr<BattleScene> scene = dynamic_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene()))
 		scene->RemoveActor(shared_from_this());
+}
+
+void Player::TickAttacked()
+{
+	if (IsAnimationEnded())
+	{
+		SetState(ObjectState::Idle);
+	}
 }
 
 void Player::UpdateAnimation()
@@ -249,6 +268,9 @@ void Player::UpdateAnimation()
 	case ObjectState::Attack:
 		if (_weaponType == WeaponType::Sword)
 			SetFlipbook(_flipbookAttack[_animDir]);
+		break;
+	case ObjectState::Attacked:
+		SetFlipbook(_flipbookAttacked[_animDir]);
 		break;
 	}
 }

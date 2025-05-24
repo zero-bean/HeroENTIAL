@@ -17,6 +17,8 @@ public:
 
 	static void DrawRect(HDC hdc, Pos pos, __int32 w, __int32 h);
 
+	static void DrawRoundRectColored(HDC hdc, Pos pos, __int32 w, __int32 h, COLORREF color, COLORREF borderColor);
+
 	static void DrawRectColored(HDC hdc, Pos pos, __int32 w, __int32 h, COLORREF color, COLORREF borderColor);
 
 	static void DrawCircle(HDC hdc, Pos pos, __int32 radius);

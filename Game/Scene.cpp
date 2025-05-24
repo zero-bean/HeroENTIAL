@@ -61,8 +61,11 @@ bool Scene::CanGo(Vec2Int cellPos, bool checkItem)
 	if (tileMap == nullptr)
 		return false;
 
+	if (!tileMap->IsPosInRange(cellPos))
+		return false;
+
 	Tile& tile = tileMap->GetTileAt(cellPos);
-	if (tile.value == 1)
+	if (tile.type != TILE_TYPE::EMPTY)
 		return false;
 
 	if (checkItem && tile.hasItem)
@@ -102,5 +105,14 @@ shared_ptr<Creature> Scene::GetCreatureAt(Vec2Int cellPos)
 	}
 
 	return nullptr;
+}
+
+void Scene::NotifyObjectMoved(shared_ptr<GameObject> obj, const Vec2Int oldPos, const Vec2Int newPos)
+{
+	if (!obj->ShouldAffectTilemap())
+		return;
+
+	if (shared_ptr<Tilemap> tilemap = _tilemapActor->GetTilemap())
+		tilemap->UpdateTileType(oldPos, newPos, obj->GetTileType());
 }
 

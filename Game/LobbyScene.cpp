@@ -9,9 +9,15 @@
 #include "Tilemap.h"
 #include "Player.h"
 #include "NPC.h"
+#include "Inventory.h"
+#include "Item.h"
+#include "Potion.h"
+#include "Consumable.h"
 #include "BoxCollider.h"
 #include "CameraComponent.h"
 #include "UI.h"
+#include "QuickslotPanel.h"
+#include "InventoryPanel.h"
 #include "DungeonEnterPanel.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
@@ -29,23 +35,27 @@ LobbyScene::~LobbyScene()
 
 void LobbyScene::Init()
 {
+	ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont64", L"Font\\DungeonFont.ttf", L"DungeonFont", 64);
 	LoadMap();
 	LoadTileMap();
 	shared_ptr<Player> player = LoadPlayer();
-	LoadUI();
 	LoadNPC();
-
-	ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont64", L"Font\\DungeonFont.ttf", L"DungeonFont", 64);
-
+	LoadItem();
+	LoadUI(player);
+	
 	Super::Init();
 }
 
 void LobbyScene::Update()
 {
 	Super::Update();
-
-	// TODO
-	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
+	
+	/*
+	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
+		ResourceManager::GET_SINGLE()->SaveTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
+	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::G))
+		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
+	*/
 }
 
 void LobbyScene::Render(HDC hdc)
@@ -81,11 +91,9 @@ void LobbyScene::LoadTileMap()
 	_tilemapActor = actor;
 	{
 		shared_ptr<Tilemap> tilemap = ResourceManager::GET_SINGLE()->CreateTilemap(L"Tilemap_LOBBY");
-		tilemap->SetMapSize({ 132, 92 });
-		tilemap->SetTileSize(16);
-		tilemap->SetScale(3);
-
 		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
+		tilemap->SetTileSize(16);
+		tilemap->SetScale(4);
 
 		_tilemapActor->SetTilemap(tilemap);
 		_tilemapActor->SetShowDebug(false);
@@ -149,7 +157,7 @@ shared_ptr<Player> LobbyScene::LoadPlayer()
 	}
 
 	shared_ptr<Player> player = make_shared<Player>();
-	player->SetCellPos({ 21,12 }, true);
+	player->SetCellPos({ 16,9 }, true);
 	AddActor(player);
 
 	shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
@@ -164,6 +172,9 @@ shared_ptr<Player> LobbyScene::LoadPlayer()
 	collider->SetSize({ 50, 50 });
 	CollisionManager::GET_SINGLE()->AddCollider(collider);
 	player->AddComponent(collider);
+
+	shared_ptr<Inventory> inventory = make_shared<Inventory>();
+	player->AddComponent(inventory);
 
 	return player;
 }
@@ -230,12 +241,12 @@ void LobbyScene::LoadNPC()
 	/* 소환 */
 	shared_ptr<NPC> npc_Quest = make_shared<NPC>();
 	npc_Quest->AddCollider({ 128,128 });
-	npc_Quest->SetCellPos({ 8,10 }, true);
+	npc_Quest->SetCellPos({ 7,8 }, true);
 	AddActor(npc_Quest);
 
 	shared_ptr<NPC> npc_Dungeon = make_shared<NPC>();
 	npc_Dungeon->AddCollider({ 128,128 });
-	npc_Dungeon->SetCellPos({ 21,6 }, true);
+	npc_Dungeon->SetCellPos({ 16,5 }, true);
 	npc_Dungeon->SetOnActivate([]() {
 		auto dungeonPanel = UIManager::GET_SINGLE()->GetUI<DungeonEnterPanel>();
 		dungeonPanel->SetIsActivated(true);
@@ -248,11 +259,35 @@ void LobbyScene::LoadNPC()
 
 	shared_ptr<NPC> npc_Shop = make_shared<NPC>();
 	npc_Shop->AddCollider({ 128,128 });
-	npc_Shop->SetCellPos({ 33,10 }, true);
+	npc_Shop->SetCellPos({ 24,7 }, true);
 	AddActor(npc_Shop);
 }
 
-void LobbyScene::LoadUI()
+void LobbyScene::LoadItem()
+{
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Burger", L"Sprite/Item/Food/burger.bmp");
+		shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Burger");
+		shared_ptr<Flipbook> flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Burger");
+		flipbook->SetInfo({ texture, L"Burger", {32, 32}, 0, 0, 0 });
+	}
+
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Steak", L"Sprite/Item/Food/steak.bmp");
+		shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Steak");
+		shared_ptr<Flipbook> flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Steak");
+		flipbook->SetInfo({ texture, L"Steak", {32, 32}, 0, 0, 0 });
+	}
+
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Sandwitch", L"Sprite/Item/Food/sandwitch.bmp");
+		shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Sandwitch");
+		shared_ptr<Flipbook> flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Sandwitch");
+		flipbook->SetInfo({ texture, L"Sandwitch", {32, 32}, 0, 0, 0 });
+	}
+}
+
+void LobbyScene::LoadUI(shared_ptr<Player> player)
 {
 	// Dungeon 입장 패널 - 패널 커버
 	{
@@ -301,7 +336,57 @@ void LobbyScene::LoadUI()
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage6_Regular", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage6_Regular"), 0, 0, 64, 64);
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage6_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage6_Pressed"), 0, 0, 64, 64);
 	}
+	// 인벤토리 UI
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button", L"Sprite\\UI\\Buttons\\Button_Blue.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Pressed", L"Sprite\\UI\\Buttons\\Button_Blue_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Inventory_Slot", L"Sprite\\UI\\Banners\\Carved_Regular.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Inventory_UseSlot", L"Sprite\\UI\\Banners\\Carved_3Slides.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Inventory_AllSlot", L"Sprite\\UI\\Banners\\Carved_9Slides.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Vertical", L"Sprite\\UI\\Banners\\Banner_Vertical.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Horizontal", L"Sprite\\UI\\Banners\\Banner_Horizontal.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_1", L"Sprite\\UI\\Icons\\Regular_04.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_2", L"Sprite\\UI\\Icons\\Regular_05.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_3", L"Sprite\\UI\\Icons\\Regular_06.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_1_Pressed", L"Sprite\\UI\\Icons\\Pressed_04.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_2_Pressed", L"Sprite\\UI\\Icons\\Pressed_05.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_3_Pressed", L"Sprite\\UI\\Icons\\Pressed_06.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_1_Disabled", L"Sprite\\UI\\Icons\\Disable_04.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_2_Disabled", L"Sprite\\UI\\Icons\\Disable_05.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_3_Disabled", L"Sprite\\UI\\Icons\\Disable_06.bmp");
+	
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button", ResourceManager::GET_SINGLE()->GetTexture(L"Button"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Pressed"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Inventory_Slot", ResourceManager::GET_SINGLE()->GetTexture(L"Inventory_Slot"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Inventory_UseSlot", ResourceManager::GET_SINGLE()->GetTexture(L"Inventory_UseSlot"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Inventory_AllSlot", ResourceManager::GET_SINGLE()->GetTexture(L"Inventory_AllSlot"), 0, 0, 192, 192);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Vertical", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Vertical"), 0, 0, 192, 192);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Horizontal", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Horizontal"), 0, 0, 192, 192);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_1", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_1"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_2", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_2"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_3", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_3"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_1_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_1_Pressed"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_2_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_2_Pressed"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_3_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_3_Pressed"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_1_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_1_Disabled"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_2_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_2_Disabled"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Icon_3_Disabled", ResourceManager::GET_SINGLE()->GetTexture(L"Icon_3_Disabled"), 0, 0, 64, 64);
+	}
 
+	// 인벤토리 패널 추가
+	if (const shared_ptr<Inventory> inven = player->FindComponent<Inventory>())
+	{
+		// 퀵슬롯 UI
+		shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
+		quickslotUI->SetSlotsOwnerPtr(inven);
+		UIManager::GET_SINGLE()->AddUI(quickslotUI);
+
+		// 인벤토리 UI
+		shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
+		invenUI->SetInventory(inven);
+		UIManager::GET_SINGLE()->AddUI(invenUI);
+	}
+	// 던전 입장 패널 추가
 	shared_ptr<DungeonEnterPanel> dungeonPanel = make_shared<DungeonEnterPanel>();
 	UIManager::GET_SINGLE()->AddUI(dungeonPanel);
 }

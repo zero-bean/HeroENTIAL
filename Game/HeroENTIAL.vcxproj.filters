@@ -90,6 +90,9 @@
     <Filter Include="소스 파일\06.UIs\Game\Dungeon">
       <UniqueIdentifier>{05c5646b-7e94-4d99-aba7-863027774884}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\05.Components\Game\Minimap">
+      <UniqueIdentifier>{aab500ae-db18-4bf7-8e59-e9e53d4bee62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -272,6 +275,15 @@
     <ClInclude Include="DungeonEnterContainer.h">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
     </ClInclude>
+    <ClInclude Include="BattleScene.h">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>소스 파일\05.Components\Game\Minimap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -432,6 +444,15 @@
     </ClCompile>
     <ClCompile Include="DungeonEnterContainer.cpp">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleScene.cpp">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>소스 파일\05.Components\Game\Minimap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

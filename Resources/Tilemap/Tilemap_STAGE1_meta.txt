@@ -1,0 +1,4 @@
+13 22 MONSTER class=Goblin;type=AXE;rank=Common
+7 25 MONSTER class=Goblin;type=AXE;rank=Common
+11 15 MONSTER class=Goblin;type=BOW;rank=Common
+11 5 MONSTER class=Goblin;type=BOW;rank=Common

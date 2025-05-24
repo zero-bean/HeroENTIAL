@@ -45,6 +45,8 @@ public:
 	void SaveTilemap(const wstring& key, const wstring& path);
 	shared_ptr<Tilemap> LoadTilemap(const wstring& key, const wstring& path);
 
+	void LoadTilemapMetadata(const wstring& key, const wstring& path);
+
 	shared_ptr<Font> GetFont(const wstring& key) { return _fonts[key]; }
 	shared_ptr<Font> LoadFont(const wstring& key, const wstring& ttfFileName, const wstring& fontName, int size);
 

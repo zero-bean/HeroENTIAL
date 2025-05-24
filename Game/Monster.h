@@ -6,14 +6,6 @@ class Player;
 class Flipbook;
 class Collider;
 
-enum class Rank
-{
-	Common,
-	Rare,
-	Elite,
-	Boss,
-};
-
 class Monster : public Creature
 {
 	using Super = Creature;
@@ -28,6 +20,8 @@ public:
 
 	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
 	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
+
+	virtual TILE_TYPE GetTileType() const override { return TILE_TYPE::MONSTER; }
 
 public:
 	void SetRank(Rank rank) { _rank = rank; }

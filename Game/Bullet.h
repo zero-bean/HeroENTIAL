@@ -26,6 +26,7 @@ public:
 	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
 	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
 
+	virtual void AddCollider(const Vec2 size) override;
 private:
 	virtual void TickIdle() override;
 	virtual void TickMove() override {}

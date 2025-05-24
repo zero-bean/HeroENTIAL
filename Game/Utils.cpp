@@ -54,6 +54,26 @@ void Utils::DrawRect(HDC hdc, Pos pos, __int32 w, __int32 h)
 		static_cast<__int32>(pos.y + static_cast<float>(h / 2)));
 }
 
+void Utils::DrawRoundRectColored(HDC hdc, Pos pos, __int32 w, __int32 h, COLORREF color, COLORREF borderColor)
+{
+	HBRUSH hbrush = CreateSolidBrush(color);
+
+	HPEN hPen = CreatePen(PS_SOLID, 1, borderColor);
+
+	RECT r = { pos.x, pos.y, pos.x + w, pos.y + h };
+
+	HGDIOBJ oldBrush = SelectObject(hdc, hbrush);
+	HGDIOBJ oldPen = SelectObject(hdc, hPen);
+
+	RoundRect(hdc, pos.x, pos.y, pos.x + w, pos.y + h, 10.f, 10.f);
+
+	// 府家胶 沥府
+	SelectObject(hdc, oldBrush);
+	SelectObject(hdc, oldPen);
+	DeleteObject(hbrush);
+	DeleteObject(hPen);
+}
+
 void Utils::DrawRectColored(HDC hdc, Pos pos, __int32 w, __int32 h, COLORREF color, COLORREF borderColor)
 {
 	HBRUSH hbrush = CreateSolidBrush(color);
@@ -65,7 +85,7 @@ void Utils::DrawRectColored(HDC hdc, Pos pos, __int32 w, __int32 h, COLORREF col
 	HGDIOBJ oldBrush = SelectObject(hdc, hbrush);
 	HGDIOBJ oldPen = SelectObject(hdc, hPen);
 
-	RoundRect(hdc, pos.x, pos.y, pos.x + w, pos.y + h, 10, 10);
+	DrawRect(hdc, pos, pos.x + w, pos.y + h);
 
 	// 府家胶 沥府
 	SelectObject(hdc, oldBrush);

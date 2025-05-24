@@ -1,6 +1,7 @@
 #pragma once
 
 class Actor;
+class GameObject;
 class TilemapActor;
 class Creature;
 class UI;
@@ -24,6 +25,9 @@ public:
 	virtual Vec2 ConvertPos(Vec2Int cellPos);
 
 	shared_ptr<Creature> GetCreatureAt(Vec2Int cellPos);
+
+public:
+	void NotifyObjectMoved(shared_ptr<GameObject> obj, const Vec2Int oldPos, const Vec2Int newPos);
 
 protected:
 	vector<shared_ptr<Actor>> _actors[LAYER_MAXCOUNT];
