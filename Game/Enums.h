@@ -6,8 +6,7 @@ enum class SceneType
 	DevScene,
 	LobbyScene,
 	BattleScene,
-	EditScene,
-	BasicScene,
+	Stage1,
 };
 
 enum LAYER_TYPE
@@ -68,7 +67,7 @@ enum class ItemType
 	MAX_COUNT
 };
 
-enum class  TILE_TYPE
+enum class TILE_TYPE
 {
 	EMPTY,
 	WALL,
@@ -77,4 +76,12 @@ enum class  TILE_TYPE
 	MONSTER,
 	NPC,
 	ITEM,
+};
+
+enum class Rank
+{
+	Common,
+	Rare,
+	Elite,
+	Boss,
 };

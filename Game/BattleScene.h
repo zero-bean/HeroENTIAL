@@ -39,6 +39,13 @@ protected:
 	virtual void LoadItem();
 	virtual void LoadUI(shared_ptr<Player> player);
 
+protected:
+	ObjectConfig ParseObjectConfig(const wstring& meta);
+	Rank ParseRank(const wstring& rankStr);
+	
+	void SpawnObjectFromTile(const Vec2Int& pos, TILE_TYPE type, const std::wstring& meta);
+	void SpawnMonster(const Vec2Int pos, const ObjectConfig& config);
+
 public:
 	template<typename T>
 	shared_ptr<T> SpawnObject(const Vec2Int pos)

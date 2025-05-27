@@ -33,7 +33,7 @@ private:
 	void DropDraggedItem();
 
 private:
-	bool _isActivated = true;
+	bool _isActivated = false;
 	shared_ptr<InventoryContainer> _container = nullptr;
 	vector<shared_ptr<Button>> _buttons = {};
 	vector<shared_ptr<Slot>> _slots = {};

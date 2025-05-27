@@ -14,6 +14,7 @@
 #include "FlipbookActor.h"
 #include "TilemapActor.h"
 #include "Player.h"
+#include "Monster.h"
 #include "Goblin.h"
 #include "Bullet.h"
 #include "Item.h"
@@ -35,15 +36,15 @@ BattleScene::~BattleScene()
 
 void BattleScene::Init()
 {
-	ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont", L"Font\\DungeonFont.ttf", L"DungeonFont", 24);
-	LoadMap();
-	LoadTileMap();
-	shared_ptr<Player> player = LoadPlayer();
-	LoadMonster();
-	LoadBullet();
-	LoadEffect();
-	LoadItem();
-	LoadUI(player);
+	//ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont", L"Font\\DungeonFont.ttf", L"DungeonFont", 24);
+	//LoadMap();
+	//LoadTileMap();
+	//shared_ptr<Player> player = LoadPlayer();
+	//LoadMonster();
+	//LoadBullet();
+	//LoadEffect();
+	//LoadItem();
+	//LoadUI(player);
 
 	Super::Init();
 }
@@ -263,6 +264,95 @@ void BattleScene::LoadUI(shared_ptr<Player> player)
 		shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
 		invenUI->SetInventory(inven);
 		UIManager::GET_SINGLE()->AddUI(invenUI);
+	}
+}
+
+ObjectConfig BattleScene::ParseObjectConfig(const wstring& meta)
+{
+	ObjectConfig config;
+	wstringstream ss(meta);
+	wstring pair;
+
+	while (getline(ss, pair, L';'))
+	{
+		size_t eqPos = pair.find(L'=');
+		if (eqPos != std::wstring::npos)
+		{
+			std::wstring key = pair.substr(0, eqPos);
+			std::wstring val = pair.substr(eqPos + 1);
+
+			if (key == L"class")
+				config.className = val;
+			else
+				config.properties[key] = val;
+		}
+	}
+
+	return config;
+}
+
+Rank BattleScene::ParseRank(const wstring& rankStr)
+{
+	if (rankStr == L"Rare")
+		return Rank::Rare;
+	if (rankStr == L"Elite")
+		return Rank::Elite;
+	if (rankStr == L"Boss")
+		return Rank::Boss;
+
+	return Rank::Common;
+}
+
+void BattleScene::SpawnObjectFromTile(const Vec2Int& pos, TILE_TYPE type, const std::wstring& meta)
+{
+	ObjectConfig config = ParseObjectConfig(meta);
+
+	switch (type)
+	{
+	case TILE_TYPE::MONSTER:
+		SpawnMonster(pos, config);
+		break;
+	case TILE_TYPE::NPC:
+		///SpawnPortal(pos, config);
+		break;
+	case TILE_TYPE::PLAYER:
+		//SpawnPlayer(pos, config);
+		break;
+	case TILE_TYPE::OBJECT:
+		//SpawnNPC(pos, config);
+		break;
+	case TILE_TYPE::ITEM:
+		//SpawnItem(pos, config);
+		break;
+	default:
+		break;
+	}
+}
+
+void BattleScene::SpawnMonster(const Vec2Int pos, const ObjectConfig& config)
+{
+	shared_ptr<Monster> monster;
+
+	if (config.className == L"Goblin")
+	{
+		shared_ptr<Goblin> goblin = std::make_shared<Goblin>();
+
+		if (config.properties.count(L"type"))
+		{
+			wstring type = config.properties.at(L"type");
+			goblin->SetGoblinType(type == L"BOW" ? GoblinType::Bow : GoblinType::Axe);
+		}
+
+		if (config.properties.count(L"rank"))
+			goblin->SetRank(ParseRank(config.properties.at(L"rank")));
+
+		monster = goblin;
+	}
+
+	if (monster)
+	{
+		monster->SetCellPos(pos);
+		AddActor(monster);
 	}
 }
 

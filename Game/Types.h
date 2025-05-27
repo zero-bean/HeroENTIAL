@@ -1,5 +1,7 @@
 #pragma once
 #include <cmath>
+#include <string>
+#include <map>
 #include <Windows.h>
 
 struct Vector {
@@ -196,4 +198,11 @@ struct PQNode
 
 	__int32 cost;
 	Vec2Int pos;
+};
+
+/* BattleScene에서 메타데이터를 사용할 초기 데이터 */
+struct ObjectConfig
+{
+	std::wstring className;
+	std::map<std::wstring, std::wstring> properties;
 };

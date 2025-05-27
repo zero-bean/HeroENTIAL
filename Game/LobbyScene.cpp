@@ -49,6 +49,11 @@ void LobbyScene::Init()
 void LobbyScene::Update()
 {
 	Super::Update();
+	
+	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
+		ResourceManager::GET_SINGLE()->SaveTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
+	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::G))
+		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
 
 	// TODO
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
@@ -94,7 +99,7 @@ void LobbyScene::LoadTileMap()
 		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
 
 		_tilemapActor->SetTilemap(tilemap);
-		_tilemapActor->SetShowDebug(false);
+		_tilemapActor->SetShowDebug(true);
 	}
 }
 

@@ -6,14 +6,6 @@ class Player;
 class Flipbook;
 class Collider;
 
-enum class Rank
-{
-	Common,
-	Rare,
-	Elite,
-	Boss,
-};
-
 class Monster : public Creature
 {
 	using Super = Creature;

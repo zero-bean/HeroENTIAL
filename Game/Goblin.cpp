@@ -13,13 +13,37 @@
 #include "CollisionManager.h"
 #include "DevScene.h"
 
-Goblin::Goblin(MonsterType type, Rank rank) : _type(type)
+Goblin::Goblin(GoblinType type, Rank rank) : _type(type)
 {
 	SetRank(rank);
+	SetGoblinType(_type);
+}
 
+Goblin::~Goblin()
+{
+
+}
+
+void Goblin::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void Goblin::Tick()
+{
+	Super::Tick();
+}
+
+void Goblin::Render(HDC hdc)
+{
+	Super::Render(hdc);
+}
+
+void Goblin::SetGoblinType(GoblinType type)
+{
 	switch (_type)
 	{
-	case MonsterType::Axe:
+	case GoblinType::Axe:
 		_idle[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Right_Idle");
 		_idle[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Left_Idle");
 
@@ -38,7 +62,7 @@ Goblin::Goblin(MonsterType type, Rank rank) : _type(type)
 		_birth[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Right_Birth");
 		_birth[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Left_Birth");
 		break;
-	case MonsterType::Bow:
+	case GoblinType::Bow:
 		_idle[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Right_Idle");
 		_idle[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Left_Idle");
 
@@ -60,30 +84,6 @@ Goblin::Goblin(MonsterType type, Rank rank) : _type(type)
 	}
 }
 
-Goblin::~Goblin()
-{
-
-}
-
-void Goblin::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void Goblin::Tick()
-{
-	Super::Tick();
-
-
-}
-
-void Goblin::Render(HDC hdc)
-{
-	Super::Render(hdc);
-
-
-}
-
 void Goblin::TickIdle()
 {
 	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
@@ -101,7 +101,7 @@ void Goblin::TickIdle()
 	__int32 dist = abs(dir.x) + abs(dir.y);
 
 
-	if (_type == MonsterType::Axe)
+	if (_type == GoblinType::Axe)
 	{
 		if (dist == 1)
 		{
@@ -118,7 +118,7 @@ void Goblin::TickIdle()
 			return;
 		}
 	}
-	else if (_type == MonsterType::Bow)
+	else if (_type == GoblinType::Bow)
 	{
 		if (dist <= 8)
 		{
@@ -204,10 +204,10 @@ void Goblin::TickAttack()
 
 		switch (_type)
 		{
-		case MonsterType::Axe:
+		case GoblinType::Axe:
 			_waitAtkSec = 1.f; // 공격 종료 시간
 			break;
-		case MonsterType::Bow:
+		case GoblinType::Bow:
 			shared_ptr<Player> player = _target.lock();
 			if (player == nullptr)
 				break;

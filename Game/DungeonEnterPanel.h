@@ -22,7 +22,7 @@ public:
 	bool GetIsActivated() const { return _isActivated; }
 
 private:
-	void SetButtonFunction();
+	void SetButtonFunction(const int idx);
 
 private:
 	bool _isActivated = false;

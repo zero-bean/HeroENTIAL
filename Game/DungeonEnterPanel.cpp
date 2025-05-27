@@ -4,6 +4,8 @@
 #include "Button.h"
 #include "Font.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
+#include "UIManager.h"
 
 DungeonEnterPanel::DungeonEnterPanel()
 {
@@ -67,10 +69,10 @@ void DungeonEnterPanel::BeginPlay()
 	float btnY = GetPos().y / 2;
 	for (int i = 0; i < _buttons.size(); i++)
 	{
-		
+		int stageIdx = i;
 		_buttons[i]->SetSize({ 100, 100 });
 		_buttons[i]->SetPos({ startX + (120 * i), btnY + _buttons[i]->GetSize().y + 50});
-		_buttons[i]->AddOnClickDelegate(shared_from_this(), [this]() {return; });
+		_buttons[i]->AddOnClickDelegate(shared_from_this(), [this, stageIdx]() {SetButtonFunction(stageIdx); });
 	}
 
 
@@ -106,7 +108,16 @@ void DungeonEnterPanel::Render(HDC hdc)
 	}
 }
 
-void DungeonEnterPanel::SetButtonFunction()
+void DungeonEnterPanel::SetButtonFunction(const int idx)
 {
-	
+	switch (idx)
+	{
+	case 0:
+		SceneManager::GET_SINGLE()->ChangeScene(SceneType::Stage1);
+		break;
+	default:
+		break;
+	}
+
+	UIManager::GET_SINGLE()->RemoveUI(shared_from_this());
 }
