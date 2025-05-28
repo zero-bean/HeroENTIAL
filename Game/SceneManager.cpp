@@ -53,11 +53,10 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	}
 
 	Clear();
-	UIManager::GET_SINGLE()->Clear();
 
 	_scene = newScene;
 	_sceneType = sceneType;
-
+	
 	_scene->Init();
 }
 

@@ -67,12 +67,15 @@ void DungeonEnterPanel::BeginPlay()
 	// ¹öÆ°
 	float startX = GetPos().x - 300; /* 120 x 5 % 2 */
 	float btnY = GetPos().y / 2;
+	auto self = shared_from_this();
 	for (int i = 0; i < _buttons.size(); i++)
 	{
 		int stageIdx = i;
 		_buttons[i]->SetSize({ 100, 100 });
 		_buttons[i]->SetPos({ startX + (120 * i), btnY + _buttons[i]->GetSize().y + 50});
-		_buttons[i]->AddOnClickDelegate(shared_from_this(), [this, stageIdx]() {SetButtonFunction(stageIdx); });
+		_buttons[i]->AddOnClickDelegate(self, [self, stageIdx]() {
+			self->SetButtonFunction(stageIdx); 
+			});
 	}
 
 
