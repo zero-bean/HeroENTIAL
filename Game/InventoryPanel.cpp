@@ -14,33 +14,33 @@
 
 InventoryPanel::InventoryPanel()
 {
+	// 패널
+	SetSize({ 260, 260 });
+	SetPos({ GWinSizeX / 2, GWinSizeY / 2 });
+
 	// 컨테이너
 	_container = make_shared<InventoryContainer>();
+	_container->SetPos(GetPos());
 	AddChild(_container);
 
 	// 버튼
+	float startX = GetPos().x - 96.f;
+	float btnY = GetPos().y - static_cast<float>(GetSize().y) / 2.f - 24.f;
+	wstring defaultIcons[3] = { L"Icon_1", L"Icon_2", L"Icon_3" };
+	wstring pressedIcons[3] = { L"Icon_1_Pressed", L"Icon_2_Pressed", L"Icon_3_Pressed" };
 	_buttons.resize(3, nullptr);
-
-	_buttons[0] = make_shared<Button>();
-	_buttons[0]->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button"), BS_Default);
-	_buttons[0]->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button_Pressed"), BS_Pressed);
-	_buttons[0]->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Icon_1"), BS_Default);
-	_buttons[0]->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Icon_1_Pressed"), BS_Pressed);
-	AddChild(_buttons[0]);
-
-	_buttons[1] = make_shared<Button>();
-	_buttons[1]->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button"), BS_Default);
-	_buttons[1]->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button_Pressed"), BS_Pressed);
-	_buttons[1]->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Icon_2"), BS_Default);
-	_buttons[1]->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Icon_2_Pressed"), BS_Pressed);
-	AddChild(_buttons[1]);
-
-	_buttons[2] = make_shared<Button>();
-	_buttons[2]->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button"), BS_Default);
-	_buttons[2]->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button_Pressed"), BS_Pressed);
-	_buttons[2]->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Icon_3"), BS_Default);
-	_buttons[2]->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Icon_3_Pressed"), BS_Pressed);
-	AddChild(_buttons[2]);
+	for (int i = 0; i < 3; i++)
+	{
+		shared_ptr<Button> button = make_shared<Button>();
+		button->SetSize({ 64, 64 });
+		button->SetPos({ startX + 64.f * i, btnY });
+		button->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button"), BS_Default);
+		button->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button_Pressed"), BS_Pressed);
+		button->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(defaultIcons[i]), BS_Default);
+		button->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(pressedIcons[i]), BS_Pressed);
+		_buttons[i] = button;
+		AddChild(button);
+	}
 
 	// 슬롯
 	_slots.resize(16);
@@ -62,22 +62,7 @@ void InventoryPanel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// 패널
-	SetSize({ 260, 260 });
-	SetPos({ GWinSizeX / 2, GWinSizeY / 2 });
-
-	// 컨테이너
-	_container->SetPos(GetPos());
-
-	// 버튼
-	float startX = GetPos().x - 96.f;
-	float btnY = GetPos().y - static_cast<float>(GetSize().y) / 2.f - 24.f;
-	for (int i = 0; i < 3; i++)
-	{
-		_buttons[i]->SetSize({ 64, 64 });
-		_buttons[i]->SetPos({ startX + 64.f * i, btnY });
-	}
-
+	/* 던전 -> 로비 구현되면 아래 내용들 오류가 나는지 검증할 필요가 제기됨 */
 	_buttons[0]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Equipment); });
 	_buttons[1]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Consumable); });
 	_buttons[2]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Others); });

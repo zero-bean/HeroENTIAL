@@ -7,35 +7,23 @@
 #include "UIManager.h"
 
 QuickslotPanel::QuickslotPanel()
-{
-	// ÄÁÅ×ÀÌ³Ê
+{	
+	// 패널
+	SetSize({ 192 * 3, 192 });
+	SetPos({ GWinSizeX / 2, (float)GWinSizeY });
+
+	// 컨테이너
 	_container = make_shared<QuickslotContainer>();
+	_container->SetPos(GetPos());
 	AddChild(_container);
-	
-	// ½½·Ô
+
+	// 슬롯
 	_slots.resize(static_cast<int>(ItemType::Quick));
 	for (shared_ptr<QuickslotSlot>& slot : _slots) {
 		slot = make_shared<QuickslotSlot>();
 		AddChild(slot);
 	}
-}
 
-QuickslotPanel::~QuickslotPanel()
-{
-}
-
-void QuickslotPanel::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ÆÐ³Î
-	SetSize({ 192 * 3, 192 });
-	SetPos({ GWinSizeX / 2, (float)GWinSizeY });
-
-	// ÄÁÅ×ÀÌ³Ê
-	_container->SetPos(GetPos());
-
-	// ½½·Ô
 	const int slotCount = _slots.size();
 	const int padding = 6;
 	const int width = slotCount * 64 + (slotCount - 1) * padding;
@@ -58,7 +46,6 @@ void QuickslotPanel::BeginPlay()
 
 			if (drag.IsDrag())
 			{
-				// ¾ÆÀÌÅÛ Å¸ÀÔÀÌ ´Ù¸£¸é ½º¿Ò ºÒ°¡´É
 				const ItemType from = drag.GetSlot()->GetSlotType();
 				const ItemType To = slot->GetSlotType();
 				if (from != To)
@@ -74,11 +61,18 @@ void QuickslotPanel::BeginPlay()
 				return;
 			}
 
-			// µå·¡±× È°¼ºÈ­
 			drag.BeginDrag(slot);
 			});
 	}
-  
+}
+
+QuickslotPanel::~QuickslotPanel()
+{
+}
+
+void QuickslotPanel::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void QuickslotPanel::Tick()
