@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "SceneManager.h"
+#include "UIManager.h"
 #include "Scene.h"
 #include "DevScene.h"
 #include "LobbyScene.h"
@@ -52,6 +53,7 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	}
 
 	Clear();
+	UIManager::GET_SINGLE()->Clear();
 
 	_scene = newScene;
 	_sceneType = sceneType;

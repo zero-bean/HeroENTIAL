@@ -17,11 +17,6 @@ private:
 	virtual void LoadMap() override;
 	virtual void LoadTileMap() override;
 	virtual shared_ptr<Player> LoadPlayer() override;
-	virtual void LoadMonster() override;
-	//virtual void LoadBullet();
-	//virtual void LoadEffect();
-	//virtual void LoadItem();
-	//virtual void LoadUI(shared_ptr<Player> player);
-
+	virtual void LoadMonster() override {};
 };
 

@@ -36,15 +36,15 @@ BattleScene::~BattleScene()
 
 void BattleScene::Init()
 {
-	//ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont", L"Font\\DungeonFont.ttf", L"DungeonFont", 24);
-	//LoadMap();
-	//LoadTileMap();
-	//shared_ptr<Player> player = LoadPlayer();
-	//LoadMonster();
-	//LoadBullet();
-	//LoadEffect();
-	//LoadItem();
-	//LoadUI(player);
+	ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont", L"Font\\DungeonFont.ttf", L"DungeonFont", 24);
+	LoadMap();
+	LoadTileMap();
+	shared_ptr<Player> player = LoadPlayer();
+	LoadMonster();
+	LoadBullet();
+	LoadEffect();
+	LoadItem();
+	LoadUI(player);
 
 	Super::Init();
 }
@@ -166,7 +166,14 @@ shared_ptr<Player> BattleScene::LoadPlayer()
 		fb->SetInfo({ texture, L"Player_AttackUp2", {192, 192}, 0, 5, 11, 0.4f, false });
 	}
 
-	return nullptr;
+	shared_ptr<Player> player = make_shared<Player>();
+
+	shared_ptr<Inventory> inventory = make_shared<Inventory>();
+	player->AddComponent(inventory);
+
+	AddActor(player);
+
+	return player; 
 }
 
 void BattleScene::LoadBullet()
@@ -261,9 +268,13 @@ void BattleScene::LoadUI(shared_ptr<Player> player)
 		UIManager::GET_SINGLE()->AddUI(quickslotUI);
 
 		// 인벤토리 UI
-		shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
-		invenUI->SetInventory(inven);
-		UIManager::GET_SINGLE()->AddUI(invenUI);
+		shared_ptr<InventoryPanel> invenUI = UIManager::GET_SINGLE()->GetUI<InventoryPanel>();
+		if (!invenUI)
+		{
+			shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
+			invenUI->SetInventory(inven);
+			UIManager::GET_SINGLE()->AddUI(invenUI);
+		}
 	}
 }
 

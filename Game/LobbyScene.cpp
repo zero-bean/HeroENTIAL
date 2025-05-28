@@ -50,13 +50,12 @@ void LobbyScene::Update()
 {
 	Super::Update();
 	
+	/*
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
 		ResourceManager::GET_SINGLE()->SaveTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::G))
 		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
-
-	// TODO
-	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
+	*/
 }
 
 void LobbyScene::Render(HDC hdc)
@@ -92,14 +91,12 @@ void LobbyScene::LoadTileMap()
 	_tilemapActor = actor;
 	{
 		shared_ptr<Tilemap> tilemap = ResourceManager::GET_SINGLE()->CreateTilemap(L"Tilemap_LOBBY");
-		tilemap->SetMapSize({ 132, 92 });
-		tilemap->SetTileSize(16);
-		tilemap->SetScale(3);
-
 		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
+		tilemap->SetTileSize(16);
+		tilemap->SetScale(4);
 
 		_tilemapActor->SetTilemap(tilemap);
-		_tilemapActor->SetShowDebug(true);
+		_tilemapActor->SetShowDebug(false);
 	}
 }
 
@@ -160,7 +157,7 @@ shared_ptr<Player> LobbyScene::LoadPlayer()
 	}
 
 	shared_ptr<Player> player = make_shared<Player>();
-	player->SetCellPos({ 21,12 }, true);
+	player->SetCellPos({ 16,9 }, true);
 	AddActor(player);
 
 	shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
@@ -244,12 +241,12 @@ void LobbyScene::LoadNPC()
 	/* º“»Ø */
 	shared_ptr<NPC> npc_Quest = make_shared<NPC>();
 	npc_Quest->AddCollider({ 128,128 });
-	npc_Quest->SetCellPos({ 8,10 }, true);
+	npc_Quest->SetCellPos({ 7,8 }, true);
 	AddActor(npc_Quest);
 
 	shared_ptr<NPC> npc_Dungeon = make_shared<NPC>();
 	npc_Dungeon->AddCollider({ 128,128 });
-	npc_Dungeon->SetCellPos({ 21,6 }, true);
+	npc_Dungeon->SetCellPos({ 16,5 }, true);
 	npc_Dungeon->SetOnActivate([]() {
 		auto dungeonPanel = UIManager::GET_SINGLE()->GetUI<DungeonEnterPanel>();
 		dungeonPanel->SetIsActivated(true);
@@ -262,7 +259,7 @@ void LobbyScene::LoadNPC()
 
 	shared_ptr<NPC> npc_Shop = make_shared<NPC>();
 	npc_Shop->AddCollider({ 128,128 });
-	npc_Shop->SetCellPos({ 33,10 }, true);
+	npc_Shop->SetCellPos({ 24,7 }, true);
 	AddActor(npc_Shop);
 }
 

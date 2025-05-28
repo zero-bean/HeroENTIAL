@@ -25,7 +25,7 @@ void TilemapActor::Tick()
 {
 	Super::Tick();
 
-	TickPicking();
+	//TickPicking();
 
 	/* 해당 씬에서 사용
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
@@ -132,7 +132,12 @@ void TilemapActor::TickPicking()
 
 		Tile& tile = _tilemap->GetTileAt({ x, y });
 
-		if (tile.type != TILE_TYPE::EMPTY)
+		// Debug
+		wchar_t buf[256];
+		swprintf(buf, 256, L"Clicked tile at (%d, %d) oldType=%d\n", x, y, static_cast<int>(tile.type));
+		OutputDebugString(buf);
+
+		if (tile.type == TILE_TYPE::EMPTY)
 		{
 			tile.type = TILE_TYPE::WALL;
 		}
