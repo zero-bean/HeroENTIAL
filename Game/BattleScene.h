@@ -32,12 +32,14 @@ public:
 protected:
 	virtual void LoadMap() {};
 	virtual void LoadTileMap() {};
-	virtual shared_ptr<Player> LoadPlayer();
+	virtual shared_ptr<Player> LoadPlayer() { return nullptr; }
 	virtual void LoadMonster() {};
-	virtual void LoadBullet();
-	virtual void LoadEffect();
-	virtual void LoadItem();
-	virtual void LoadUI(shared_ptr<Player> player);
+	virtual void LoadBullet() {};
+	virtual void LoadEffect() {};
+	virtual void LoadItem() {};
+	virtual void LoadUI(shared_ptr<Player> player) {};
+
+	virtual void InitObjects();
 
 protected:
 	ObjectConfig ParseObjectConfig(const wstring& meta);

@@ -123,12 +123,12 @@ void DevScene::Init()
 	LoadUI(player);
 
 	{
-		shared_ptr<Goblin> goblin_axe = make_shared<Goblin>(GoblinType::Axe);
+		shared_ptr<Goblin> goblin_axe = make_shared<Goblin>();
 		goblin_axe->SetCellPos({ 12, 12 }, true);
 		goblin_axe->SetScale(4);
 		AddActor(goblin_axe);
 
-		shared_ptr<Goblin> goblin_bow = make_shared<Goblin>(GoblinType::Bow);
+		shared_ptr<Goblin> goblin_bow = make_shared<Goblin>();
 		goblin_bow->SetCellPos({ 12, 6 }, true);
 		goblin_bow->SetScale(4);
 		AddActor(goblin_bow);

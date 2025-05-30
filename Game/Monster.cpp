@@ -2,7 +2,6 @@
 #include "Monster.h"
 #include "Collider.h"
 #include "BoxCollider.h"
-#include "DevScene.h"
 #include "BattleScene.h"
 #include "SceneManager.h"
 #include "CollisionManager.h"
@@ -23,7 +22,7 @@ void Monster::BeginPlay()
 
 	SetState(ObjectState::Birth);
 
-	shared_ptr<BattleScene> scene = dynamic_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 	if (scene == nullptr)
 		return;
 
@@ -69,7 +68,7 @@ void Monster::TickDeath()
 		return;
 
 	if (IsAnimationEnded()) {
-		shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+		shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 
 		if (scene == nullptr)
 			return;

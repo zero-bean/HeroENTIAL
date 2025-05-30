@@ -83,6 +83,17 @@ shared_ptr<Tilemap> ResourceManager::LoadTilemap(const wstring& key, const wstri
 	return tilemap;
 }
 
+void ResourceManager::LoadTilemapMetadata(const wstring& key, const wstring& path)
+{
+	if (_tilemaps.find(key) == _tilemaps.end())
+		return;
+
+	shared_ptr<Tilemap> tilemap = _tilemaps[key];
+
+	fs::path fullPath = _resourcePath / path;
+	tilemap->LoadMetadata(fullPath);
+}
+
 shared_ptr<Font> ResourceManager::LoadFont(const wstring& key, const wstring& ttfFileName, const wstring& fontName, int size)
 {
 	if (_fonts.contains(key))

@@ -42,7 +42,7 @@ void LobbyScene::Init()
 	LoadNPC();
 	LoadItem();
 	LoadUI(player);
-
+	
 	Super::Init();
 }
 

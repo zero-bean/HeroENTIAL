@@ -11,11 +11,10 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "CollisionManager.h"
-#include "DevScene.h"
+#include "BattleScene.h"
 
-Goblin::Goblin(GoblinType type, Rank rank) : _type(type)
+Goblin::Goblin()
 {
-	SetRank(rank);
 	SetGoblinType(_type);
 }
 
@@ -41,6 +40,8 @@ void Goblin::Render(HDC hdc)
 
 void Goblin::SetGoblinType(GoblinType type)
 {
+	_type = type;
+
 	switch (_type)
 	{
 	case GoblinType::Axe:
@@ -86,7 +87,7 @@ void Goblin::SetGoblinType(GoblinType type)
 
 void Goblin::TickIdle()
 {
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 	if (scene == nullptr)
 		return;
 
@@ -198,7 +199,7 @@ void Goblin::TickAttack()
 		return;
 
 	if (IsAnimationEnded()) {
-		shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+		shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 		if (scene == nullptr)
 			return;
 
@@ -250,7 +251,7 @@ void Goblin::TickAttacked()
 
 void Goblin::DropItems()
 {
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 	if (scene == nullptr)
 		return;
 

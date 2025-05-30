@@ -12,7 +12,7 @@ class Goblin : public Monster
 {
 	using Super = Monster;
 public:
-	Goblin(GoblinType type = GoblinType::Axe, Rank rank = Rank::Common);
+	Goblin();
 	virtual ~Goblin();
 
 public:
