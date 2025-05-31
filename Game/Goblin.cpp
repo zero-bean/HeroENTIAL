@@ -4,13 +4,10 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Potion.h"
-#include "Collider.h"
-#include "BoxCollider.h"
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
-#include "CollisionManager.h"
 #include "BattleScene.h"
 
 Goblin::Goblin()
@@ -214,19 +211,8 @@ void Goblin::TickAttack()
 				break;
 
 			shared_ptr<Bullet> bullet = scene->SpawnObject<Bullet>(_cellPos);
-			shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
-			bullet->AddComponent(collider);
-
-			collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
-			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
-			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
-			collider->SetSize({ 32, 32 });
-			CollisionManager::GET_SINGLE()->AddCollider(collider);
-
 			bullet->SetBulletType(BulletType::Basic);
-			bullet->SetScale(2.f);
 			bullet->SetAttack(50);
-			bullet->SetPos(scene->ConvertPos(_cellPos));
 			bullet->SetDestPos(player->GetPos());
 			bullet->SetDirVec(bullet->GetPos(), bullet->GetDestPos());
 

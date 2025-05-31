@@ -7,6 +7,7 @@ struct Tile
 	TILE_TYPE type = TILE_TYPE::EMPTY;
 	wstring metadata = {};
 	bool hasItem = false;
+	bool isDirty = false;
 };
 
 class Tilemap : public ResourceBase
@@ -35,6 +36,11 @@ public:
 	Tile& GetTileAt(Vec2Int pos);
 	
 	vector<vector<Tile>>& GetTiles() { return _tiles; };
+
+public:
+	void UpdateTileType(const Vec2Int oldPos, const Vec2Int newPos, TILE_TYPE type);
+	void RemoveTileType(const Vec2Int pos);
+	bool IsPosInRange(const Vec2Int pos) const;
 
 private:
 	TILE_TYPE ParseTileType(const wstring& str);

@@ -99,6 +99,32 @@ Tile& Tilemap::GetTileAt(Vec2Int pos)
 	return _tiles[pos.y][pos.x];
 }
 
+void Tilemap::UpdateTileType(const Vec2Int oldPos, const Vec2Int newPos, TILE_TYPE type)
+{
+	if (oldPos != newPos && IsPosInRange(oldPos)) {
+		_tiles[oldPos.y][oldPos.x].type = TILE_TYPE::EMPTY;
+		_tiles[oldPos.y][oldPos.x].isDirty = true;
+	}
+
+	if (IsPosInRange(newPos)) {
+		_tiles[newPos.y][newPos.x].type = type;
+		_tiles[newPos.y][newPos.x].isDirty = true;
+	}
+}
+
+void Tilemap::RemoveTileType(Vec2Int pos)
+{
+	if (IsPosInRange(pos)) {
+		_tiles[pos.y][pos.x].type = TILE_TYPE::EMPTY;
+		_tiles[pos.y][pos.x].isDirty = true;
+	}
+}
+
+bool Tilemap::IsPosInRange(const Vec2Int pos) const
+{
+	return pos.x >= 0 && pos.y >= 0 && pos.y < _mapSize.y && pos.x < _mapSize.x;
+}
+
 TILE_TYPE Tilemap::ParseTileType(const wstring& str)
 {
 

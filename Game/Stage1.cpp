@@ -162,6 +162,15 @@ shared_ptr<Player> Stage1::LoadPlayer()
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackUp2");
 		fb->SetInfo({ texture, L"Player_AttackUp2", {192, 192}, 0, 5, 11, 0.4f, false });
 	}
+	// Attacked
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackedRight");
+		fb->SetInfo({ texture, L"Player_AttackedRight", {192, 192}, 0, 5, 12, 0.2f, false });
+	}
+	{
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackedLeft");
+		fb->SetInfo({ texture, L"Player_AttackedLeft", {192, 192}, 0, 5, 13, 0.2f, false });
+	}
 
 	shared_ptr<Player> player = make_shared<Player>();
 	player->SetCellPos({ 11,29 }, true);
@@ -196,6 +205,11 @@ shared_ptr<Player> Stage1::LoadPlayer()
 
 void Stage1::LoadMonster()
 {
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Right", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Right.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Left", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Left.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Right", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Right.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Left", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Left.bmp");
+
 	auto LoadGoblin = [](const wstring& name) {
 		shared_ptr<Texture> tx_right = ResourceManager::GET_SINGLE()->GetTexture(name + L"_Right");
 		shared_ptr<Texture> tx_left = ResourceManager::GET_SINGLE()->GetTexture(name + L"_Left");
@@ -230,6 +244,8 @@ void Stage1::LoadMonster()
 
 void Stage1::LoadBullet()
 {
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Bullet_Red", L"Sprite\\Bullet\\red.bmp", RGB(0, 0, 0));
+
 	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Bullet_Red");
 
 	{
@@ -240,6 +256,8 @@ void Stage1::LoadBullet()
 
 void Stage1::LoadEffect()
 {
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Effect_Red", L"Sprite\\Effect\\red.bmp", RGB(0, 0, 0));
+
 	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Effect_Red");
 
 	{

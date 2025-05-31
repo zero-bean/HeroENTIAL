@@ -3,9 +3,9 @@
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
-#include "Flipbook.h"
 #include "SceneManager.h"
-#include "DevScene.h"
+#include "Scene.h"
+#include "Flipbook.h"
 
 GameObject::GameObject()
 {
@@ -49,7 +49,8 @@ void GameObject::SetState(ObjectState state)
 {
 	if (_state == state)
 		return;
-
+	if (state == ObjectState::Attacked)
+		_destPos = _pos;
 	_state = state;
 	UpdateAnimation();
 }
@@ -97,16 +98,17 @@ Dir GameObject::GetLookAtDir(Vec2Int cellPos)
 
 void GameObject::SetCellPos(Vec2Int cellPos, bool teleport)
 {
+	Vec2Int oldPos = _cellPos;
 	_cellPos = cellPos;
 
-	shared_ptr<Scene> scene = SceneManager::GET_SINGLE()->GetCurrentScene();
-	if (scene == nullptr)
-		return;
+	if (shared_ptr<Scene> scene = SceneManager::GET_SINGLE()->GetCurrentScene())
+	{
+		_destPos = scene->ConvertPos(cellPos);
+		scene->NotifyObjectMoved(static_pointer_cast<GameObject>(shared_from_this()), oldPos, _cellPos);
 
-	_destPos = scene->ConvertPos(cellPos);
-
-	if (teleport)
-		_pos = _destPos;
+		if (teleport)
+			_pos = _destPos;
+	}
 }
 
 Vec2Int GameObject::GetFrontCellPos()

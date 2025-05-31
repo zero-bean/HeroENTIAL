@@ -179,6 +179,7 @@ void BattleScene::SpawnMonster(const Vec2Int pos, const ObjectConfig& config)
 	if (monster)
 	{
 		monster->SetCellPos(pos, true);
+		monster->SetScale(4);
 		AddActor(monster);
 	}
 }

@@ -16,6 +16,8 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
+	virtual bool ShouldAffectTilemap() const override { return false; }
+
 public:
 	void SetTimer(const float time) { _timer = time; }
 

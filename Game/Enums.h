@@ -74,6 +74,7 @@ enum class TILE_TYPE
 	OBJECT,
 	PLAYER,
 	MONSTER,
+	PROJECTILE,
 	NPC,
 	ITEM,
 };

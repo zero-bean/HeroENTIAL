@@ -17,6 +17,10 @@ public:
 
 	virtual void AddCollider(const Vec2 size) {}
 
+	// 타일맵 정보 관련
+	virtual TILE_TYPE GetTileType() const { return TILE_TYPE::EMPTY; }
+	virtual bool ShouldAffectTilemap() const { return true; }
+
 protected:
 	virtual void TickIdle() {}
 	virtual void TickMove() {}
