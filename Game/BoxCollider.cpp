@@ -32,16 +32,21 @@ void BoxCollider::Render(HDC hdc)
 	Super::Render(hdc);
 
 	Vec2 cameraPos = SceneManager::GET_SINGLE()->GetCameraPos();
+	float cameraZoom = SceneManager::GET_SINGLE()->GetCameraZoom();
+
 	Vec2 pos = GetOwner()->GetPos();
-	pos.x -= coorPos.x + cameraPos.x - static_cast<float>(GWinSizeX / 2);
-	pos.y -= coorPos.y + cameraPos.y - static_cast<float>(GWinSizeY / 2);
+	Vec2 renderPos = (pos - coorPos - cameraPos) * cameraZoom + Vec2(GWinSizeX / 2.0f, GWinSizeY / 2.0f);
+	Vec2 scaledSize = _size * cameraZoom;
 
 	HBRUSH myBrush = (HBRUSH)::GetStockObject(NULL_BRUSH);
 	HBRUSH oldBrush = (HBRUSH)::SelectObject(hdc, myBrush);
-	Utils::DrawRect(hdc, pos, static_cast<int>(_size.x), static_cast<int>(_size.y));
+
+	Utils::DrawRect(hdc, renderPos, static_cast<int>(scaledSize.x), static_cast<int>(scaledSize.y));
+
 	::SelectObject(hdc, oldBrush);
 	::DeleteObject(myBrush);
 }
+
 
 bool BoxCollider::CheckCollision(shared_ptr<Collider> other)
 {

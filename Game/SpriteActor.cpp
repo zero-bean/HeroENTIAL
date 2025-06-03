@@ -34,14 +34,25 @@ void SpriteActor::Render(HDC hdc)
 
 	Vec2Int size = _sprite->GetSize();
 	Vec2 cameraPos = SceneManager::GET_SINGLE()->GetCameraPos();
+	float cameraZoom = SceneManager::GET_SINGLE()->GetCameraZoom();
 
-	::BitBlt(hdc,
-		(__int32)_pos.x - size.x / 2 - ((__int32)cameraPos.x - GWinSizeX / 2),
-		(__int32)_pos.y - size.y / 2 - ((__int32)cameraPos.y - GWinSizeY / 2),
-		size.x,
-		size.y,
+	Vec2 screenCenter = Vec2(GWinSizeX / 2.0f, GWinSizeY / 2.0f);
+	Vec2 renderPos = (_pos - cameraPos) * cameraZoom + screenCenter;
+
+	int drawW = static_cast<int>(size.x * cameraZoom);
+	int drawH = static_cast<int>(size.y * cameraZoom);
+
+	::StretchBlt(
+		hdc,
+		static_cast<int>(renderPos.x - drawW / 2),
+		static_cast<int>(renderPos.y - drawH / 2),
+		drawW,
+		drawH,
 		_sprite->GetDC(),
 		_sprite->GetPos().x,
 		_sprite->GetPos().y,
-		SRCCOPY); 
+		size.x,
+		size.y,
+		SRCCOPY
+	);
 }

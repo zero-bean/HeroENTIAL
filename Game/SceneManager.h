@@ -32,11 +32,15 @@ public:
 	Vec2 GetCameraPos() const { return _cameraPos; }
 	void SetCameraPos(const Vec2& pos) { _cameraPos = pos; }
 
+	void SetCameraZoom(float zoom) { _cameraZoom = zoom; }
+	float GetCameraZoom() const { return _cameraZoom; }
+
 private:
 	shared_ptr<Scene> _scene;
 	SceneType _sceneType = SceneType::None;
 	
 private:
 	Vec2 _cameraPos = { 400, 300 };
+	float _cameraZoom = 1.0f;
 };
 

@@ -284,6 +284,9 @@
     <ClInclude Include="Minimap.h">
       <Filter>소스 파일\05.Components\Game\Minimap</Filter>
     </ClInclude>
+    <ClInclude Include="CameraShake.h">
+      <Filter>소스 파일\05.Components\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -453,6 +456,9 @@
     </ClCompile>
     <ClCompile Include="Minimap.cpp">
       <Filter>소스 파일\05.Components\Game\Minimap</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraShake.cpp">
+      <Filter>소스 파일\05.Components\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

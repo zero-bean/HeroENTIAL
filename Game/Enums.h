@@ -86,3 +86,11 @@ enum class Rank
 	Elite,
 	Boss,
 };
+
+enum class ShakeType
+{
+	Explosion,  // 폭발
+	Earthquake, // 지진
+	HitRecoil,  // 피격
+	SubtlePulse // 보스 구르기 패턴..?
+};
