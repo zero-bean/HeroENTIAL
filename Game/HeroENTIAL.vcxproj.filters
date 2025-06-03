@@ -287,6 +287,9 @@
     <ClInclude Include="CameraShake.h">
       <Filter>소스 파일\05.Components\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Minotaur.h">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -459,6 +462,9 @@
     </ClCompile>
     <ClCompile Include="CameraShake.cpp">
       <Filter>소스 파일\05.Components\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Minotaur.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -176,6 +176,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="Minotaur.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Panel.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="Minotaur.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Panel.cpp" />
