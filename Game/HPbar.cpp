@@ -27,8 +27,8 @@ void HPbar::Render(HDC hdc)
         Vec2 renderPos = GetPos() - Vec2(size.x / 2, size.y / 2) - camera + Vec2(GWinSizeX / 2, GWinSizeY / 2) + Vec2(0, 80);
 
         // 배경
-        Utils::DrawRectColored(hdc, renderPos, size.x, size.y, RGB(80, 80, 80), RGB(0, 0, 0));
+        Utils::DrawRoundRectColored(hdc, renderPos, size.x, size.y, RGB(80, 80, 80), RGB(0, 0, 0));
         // HP 게이지
-        Utils::DrawRectColored(hdc, renderPos, size.x * ratio, size.y, RGB(255, 50, 50), RGB(255, 50, 50));
+        Utils::DrawRoundRectColored(hdc, renderPos, size.x * ratio, size.y, RGB(255, 50, 50), RGB(255, 50, 50));
     }
 }

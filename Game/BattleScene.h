@@ -24,11 +24,6 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-public:
-	virtual void MarkTileHasItem(const Vec2Int pos, const bool check);
-	virtual void PickUpItem(shared_ptr<Item> item, shared_ptr<Player> player);
-	virtual void DropItem(shared_ptr<Item> item, Vec2Int pos);
-
 protected:
 	virtual void LoadMap() {};
 	virtual void LoadTileMap() {};
@@ -56,7 +51,8 @@ public:
 		assert(isGameObject);
 
 		shared_ptr<T> ret = make_shared<T>();
-		ret->SetCellPos(pos, true);
+		const Vec2Int p = GetClosestEmptyCellPos(pos);
+		ret->SetCellPos(p, true);
 		ret->SetScale(4);
 		AddActor(ret);
 
@@ -74,7 +70,6 @@ public:
 	}
 
 	Vec2Int GetRandomEmptyCellPos();
-	Vec2Int GetClosestEmptyCellPos(const Vec2Int& center);
 
 	shared_ptr<Player> FindClosestPlayer(Vec2Int pos);
 

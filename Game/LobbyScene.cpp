@@ -15,6 +15,7 @@
 #include "Consumable.h"
 #include "BoxCollider.h"
 #include "CameraComponent.h"
+#include "Minimap.h"
 #include "UI.h"
 #include "QuickslotPanel.h"
 #include "InventoryPanel.h"
@@ -24,6 +25,7 @@
 #include "TimeManager.h"
 #include "CollisionManager.h"
 #include "UIManager.h"
+
 
 LobbyScene::LobbyScene()
 {
@@ -155,6 +157,11 @@ shared_ptr<Player> LobbyScene::LoadPlayer()
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Player_AttackUp2");
 		fb->SetInfo({ texture, L"Player_AttackUp2", {192, 192}, 0, 5, 11, 0.4f, false });
 	}
+	// Minimap
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Minimap", L"Sprite\\UI\\Banners\\Banner_Minimap.bmp");
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Minimap", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Minimap"), 0, 0, 128, 128);
+	}
 
 	shared_ptr<Player> player = make_shared<Player>();
 	player->SetCellPos({ 16,9 }, true);
@@ -163,6 +170,10 @@ shared_ptr<Player> LobbyScene::LoadPlayer()
 	shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
 	camera->SetBackGroundRange({ 2112, 1472 });
 	player->AddComponent(camera);
+
+	shared_ptr<Minimap> minimap = make_shared<Minimap>();
+	minimap->SetTilemap(_tilemapActor->GetTilemap());
+	player->AddComponent(minimap);
 
 	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
@@ -249,11 +260,11 @@ void LobbyScene::LoadNPC()
 	npc_Dungeon->SetCellPos({ 16,5 }, true);
 	npc_Dungeon->SetOnActivate([]() {
 		auto dungeonPanel = UIManager::GET_SINGLE()->GetUI<DungeonEnterPanel>();
-		dungeonPanel->SetIsActivated(true);
+		dungeonPanel->SetVisible(true);
 		});
 	npc_Dungeon->SetOnDeActivate([]() {
 		auto dungeonPanel = UIManager::GET_SINGLE()->GetUI<DungeonEnterPanel>();
-		dungeonPanel->SetIsActivated(false);
+		dungeonPanel->SetVisible(false);
 		});
 	AddActor(npc_Dungeon);
 

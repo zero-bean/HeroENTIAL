@@ -61,7 +61,6 @@ DungeonEnterPanel::~DungeonEnterPanel()
 
 void DungeonEnterPanel::BeginPlay()
 {
-	/* 아마 던전 -> 로비 화면 전환할 때 오류가 발생할 가능성이 농후함 */
 	float startX = GetPos().x - 300; /* 120 x 5 % 2 */
 	float btnY = GetPos().y / 2;
 	auto self = shared_from_this(); // self를 사용하지 않으면, Scene 변경할 때 소멸된 포인터 참조로 크래시 발생
@@ -80,19 +79,15 @@ void DungeonEnterPanel::BeginPlay()
 
 void DungeonEnterPanel::Tick()
 {
-	if (!_isActivated)
-		return;
-	
 	Super::Tick();
 }
 
 void DungeonEnterPanel::Render(HDC hdc)
 {
-	if (!_isActivated)
-		return;
-
 	Super::Render(hdc);
 
+	if (!GetVisible())
+		return;
 
 	// 폰트
 	if (_font)

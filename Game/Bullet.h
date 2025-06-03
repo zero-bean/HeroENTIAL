@@ -6,6 +6,7 @@ class Collider;
 
 enum class BulletType
 {
+	None,
 	Basic,
 	Circle,
 	BladeStorm,
@@ -38,6 +39,6 @@ public:
 	void OnDestroyed();
 
 private:
-	BulletType _type = BulletType::Basic;
+	BulletType _type = BulletType::None;
 };
 

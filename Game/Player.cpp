@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "CollisionManager.h"
+#include "UIManager.h"
 #include "Flipbook.h"
 #include "Collider.h"
 #include "BoxCollider.h"
@@ -29,6 +30,7 @@ Player::Player()
 	_flipbookAttacked[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Player_AttackedLeft");
 
 	_stat.attack = 100;
+	_stat.maxHp = 500;
 	_stat.hp = 500;
 	_stat.speed = 200;
 }
@@ -61,20 +63,10 @@ void Player::Render(HDC hdc)
 
 void Player::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
 {
-	shared_ptr<Item> item = dynamic_pointer_cast<Item>(other->GetOwner());
-	if (item)
-	{
-		_overlappingItem = item;
-	}
 }
 
 void Player::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
 {
-	shared_ptr<Item> item = dynamic_pointer_cast<Item>(other->GetOwner());
-	if (item && item == _overlappingItem)
-	{
-		_overlappingItem = nullptr;
-	}
 }
 
 void Player::TickIdle()
@@ -143,16 +135,12 @@ void Player::TickIdle()
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
 	{
-		//SetState(ObjectState::Attack);
+		SetState(ObjectState::Attack);
 	}
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::Z))
 	{
-		if (_overlappingItem)
-		{
-			_overlappingItem->PickedUp(dynamic_pointer_cast<Player>(shared_from_this()));
-			_overlappingItem = nullptr;
-		}
+		SceneManager::GET_SINGLE()->GetCurrentScene()->TryPickUpItem(GetCellPos());
 	}
 }
 
@@ -194,8 +182,6 @@ void Player::TickMove()
 	}
 }
 
-
-
 void Player::TickAttack()
 {
 	if (_flipbook == nullptr)
@@ -203,7 +189,16 @@ void Player::TickAttack()
 
 	shared_ptr<BattleScene> scene = dynamic_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 	if (scene == nullptr)
+	{
+		SetState(ObjectState::Idle);
 		return;
+	}
+
+	if (UIManager::GET_SINGLE()->IsMouseInUIs())
+	{
+		SetState(ObjectState::Idle);
+		return;
+	}
 
 	// TODO : Damage?
 	if (IsAnimationEnded())
@@ -219,19 +214,8 @@ void Player::TickAttack()
 			};
 			bullet->SetBulletType(BulletType::BladeStorm);
 			bullet->SetDestPos(coordiPos);
-			bullet->SetScale(3.f);
 			bullet->SetAttack(35);
 			bullet->SetDirVec(GetPos(), coordiPos);
-
-			shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
-			collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
-			collider->ResetCollisionFlag();
-			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
-			collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
-			collider->SetSize({ 80, 80 });
-
-			bullet->AddComponent(collider);
-			CollisionManager::GET_SINGLE()->AddCollider(collider);
 		}
 
 		SetState(ObjectState::Idle);
@@ -241,7 +225,10 @@ void Player::TickAttack()
 void Player::TickDeath()
 {
 	if (shared_ptr<BattleScene> scene = dynamic_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene()))
+	{
+		scene->MarkTileType(GetCellPos(), TILE_TYPE::EMPTY);
 		scene->RemoveActor(shared_from_this());
+	}
 }
 
 void Player::TickAttacked()

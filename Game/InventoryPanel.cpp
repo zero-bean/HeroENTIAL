@@ -15,7 +15,8 @@
 InventoryPanel::InventoryPanel()
 {
 	// 패널
-	SetSize({ 260, 260 });
+	SetSize({ 340, 360 });
+	const Vec2 panelSize = { 260, 260 };
 	SetPos({ GWinSizeX / 2, GWinSizeY / 2 });
 
 	// 컨테이너
@@ -25,7 +26,7 @@ InventoryPanel::InventoryPanel()
 
 	// 버튼
 	float startX = GetPos().x - 96.f;
-	float btnY = GetPos().y - static_cast<float>(GetSize().y) / 2.f - 24.f;
+	float btnY = GetPos().y - static_cast<float>(panelSize.y) / 2.f - 24.f;
 	wstring defaultIcons[3] = { L"Icon_1", L"Icon_2", L"Icon_3" };
 	wstring pressedIcons[3] = { L"Icon_1_Pressed", L"Icon_2_Pressed", L"Icon_3_Pressed" };
 	_buttons.resize(3, nullptr);
@@ -62,7 +63,7 @@ void InventoryPanel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/* 던전 -> 로비 구현되면 아래 내용들 오류가 나는지 검증할 필요가 제기됨 */
+	const Vec2 panelSize = { 260, 260 };
 	_buttons[0]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Equipment); });
 	_buttons[1]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Consumable); });
 	_buttons[2]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Others); });
@@ -73,8 +74,8 @@ void InventoryPanel::BeginPlay()
 		for (int x = 0; x < 4; x++)
 		{
 			int index = (y * 4) + x;
-			int dx = 32 + (__int32)_pos.x - _size.x / 2 + (64 * x);
-			int dy = 32 + (__int32)_pos.y - _size.y / 2 + (64 * y);
+			int dx = 32 + (__int32)_pos.x - panelSize.x / 2 + (64 * x);
+			int dy = 32 + (__int32)_pos.y - panelSize.y / 2 + (64 * y);
 			Vec2 pos(dx, dy);
 
 			_slots[index]->SetPos(pos);
@@ -128,17 +129,17 @@ void InventoryPanel::BeginPlay()
 
 void InventoryPanel::Tick()
 {
+	Super::Tick();
+	
 	if (!_inventory.lock())
 		return;
 
-	Super::Tick();
-
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::I)) 
 	{
-		_isActivated = !_isActivated;
+		SetVisible(!GetVisible());
 
 		// 인벤토리 닫으면 드래그 정보 초기화
-		if (!_isActivated)
+		if (!GetVisible())
 		{
 			DragState& drag = UIManager::GET_SINGLE()->GetDragState();
 			drag.EndDrag();
@@ -151,13 +152,13 @@ void InventoryPanel::Tick()
 
 void InventoryPanel::Render(HDC hdc)
 {
+	Super::Render(hdc);
+	
+	if (!GetVisible())
+		return;
+
 	if (!_inventory.lock())
 		return;
-
-	if (!_isActivated)
-		return;
-
-	Super::Render(hdc);
 
 	// 드래그 된 아이템 표시
 	const DragState& drag = UIManager::GET_SINGLE()->GetDragState();
@@ -181,7 +182,6 @@ void InventoryPanel::Render(HDC hdc)
 				info.texture->GetTransparent());
 		}
 	}
-
 }
 
 void InventoryPanel::OnClickEquitmentButton()

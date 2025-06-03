@@ -6,8 +6,6 @@ struct Tile
 {
 	TILE_TYPE type = TILE_TYPE::EMPTY;
 	wstring metadata = {};
-	bool hasItem = false;
-	bool isDirty = false;
 };
 
 class Tilemap : public ResourceBase

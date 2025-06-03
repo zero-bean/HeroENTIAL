@@ -32,14 +32,9 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
-
-	virtual void AddCollider(const Vec2 size) override;
 	
 	virtual void Use() {}
 	virtual void DisUse() {}
-
-	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
-	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
 	
 	virtual TILE_TYPE GetTileType() const override { return TILE_TYPE::ITEM; }
 
@@ -68,11 +63,6 @@ public:
 	void AddItemCount(unsigned __int32 count) { _itemCount = min(_itemCount + count, 999u); }
 	unsigned __int32 GetItemCount() const { return _itemCount; }
 
-	void SetCanPickedUp(bool canPickedUp) { _canPickedUp = canPickedUp; }
-	bool GetCanPickedUp() const { return _canPickedUp; }
-
-	void PickedUp(shared_ptr<Player> player);
-
 public:
 	void SetOnClick(function<void()> callback) { _onEmptyCallback = callback; }
 
@@ -82,7 +72,6 @@ protected:
 	ItemType _itemType = ItemType::MAX_COUNT;
 	ItemContent _itemContent = {};
 	unsigned __int32 _itemCount = 1;
-	bool _canPickedUp = false;
 
 protected:
 	// 아이템 수량이 0개가 되면, 슬롯에게 삭제 요청하는 콜백 함수

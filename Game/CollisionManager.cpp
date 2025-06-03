@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CollisionManager.h"
 #include "Collider.h"
+#include "BoxCollider.h"
 #include "Actor.h"
 
 void CollisionManager::Init()
@@ -33,13 +34,13 @@ void CollisionManager::Update()
     // 3. 충돌 검사 시작
     for (__int32 i = 0; i < colliders.size(); i++)
     {
-        shared_ptr<Collider> src = colliders[i];
+        shared_ptr<BoxCollider> src = dynamic_pointer_cast<BoxCollider>(colliders[i]);
         if (src == nullptr || src->GetOwner() == nullptr)
             continue;
 
         for (__int32 j = i + 1; j < colliders.size(); j++)
         {
-            shared_ptr<Collider> dest = colliders[j];
+            shared_ptr<BoxCollider> dest = dynamic_pointer_cast<BoxCollider>(colliders[j]);
             if (dest == nullptr || dest->GetOwner() == nullptr)
                 continue;
 

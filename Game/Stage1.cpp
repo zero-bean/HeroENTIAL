@@ -218,6 +218,10 @@ void Stage1::LoadMonster()
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Left", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Left.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Right", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Right.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Left", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Left.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Warrior_Right", L"Sprite/Monster/Goblin/Goblin_Warrior_Right.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Warrior_Left", L"Sprite/Monster/Goblin/Goblin_Warrior_Left.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur", L"Sprite/Monster/Minotaur/Minotaur_Right.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur", L"Sprite/Monster/Minotaur/Minotaur_Left.bmp");
 
 	auto LoadGoblin = [](const wstring& name) {
 		shared_ptr<Texture> tx_right = ResourceManager::GET_SINGLE()->GetTexture(name + L"_Right");
@@ -249,6 +253,39 @@ void Stage1::LoadMonster()
 
 	LoadGoblin(L"Goblin_Bow");
 	LoadGoblin(L"Goblin_Axe");
+
+	auto LoadMinotaur = [](const wstring& name) {
+		shared_ptr<Texture> tx_right = ResourceManager::GET_SINGLE()->GetTexture(name + L"_Right");
+		shared_ptr<Texture> tx_left = ResourceManager::GET_SINGLE()->GetTexture(name + L"_Left");
+
+		vector<tuple<wstring, int, int, float, bool>> animations = {
+			{L"Idle", 4, 0, 0.5f, true},
+			{L"Move", 7, 1, 0.5f, true},
+			{L"SkillA", 4, 2, 0.5f, false},
+			{L"AttackA", 8, 3, 0.7f, false},
+			{L"AttackB", 4, 4, 0.3f, false},
+			{L"SkillB", 5, 5, 0.5f, false},
+			{L"SkillC", 8, 6, 0.5f, false},
+			{L"Attacked", 2, 8, 0.1f, false},
+			{L"Death", 5, 9, 0.4f, false},
+		};
+
+		for (auto& anim : animations) {
+			wstring animName;
+			int frameCount, index;
+			float duration;
+			bool loop;
+			tie(animName, frameCount, index, duration, loop) = anim;
+
+			shared_ptr<Flipbook> fb_right = ResourceManager::GET_SINGLE()->CreateFlipbook(name + L"_Right_" + animName);
+			fb_right->SetInfo({ tx_right, name + L"_Right_" + animName, {96, 96}, 0, frameCount, index, duration, loop });
+
+			shared_ptr<Flipbook> fb_left = ResourceManager::GET_SINGLE()->CreateFlipbook(name + L"_Left_" + animName);
+			fb_left->SetInfo({ tx_left, name + L"_Left_" + animName, {96, 96}, 0, frameCount, index, duration, loop });
+		}
+		};
+
+	LoadMinotaur(L"Minotaur");
 }
 
 void Stage1::LoadBullet()
@@ -273,6 +310,9 @@ void Stage1::LoadEffect()
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"BladeStorm_Red");
 		fb->SetInfo({ texture, L"BladeStorm_Red", {32, 32}, 6, 9, 0, 0.4f });
 	}
+
+	// ÆùÆ®
+	ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont", L"Font\\DungeonFont.ttf", L"DungeonFont", 24);
 }
 
 void Stage1::LoadItem()

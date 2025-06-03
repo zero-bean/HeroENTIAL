@@ -93,6 +93,9 @@
     <Filter Include="소스 파일\05.Components\Game\Minimap">
       <UniqueIdentifier>{aab500ae-db18-4bf7-8e59-e9e53d4bee62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Creature\Monster">
+      <UniqueIdentifier>{3006bea7-8d7d-41da-9b54-7cea3f0d6016}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -149,9 +152,6 @@
     <ClInclude Include="Scene.h">
       <Filter>소스 파일\02.Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="DevScene.h">
-      <Filter>소스 파일\02.Scenes\Game</Filter>
-    </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>소스 파일\01.Managers</Filter>
     </ClInclude>
@@ -182,20 +182,11 @@
     <ClInclude Include="GameObject.h">
       <Filter>소스 파일\03.Objects\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Creature.h">
-      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
-    </ClInclude>
-    <ClInclude Include="Goblin.h">
-      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
@@ -287,6 +278,24 @@
     <ClInclude Include="CameraShake.h">
       <Filter>소스 파일\05.Components\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BossMonster.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Goblin.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Minotaur.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BossPattern.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -322,9 +331,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>소스 파일\02.Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="DevScene.cpp">
-      <Filter>소스 파일\02.Scenes\Game</Filter>
-    </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>소스 파일\01.Managers</Filter>
     </ClCompile>
@@ -355,20 +361,11 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>소스 파일\03.Objects\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Creature.cpp">
-      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClCompile>
     <ClCompile Include="Projectile.cpp">
       <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
-    </ClCompile>
-    <ClCompile Include="Goblin.cpp">
-      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>소스 파일\03.Objects\Game\Projectile</Filter>
@@ -459,6 +456,24 @@
     </ClCompile>
     <ClCompile Include="CameraShake.cpp">
       <Filter>소스 파일\05.Components\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="BossMonster.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Goblin.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Minotaur.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BossPattern.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

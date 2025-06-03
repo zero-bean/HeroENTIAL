@@ -23,6 +23,8 @@ void Button::BeginPlay()
 
 void Button::Tick()
 {
+	Super::Tick();
+
 	POINT mousePos = InputManager::GET_SINGLE()->GetMousePos();
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
 
@@ -62,6 +64,8 @@ void Button::Tick()
 
 void Button::Render(HDC hdc)
 {
+	Super::Render(hdc);
+
 	if (_currentSprite)
 	{
 		::TransparentBlt(hdc,
@@ -91,7 +95,6 @@ void Button::Render(HDC hdc)
 			_currentCoverSprite->GetSize().y,
 			_currentCoverSprite->GetTransparent());
 	}
-
 }
 
 void Button::SetButtonState(ButtonState state)

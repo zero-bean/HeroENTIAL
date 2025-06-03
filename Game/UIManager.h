@@ -45,6 +45,7 @@ private:
 
 public:
     void Init(HWND hwnd);
+	void BeginPlay();
 	void Update();
 	void Render(HDC hdc);
 

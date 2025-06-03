@@ -8,6 +8,8 @@
 
 QuickslotPanel::QuickslotPanel()
 {	
+	SetVisible(true);
+
 	// 패널
 	SetSize({ 192 * 3, 192 });
 	SetPos({ GWinSizeX / 2, (float)GWinSizeY });
@@ -26,8 +28,7 @@ QuickslotPanel::QuickslotPanel()
 
 	const int slotCount = _slots.size();
 	const int padding = 6;
-	const int width = slotCount * 64 + (slotCount - 1) * padding;
-	const int startX = (GetPos().x - 24) / 3 + width;
+	const int startX = GetPos().x - 64 - padding;
 	const int slotY = GetPos().y - 64 / 2;
 
 	for (int i = 0; i < slotCount; i++)
@@ -77,10 +78,10 @@ void QuickslotPanel::BeginPlay()
 
 void QuickslotPanel::Tick()
 {
+	Super::Tick();
+
 	if (!_inventory.lock())
 		return;
-
-	Super::Tick();
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::KEY_1))
 		_slots[0]->UseItem();
@@ -93,10 +94,13 @@ void QuickslotPanel::Tick()
 
 void QuickslotPanel::Render(HDC hdc)
 {
-	if (!_inventory.lock())
+	Super::Render(hdc);
+
+	if (!GetVisible())
 		return;
 
-	Super::Render(hdc);
+	if (!_inventory.lock())
+		return;
 }
 
 void QuickslotPanel::SetSlotsOwnerPtr(shared_ptr<Inventory> inventory)

@@ -49,7 +49,7 @@ void Bullet::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<C
 	shared_ptr<BoxCollider> b2 = dynamic_pointer_cast<BoxCollider>(other);
 
 	auto creature = static_pointer_cast<Creature>(b2->GetOwner());
-	if (creature)
+	if (b1->CheckCollision(b2) && creature)
 	{
 		creature->OnDamaged(static_pointer_cast<Projectile>(shared_from_this()));
 		OnDestroyed();
@@ -99,6 +99,15 @@ void Bullet::SetBulletType(BulletType type)
 		break;
 	case BulletType::BladeStorm:
 		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"BladeStorm_Red");
+		SetScale(3.5f);
+		shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
+		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
+		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
+		collider->RemoveCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+		collider->SetSize({ 80, 80 });
+		CollisionManager::GET_SINGLE()->AddCollider(collider);
+		AddComponent(collider);
 		break;
 	}
 }

@@ -103,12 +103,10 @@ void Tilemap::UpdateTileType(const Vec2Int oldPos, const Vec2Int newPos, TILE_TY
 {
 	if (oldPos != newPos && IsPosInRange(oldPos)) {
 		_tiles[oldPos.y][oldPos.x].type = TILE_TYPE::EMPTY;
-		_tiles[oldPos.y][oldPos.x].isDirty = true;
 	}
 
 	if (IsPosInRange(newPos)) {
 		_tiles[newPos.y][newPos.x].type = type;
-		_tiles[newPos.y][newPos.x].isDirty = true;
 	}
 }
 
@@ -116,7 +114,6 @@ void Tilemap::RemoveTileType(Vec2Int pos)
 {
 	if (IsPosInRange(pos)) {
 		_tiles[pos.y][pos.x].type = TILE_TYPE::EMPTY;
-		_tiles[pos.y][pos.x].isDirty = true;
 	}
 }
 

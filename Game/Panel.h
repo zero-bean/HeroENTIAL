@@ -16,7 +16,10 @@ public:
 	virtual void Tick();
 	virtual void Render(HDC hdc);
 
+	virtual void SetVisible(bool visible) override;
+
 public:
+	vector<shared_ptr<UI>> GetChildren() const { return _children; }
 	void AddChild(shared_ptr<UI> ui);
 	bool RemoveChild(shared_ptr<UI> ui);
 

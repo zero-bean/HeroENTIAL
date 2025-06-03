@@ -2,7 +2,6 @@
 #include "Consumable.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "DevScene.h"
 
 Consumable::Consumable()
 {

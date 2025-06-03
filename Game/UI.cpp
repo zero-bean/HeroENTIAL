@@ -24,7 +24,8 @@ void UI::Tick()
 
 void UI::Render(HDC hdc)
 {
-
+	if (!_isVisible)
+		return;
 }
 
 RECT UI::GetRect()

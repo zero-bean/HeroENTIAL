@@ -47,7 +47,5 @@ private:
 
 	bool _keyPressed = false;
 	WeaponType _weaponType = WeaponType::Sword;
-
-	shared_ptr<Item> _overlappingItem = nullptr;
 };
 

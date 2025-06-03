@@ -4,7 +4,6 @@
 #include "Consumable.h"
 #include "Potion.h"
 #include "Scene.h"
-#include "DevScene.h"
 #include "Player.h"
 #include "BoxCollider.h"
 #include "SceneManager.h"
@@ -69,7 +68,7 @@ bool Inventory::DropItem(shared_ptr<Item>& item)
 {
     if (!item) return false;
 
-    shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+    shared_ptr<Scene> scene = SceneManager::GET_SINGLE()->GetCurrentScene();
     if (!scene) return false;
 
     shared_ptr<Player> player = dynamic_pointer_cast<Player>(GetOwner());
@@ -101,7 +100,6 @@ int Inventory::FindItemIndex(shared_ptr<Item> item, const int idx)
         if (target && target->GetObjectID() == item->GetObjectID())
             return i;
     }
-
 
     return -1;
 }

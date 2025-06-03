@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 #include "UIManager.h"
 #include "Scene.h"
-#include "DevScene.h"
 #include "LobbyScene.h"
 #include "BattleScene.h"
 #include "Stage1.h"
@@ -26,6 +26,8 @@ void SceneManager::Render(HDC hdc)
 
 void SceneManager::Clear()
 {
+	UIManager::GET_SINGLE()->Clear();
+	ResourceManager::GET_SINGLE()->Clear();
 	_scene.reset();
 }
 
@@ -38,9 +40,6 @@ void SceneManager::ChangeScene(SceneType sceneType)
 
 	switch (sceneType)
 	{
-	case SceneType::DevScene:
-		newScene = make_shared<DevScene>();
-		break;
 	case SceneType::LobbyScene:
 		newScene = make_shared<LobbyScene>();
 		break;

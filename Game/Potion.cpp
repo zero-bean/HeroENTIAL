@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Potion.h"
+#include "Scene.h"
 #include "Player.h"
-#include "DevScene.h"
 #include "Collider.h"
 #include "BoxCollider.h"
 #include "ResourceManager.h"
@@ -101,20 +101,10 @@ void Potion::Use()
 
 	if (_itemCount == 0)
 	{
-		auto scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+		auto scene = SceneManager::GET_SINGLE()->GetCurrentScene();
 		if (scene)
 			scene->RemoveActor(shared_from_this());
 	}
-}
-
-void Potion::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
-{
-	Super::OnComponentBeginOverlap(collider, other);
-}
-
-void Potion::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
-{
-	Super::OnComponentEndOverlap(collider, other);
 }
 
 void Potion::TickIdle()

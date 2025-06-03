@@ -29,6 +29,15 @@ public:
 		_resourcePath = resourcePath;
 	};
 
+	void Clear()
+	{
+		_textures.clear();
+		_sprites.clear();
+		_flipbooks.clear();
+		_tilemaps.clear();
+		_fonts.clear();
+	}
+
 	const fs::path& GetResourcePath() { return _resourcePath; }
 
 	shared_ptr<Texture> GetTexture(const wstring& key) { return _textures[key]; }

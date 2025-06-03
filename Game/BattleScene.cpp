@@ -32,52 +32,6 @@ void BattleScene::Render(HDC hdc)
 	Super::Render(hdc);
 }
 
-void BattleScene::MarkTileHasItem(const Vec2Int pos, const bool check)
-{
-	if (!_tilemapActor)
-		return;
-
-	if (shared_ptr<Tilemap> tm = _tilemapActor->GetTilemap())
-		tm->GetTileAt(pos).hasItem = check;
-}
-
-void BattleScene::PickUpItem(shared_ptr<Item> item, shared_ptr<Player> player)
-{
-	if (!item || !player)
-		return;
-
-	// 충돌체 제거
-	if (shared_ptr<Collider> collider = item->GetCollider())
-		CollisionManager::GET_SINGLE()->RemoveCollider(collider);
-
-	// 인벤토리 귀속
-	if (auto inventory = player->FindComponent<Inventory>())
-		inventory->AddItem(item);
-
-	// 타일 정보 갱신 및 드랍
-	MarkTileHasItem(item->GetCellPos(), false);
-	RemoveActor(item);
-}
-
-void BattleScene::DropItem(shared_ptr<Item> item, Vec2Int pos)
-{
-	if (!item) 
-		return;
-
-	// 실제 드랍 가능한 위치 계산
-	Vec2Int dropPos = GetClosestEmptyCellPos(pos);
-
-	// 아이템 정보 초기화
-	item->GetOwner().reset();
-	item->SetCellPos(dropPos, true);
-	item->SetScale(1);
-	item->AddCollider({ 32, 32 });
-
-	// 타일 정보 갱신 및 드랍
-	MarkTileHasItem(dropPos, true);
-	AddActor(item);
-}
-
 void BattleScene::InitObjects()
 {
 	shared_ptr<Tilemap> tilemap = _tilemapActor->GetTilemap();
@@ -208,54 +162,6 @@ Vec2Int BattleScene::GetRandomEmptyCellPos()
 			return cellPos;
 
 		cnt++;
-	}
-
-	return ret;
-}
-
-Vec2Int BattleScene::GetClosestEmptyCellPos(const Vec2Int& center)
-{
-	Vec2Int ret = { -1, -1 };
-
-	if (_tilemapActor == nullptr)
-		return ret;
-
-	shared_ptr<Tilemap> tm = _tilemapActor->GetTilemap();
-	if (tm == nullptr)
-		return ret;
-
-	Vec2Int size = tm->GetMapSize();
-	queue<Vec2Int> q;
-	set<Vec2Int> visited;
-
-	q.push(center);
-	visited.insert(center);
-
-	const Vec2Int directions[4] = {
-		{1, 0}, {-1, 0}, {0, 1}, {0, -1}
-	};
-
-	while (!q.empty())
-	{
-		Vec2Int curr = q.front();
-		q.pop();
-
-		if (CanGo(curr, true))
-			return curr;
-
-		for (const Vec2Int& dir : directions)
-		{
-			Vec2Int next = curr + dir;
-
-			if (next.x < 0 || next.y < 0 || next.x >= size.x || next.y >= size.y)
-				continue;
-
-			if (visited.find(next) != visited.end())
-				continue;
-
-			q.push(next);
-			visited.insert(next);
-		}
 	}
 
 	return ret;

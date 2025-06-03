@@ -83,7 +83,7 @@ void InventoryTooltip::Render(HDC hdc)
 	HFONT oldFont = (HFONT)::SelectObject(hdc, fontDesc);
 
 	// ==== 배경 그리기 ====
-	Utils::DrawRectColored(hdc, { pos.x, pos.y }, bgWidth, bgHeight, RGB(140, 195, 196), RGB(255, 252, 231));
+	Utils::DrawRoundRectColored(hdc, { pos.x, pos.y }, bgWidth, bgHeight, RGB(140, 195, 196), RGB(255, 252, 231));
 
 	// ==== 아이템 이름 출력 ====
 	::SelectObject(hdc, fontName);

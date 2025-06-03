@@ -73,11 +73,9 @@ void Monster::TickDeath()
 		if (scene == nullptr)
 			return;
 
-		/* 죽을 때, 이벤트 함수 추가할 것 */
-		DropItems();
-		/* */
-
 		scene->RemoveActor(shared_from_this());
+		scene->MarkTileType(GetCellPos(), TILE_TYPE::EMPTY);
+		DropItems();
 	}
 }
 

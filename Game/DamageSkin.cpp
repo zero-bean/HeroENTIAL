@@ -3,7 +3,6 @@
 #include "Font.h"
 #include "SceneManager.h"
 #include "TimeManager.h"
-#include "DevScene.h"
 #include "Scene.h"
 
 DamageSkin::DamageSkin()
@@ -39,7 +38,7 @@ void DamageSkin::Render(HDC hdc)
 void DamageSkin::OnDestroyed()
 {
 	SceneManager::GET_SINGLE()->GetCurrentScene();
-	shared_ptr<DevScene> scene = dynamic_pointer_cast<DevScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	shared_ptr<Scene> scene = SceneManager::GET_SINGLE()->GetCurrentScene();
 
 	if (scene)
 		scene->RemoveActor(shared_from_this());

@@ -1,11 +1,15 @@
 #include "pch.h"
 #include "UIManager.h"
 #include "UI.h"
+#include "Panel.h"
 
 void UIManager::Init(HWND hwnd)
 {
 	_hwnd = hwnd;
+}
 
+void UIManager::BeginPlay()
+{
 	for (shared_ptr<UI> ui : _uis)
 		ui->BeginPlay();
 }
@@ -49,7 +53,17 @@ bool UIManager::IsMouseInUIs()
 {
 	for (const shared_ptr<UI>& ui : _uis)
 	{
-		if (ui->IsMouseInRect())
+		if (const shared_ptr<Panel> panel = dynamic_pointer_cast<Panel>(ui))
+		{
+			const vector<shared_ptr<UI>> children = panel->GetChildren();
+			for (const shared_ptr<UI>& child : children)
+			{
+				if (child->IsMouseInRect() && ui->GetVisible())
+					return true;
+			}
+		}
+
+		if (ui->IsMouseInRect() && ui->GetVisible())
 			return true;
 	}
 

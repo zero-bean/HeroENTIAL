@@ -35,7 +35,7 @@ void Game::Init(HWND hwnd)
 	SceneManager::GET_SINGLE()->Init();
 	CollisionManager::GET_SINGLE()->Init();
 
-	SceneManager::GET_SINGLE()->ChangeScene(SceneType::Stage1);
+	SceneManager::GET_SINGLE()->ChangeScene(SceneType::LobbyScene);
 	UIManager::GET_SINGLE()->Init(hwnd);
 }
 
@@ -44,14 +44,12 @@ void Game::Update()
 	TimeManager::GET_SINGLE()->Update();
 	InputManager::GET_SINGLE()->Update();
 	SceneManager::GET_SINGLE()->Update();
-	UIManager::GET_SINGLE()->Update();
 	CollisionManager::GET_SINGLE()->Update();
 }
 
 void Game::Render()
 {
 	SceneManager::GET_SINGLE()->Render(hdcBack);
-	UIManager::GET_SINGLE()->Render(hdcBack);
 
 	unsigned __int32 fps = TimeManager::GET_SINGLE()->GetFPS();
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
