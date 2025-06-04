@@ -18,6 +18,10 @@ private:
 	virtual void TickMove() override;
 	virtual void TickAttack() override;
 	virtual void TickAttacked() override;
+	virtual void TickBirth() override;
+	void TickSkill();
+	virtual void UpdateAnimation() override;
+
 
 	virtual void DropItems() override;
 

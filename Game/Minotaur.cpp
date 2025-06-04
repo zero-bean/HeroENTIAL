@@ -43,6 +43,26 @@ void Minotaur::TickAttacked()
 {
 }
 
+void Minotaur::TickBirth()
+{
+}
+
+void Minotaur::TickSkill()
+{
+}
+
+void Minotaur::UpdateAnimation()
+{
+	Super::UpdateAnimation();
+
+	switch (_state)
+	{
+	case ObjectState::Skill:
+		
+		break;
+	}
+}
+
 void Minotaur::DropItems()
 {
 }

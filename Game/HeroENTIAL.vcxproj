@@ -143,6 +143,8 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="BattleScene.h" />
+    <ClInclude Include="BossMonster.h" />
+    <ClInclude Include="BossPattern.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
@@ -210,6 +212,8 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="BattleScene.cpp" />
+    <ClCompile Include="BossMonster.cpp" />
+    <ClCompile Include="BossPattern.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />

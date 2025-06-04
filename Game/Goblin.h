@@ -6,7 +6,6 @@ enum class GoblinType
 {
 	Axe,
 	Bow,
-	Warrior,
 };
 
 class Goblin : public Monster
