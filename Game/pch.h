@@ -35,6 +35,7 @@ namespace fs = std::filesystem;
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
+// AlphaBlend
 #pragma comment(lib, "msimg32.lib")
 
 // »ç¿îµå

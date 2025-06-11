@@ -94,6 +94,50 @@ void Utils::DrawRectColored(HDC hdc, Pos pos, __int32 w, __int32 h, COLORREF col
 	DeleteObject(hPen);
 }
 
+void Utils::DrawRectTransparent(HDC hdc, Pos pos, int width, int height, COLORREF color, BYTE alpha)
+{
+	// 중심 기준 사각형 좌표 계산
+	RECT rect = {
+		static_cast<LONG>(pos.x - width / 2),
+		static_cast<LONG>(pos.y - height / 2),
+		static_cast<LONG>(pos.x + width / 2),
+		static_cast<LONG>(pos.y + height / 2)
+	};
+
+	// 메모리 DC와 비트맵 생성
+	HDC memDC = CreateCompatibleDC(hdc);
+	HBITMAP bmp = CreateCompatibleBitmap(hdc, width, height);
+	HBITMAP oldBmp = (HBITMAP)SelectObject(memDC, bmp);
+
+	// 브러시 생성 후 색상 채우기
+	HBRUSH brush = CreateSolidBrush(color);
+	RECT fillRect = { 0, 0, width, height };
+	FillRect(memDC, &fillRect, brush);
+	DeleteObject(brush);
+
+	// 반투명 블렌드 설정
+	BLENDFUNCTION blend = {};
+	blend.BlendOp = AC_SRC_OVER;
+	blend.BlendFlags = 0;
+	blend.SourceConstantAlpha = alpha;
+	blend.AlphaFormat = 0;
+
+	// 화면에 알파 블렌딩 출력
+	AlphaBlend(hdc,
+		rect.left, rect.top,
+		width, height,
+		memDC,
+		0, 0,
+		width, height,
+		blend);
+
+	// 리소스 정리
+	SelectObject(memDC, oldBmp);
+	DeleteObject(bmp);
+	DeleteDC(memDC);
+}
+
+
 void Utils::DrawCircle(HDC hdc, Pos pos, __int32 radius)
 {
 	::Ellipse(hdc,
@@ -139,4 +183,12 @@ void Utils::ReadBmp(const wstring& path)
 	fread_s(buffer, imgSize, imgSize, 1, fp);
 
 	//::free(buffer);
+}
+
+Vec2 Utils::FromAngleDeg(float deg)
+{
+	float rad = deg * PI / 180.f;
+	Vec2 dir(cosf(rad), sinf(rad));
+	dir.Normalize(); 
+	return dir;
 }

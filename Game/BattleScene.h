@@ -36,6 +36,10 @@ protected:
 
 	virtual void InitObjects();
 
+public:
+	// Observe Pattern..? ¸Â³ª
+	void NotifyPlayerOnDied();
+
 protected:
 	ObjectConfig ParseObjectConfig(const wstring& meta);
 	Rank ParseRank(const wstring& rankStr);

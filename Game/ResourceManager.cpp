@@ -5,6 +5,7 @@
 #include "Flipbook.h"
 #include "Tilemap.h"
 #include "Font.h"
+#include "Sound.h"
 
 shared_ptr<Texture> ResourceManager::LoadTexture(const wstring& key, const wstring& path, unsigned __int32 transparent)
 {
@@ -111,5 +112,19 @@ shared_ptr<Font> ResourceManager::LoadFont(const wstring& key, const wstring& tt
 	_fonts[key] = font;
 
 	return font;
+}
+
+shared_ptr<Sound> ResourceManager::LoadSound(const wstring& key, const wstring& path)
+{
+	if (_sounds.find(key) != _sounds.end())
+		return _sounds[key];
+
+	fs::path fullPath = _resourcePath / path;
+
+	shared_ptr<Sound> sound = make_shared<Sound>();
+	sound->LoadWave(fullPath);
+	_sounds[key] = sound;
+
+	return sound;
 }
 

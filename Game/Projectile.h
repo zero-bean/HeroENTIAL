@@ -32,5 +32,5 @@ protected:
 protected:
 	__int32 _attack = 10;
 	float _timer = 2.5f;
-	Vec2 DirVec = {};
+	Vec2 _dirVec = {};
 };

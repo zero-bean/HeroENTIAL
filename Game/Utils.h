@@ -21,6 +21,8 @@ public:
 
 	static void DrawRectColored(HDC hdc, Pos pos, __int32 w, __int32 h, COLORREF color, COLORREF borderColor);
 
+	static void DrawRectTransparent(HDC hdc, Pos pos, int width, int height, COLORREF color, BYTE alpha);
+
 	static void DrawCircle(HDC hdc, Pos pos, __int32 radius);
 
 	static void DrawLine(HDC hdc, Pos from, Pos to);
@@ -28,5 +30,9 @@ public:
 	static void DrawLineColored(HDC hdc, Pos from, Pos to, COLORREF color);
 
 	static void ReadBmp(const wstring& path);
+
+public:
+	static Vec2 FromAngleDeg(float deg);
+
 };
 

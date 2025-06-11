@@ -29,6 +29,9 @@ protected:
 
 public:
 	void SetState(ObjectState state);
+	ObjectState GetState() const { return _state; }
+
+	Dir GetDir() const { return _dir; }
 	void SetDir(Dir dir);
 
 	bool HasReachedDest();

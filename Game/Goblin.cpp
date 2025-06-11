@@ -54,8 +54,8 @@ void Goblin::SetGoblinType(GoblinType type)
 		_attacked[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Right_Attacked");
 		_attacked[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Left_Attacked");
 
-		_dead[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Right_Death");
-		_dead[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Left_Death");
+		_death[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Right_Death");
+		_death[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Left_Death");
 
 		_birth[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Right_Birth");
 		_birth[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Axe_Left_Birth");
@@ -73,8 +73,8 @@ void Goblin::SetGoblinType(GoblinType type)
 		_attacked[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Right_Attacked");
 		_attacked[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Left_Attacked");
 
-		_dead[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Right_Death");
-		_dead[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Left_Death");
+		_death[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Right_Death");
+		_death[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Left_Death");
 
 		_birth[DIR_RIGHT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Right_Birth");
 		_birth[DIR_LEFT] = ResourceManager::GET_SINGLE()->GetFlipbook(L"Goblin_Bow_Left_Birth");
@@ -88,14 +88,14 @@ void Goblin::TickIdle()
 	if (scene == nullptr)
 		return;
 
-	if (_target.expired())
-		_target = scene->FindClosestPlayer(GetCellPos());
-
-	shared_ptr<Player> player = _target.lock();
-	if (player == nullptr)
+	if (!GetTarget())
+	{
+		SetTarget(scene->FindClosestPlayer(GetCellPos()));
 		return;
+	}
 
-	Vec2Int dir = player->GetCellPos() - GetCellPos();
+
+	Vec2Int dir = GetTarget()->GetCellPos() - GetCellPos();
 	__int32 dist = abs(dir.x) + abs(dir.y);
 
 
@@ -103,7 +103,7 @@ void Goblin::TickIdle()
 	{
 		if (dist == 1)
 		{
-			SetDir(GetLookAtDir(player->GetCellPos()));
+			SetDir(GetLookAtDir(GetTarget()->GetCellPos()));
 
 			if (_waitAtkSec > 0.5f)
 			{
@@ -120,7 +120,7 @@ void Goblin::TickIdle()
 	{
 		if (dist <= 8)
 		{
-			SetDir(GetLookAtDir(player->GetCellPos()));
+			SetDir(GetLookAtDir(GetTarget()->GetCellPos()));
 
 			if (_waitAtkSec > 0.5f)
 			{
@@ -135,7 +135,7 @@ void Goblin::TickIdle()
 	}
 
 	vector<Vec2Int> path;
-	if (scene->FindPath(GetCellPos(), player->GetCellPos(), OUT path))
+	if (scene->FindPath(GetCellPos(), GetTarget()->GetCellPos(), OUT path))
 	{
 		if (path.size() > 1)
 		{

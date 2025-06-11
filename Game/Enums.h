@@ -20,11 +20,13 @@ enum LAYER_TYPE
 
 enum COLLISION_LAYER_TYPE : unsigned __int8
 {
+	CLT_BULLET,
+	CLT_MYBULLET,
 	CLT_PLAYER,
 	CLT_NPC,
 	CLT_MONSTER,
 	CLT_OBJECT,
-	CLT_BULLET,
+	CLT_LAYER,
 	CLT_GROUND,
 	CLT_WALL,
 	// ...
@@ -47,6 +49,7 @@ enum class ObjectState
 	Skill,
 	Death,
 	Birth,
+	Stunned,
 };
 
 enum class WeaponType

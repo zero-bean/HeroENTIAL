@@ -4,7 +4,6 @@
 
 class Player;
 class Flipbook;
-class Collider;
 
 class Monster : public Creature
 {
@@ -18,13 +17,18 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
-	virtual void OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
-	virtual void OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other) override;
-
 	virtual TILE_TYPE GetTileType() const override { return TILE_TYPE::MONSTER; }
 
 public:
+	shared_ptr<Player> GetTarget() { return _target.expired() ? nullptr : _target.lock(); }
+	void SetTarget(const shared_ptr<Player> target) { _target = target; }
+
 	void SetRank(Rank rank) { _rank = rank; }
+
+	bool MoveToTarget(const Vec2Int& targetCellPos, int dist = 1);
+
+public:
+	virtual void NotifiedPlayerOnDied() {}
 
 protected:
 	virtual void TickIdle() override {}
@@ -33,6 +37,8 @@ protected:
 	virtual void TickAttacked() override {}
 	virtual void TickDeath() override;
 	virtual void TickBirth() override;
+	virtual void TickSkill() {}
+	virtual void TickStunned() {}
 
 	virtual void UpdateAnimation() override;
 
@@ -44,7 +50,8 @@ protected:
 	shared_ptr<Flipbook> _move[2] = {};
 	shared_ptr<Flipbook> _attack[2] = {};
 	shared_ptr<Flipbook> _attacked[2] = {};
-	shared_ptr<Flipbook> _dead[2] = {};
+	shared_ptr<Flipbook> _stunned[2] = {};
+	shared_ptr<Flipbook> _death[2] = {};
 	shared_ptr<Flipbook> _birth[2] = {};
 
 	Rank _rank = Rank::Common;

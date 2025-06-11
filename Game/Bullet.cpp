@@ -79,8 +79,8 @@ void Bullet::TickIdle()
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
 
 	_timer -= deltaTime;
-	_pos.y += 250 * DirVec.y * deltaTime;
-	_pos.x += 250 * DirVec.x * deltaTime;
+	_pos.y += 250 * _dirVec.y * deltaTime;
+	_pos.x += 250 * _dirVec.x * deltaTime;
 
 	if (_timer <= 0.f)
 		OnDestroyed();
@@ -98,10 +98,11 @@ void Bullet::SetBulletType(BulletType type)
 		AddCollider({ 32,32 });
 		break;
 	case BulletType::BladeStorm:
+	{
 		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"BladeStorm_Red");
 		SetScale(3.5f);
 		shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
-		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
+		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MYBULLET);
 		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
 		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
 		collider->RemoveCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
@@ -110,12 +111,41 @@ void Bullet::SetBulletType(BulletType type)
 		AddComponent(collider);
 		break;
 	}
+	case BulletType::Cutter:
+	{
+		_flipbook = ResourceManager::GET_SINGLE()->GetFlipbook(L"Bullet_Red_Cutter");
+		SetScale(4.f);
+		shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
+		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+		collider->SetSize({ 64, 64 });
+		CollisionManager::GET_SINGLE()->AddCollider(collider);
+		AddComponent(collider);
+		break;
+	}
+	case BulletType::Transparent:
+	{
+		_flipbook = nullptr;
+		shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
+		collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
+		collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
+		collider->SetSize({ 160, 160 });
+		CollisionManager::GET_SINGLE()->AddCollider(collider);
+		AddComponent(collider);
+		break;
+	}
+	}
 }
 
 void Bullet::SetDirVec(const Vec2 sp, const Vec2 lp)
 {
-	DirVec = lp - sp;
-	DirVec.Normalize();
+	_dirVec = lp - sp;
+	_dirVec.Normalize();
+}
+
+void Bullet::SetDirVec(const Vec2 dirVec)
+{
+	_dirVec = dirVec;
 }
 
 

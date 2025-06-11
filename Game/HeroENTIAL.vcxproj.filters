@@ -96,6 +96,15 @@
     <Filter Include="소스 파일\03.Objects\Game\Creature\Monster">
       <UniqueIdentifier>{3006bea7-8d7d-41da-9b54-7cea3f0d6016}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Creature\Monster\Boss">
+      <UniqueIdentifier>{18c44909-d162-47d0-b151-0593a6a04745}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur">
+      <UniqueIdentifier>{0b4b8aae-8c50-4067-8ce7-c62def9f887d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Creature\Monster\Common">
+      <UniqueIdentifier>{eb880d77-5b1f-4868-b213-9f077cfe257d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -281,20 +290,38 @@
     <ClInclude Include="Monster.h">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="BossMonster.h">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="Goblin.h">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="Minotaur.h">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="BossPattern.h">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="Creature.h">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="BossMonster.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossPattern.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Minotaur.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>소스 파일\04.Resources\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>소스 파일\01.Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Goblin.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SmashAttack.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>소스 파일\03.Objects\Game\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="RedRectWarningEffect.h">
+      <Filter>소스 파일\03.Objects\Game\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="SwingStormSkill.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -457,23 +484,41 @@
     <ClCompile Include="CameraShake.cpp">
       <Filter>소스 파일\05.Components\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="BossMonster.cpp">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="Goblin.cpp">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="Minotaur.cpp">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="BossPattern.cpp">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
     </ClCompile>
     <ClCompile Include="Creature.cpp">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="BossMonster.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BossPattern.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Minotaur.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>소스 파일\04.Resources\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>소스 파일\01.Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Goblin.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SmashAttack.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>소스 파일\03.Objects\Game\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="RedRectWarningEffect.cpp">
+      <Filter>소스 파일\03.Objects\Game\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="SwingStormSkill.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

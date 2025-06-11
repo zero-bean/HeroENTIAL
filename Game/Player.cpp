@@ -227,6 +227,7 @@ void Player::TickDeath()
 	if (shared_ptr<BattleScene> scene = dynamic_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene()))
 	{
 		scene->MarkTileType(GetCellPos(), TILE_TYPE::EMPTY);
+		scene->NotifyPlayerOnDied();
 		scene->RemoveActor(shared_from_this());
 	}
 }

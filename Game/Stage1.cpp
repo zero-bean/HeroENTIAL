@@ -16,6 +16,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Goblin.h"
+#include "Minotaur.h"
 #include "Bullet.h"
 #include "Item.h"
 #include "Potion.h"
@@ -68,6 +69,7 @@ void Stage1::Update()
 void Stage1::Render(HDC hdc)
 {
 	Super::Render(hdc);
+
 }
 
 void Stage1::LoadMap()
@@ -206,6 +208,7 @@ shared_ptr<Player> Stage1::LoadPlayer()
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_WALL);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_NPC);
 	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_OBJECT);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
 	collider->SetSize({ 50, 50 });
 	CollisionManager::GET_SINGLE()->AddCollider(collider);
 	
@@ -218,10 +221,8 @@ void Stage1::LoadMonster()
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Left", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Left.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Right", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Right.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Left", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Left.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Warrior_Right", L"Sprite/Monster/Goblin/Goblin_Warrior_Right.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Warrior_Left", L"Sprite/Monster/Goblin/Goblin_Warrior_Left.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur", L"Sprite/Monster/Minotaur/Minotaur_Right.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur", L"Sprite/Monster/Minotaur/Minotaur_Left.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur_Right", L"Sprite/Monster/Minotaur/Minotaur_Right.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur_Left", L"Sprite/Monster/Minotaur/Minotaur_Left.bmp");
 
 	auto LoadGoblin = [](const wstring& name) {
 		shared_ptr<Texture> tx_right = ResourceManager::GET_SINGLE()->GetTexture(name + L"_Right");
@@ -261,11 +262,12 @@ void Stage1::LoadMonster()
 		vector<tuple<wstring, int, int, float, bool>> animations = {
 			{L"Idle", 4, 0, 0.5f, true},
 			{L"Move", 7, 1, 0.5f, true},
-			{L"SkillA", 4, 2, 0.5f, false},
-			{L"AttackA", 8, 3, 0.7f, false},
+			{L"Prepare", 4, 2, 0.3f, false},
+			{L"AttackA", 8, 3, 0.5f, false},
 			{L"AttackB", 4, 4, 0.3f, false},
-			{L"SkillB", 5, 5, 0.5f, false},
-			{L"SkillC", 8, 6, 0.5f, false},
+			{L"SkillA", 5, 5, 0.5f, false},
+			{L"SkillB", 8, 6, 1.f, false},
+			{L"Stunned", 2, 7, 0.2f, false},
 			{L"Attacked", 2, 8, 0.1f, false},
 			{L"Death", 5, 9, 0.4f, false},
 		};
@@ -286,17 +288,27 @@ void Stage1::LoadMonster()
 		};
 
 	LoadMinotaur(L"Minotaur");
+
+	shared_ptr<Minotaur> monster = make_shared<Minotaur>();
+	monster->SetCellPos({7, 5}, true);
+	monster->SetScale(4);
+	AddActor(monster);
 }
 
 void Stage1::LoadBullet()
 {
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Bullet_Red", L"Sprite\\Bullet\\red.bmp", RGB(0, 0, 0));
 
-	shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Bullet_Red");
-
 	{
+		shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Bullet_Red");
 		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Bullet_Red_Basic");
 		fb->SetInfo({ texture, L"Bullet_Red_Basic", {16, 17}, 0, 4, 1, 0.3f });
+	}
+
+	{
+		shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Bullet_Red");
+		shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Bullet_Red_Cutter");
+		fb->SetInfo({ texture, L"Bullet_Red_Cutter", {16, 17}, 36, 39, 1, 0.2f });
 	}
 }
 

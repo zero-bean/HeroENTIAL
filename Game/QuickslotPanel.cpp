@@ -78,10 +78,10 @@ void QuickslotPanel::BeginPlay()
 
 void QuickslotPanel::Tick()
 {
-	Super::Tick();
-
 	if (!_inventory.lock())
 		return;
+
+	Super::Tick();
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::KEY_1))
 		_slots[0]->UseItem();
@@ -94,13 +94,13 @@ void QuickslotPanel::Tick()
 
 void QuickslotPanel::Render(HDC hdc)
 {
-	Super::Render(hdc);
+	if (!_inventory.lock())
+		return;
 
 	if (!GetVisible())
 		return;
 
-	if (!_inventory.lock())
-		return;
+	Super::Render(hdc);
 }
 
 void QuickslotPanel::SetSlotsOwnerPtr(shared_ptr<Inventory> inventory)

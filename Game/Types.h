@@ -86,7 +86,6 @@ public:
 		return (x * other.y) - (y * other.x);
 	}
 
-
 public:
 	float x = 0;
 	float y = 0;
@@ -97,6 +96,7 @@ public:
 	VectorInt() {};
 	VectorInt(const __int32 x, const __int32 y) : x(x), y(y) {};
 	VectorInt(const POINT point) : x(point.x), y(point.y) {};
+	VectorInt(const Vector& other) : x(static_cast<__int32>(other.x)), y(static_cast<__int32>(other.y)) {};
 
 	VectorInt operator+(const VectorInt& other) const
 	{

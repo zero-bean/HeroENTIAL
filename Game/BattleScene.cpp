@@ -48,6 +48,18 @@ void BattleScene::InitObjects()
 	}
 }
 
+void BattleScene::NotifyPlayerOnDied()
+{
+	for (vector<shared_ptr<Actor>>& actors : _actors)
+	{
+		for (shared_ptr<Actor>& actor : actors)
+		{
+			if (shared_ptr<Monster> monster = dynamic_pointer_cast<Monster>(actor))
+				monster->NotifiedPlayerOnDied();
+		}
+	}
+}
+
 ObjectConfig BattleScene::ParseObjectConfig(const wstring& meta)
 {
 	ObjectConfig config;

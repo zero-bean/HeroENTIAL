@@ -28,7 +28,7 @@ void Monster::BeginPlay()
 
 	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_MONSTER);
-	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_BULLET);
+	collider->AddCollisionFlagLayer(COLLISION_LAYER_TYPE::CLT_MYBULLET);
 	collider->SetSize(Vec2(16, 16) * GetScale());
 	collider->SetCoorPos({ 0, -16 });
 	AddComponent(collider);
@@ -38,25 +38,21 @@ void Monster::BeginPlay()
 void Monster::Tick()
 {
 	Super::Tick();
+
+	switch (_state)
+	{
+	case ObjectState::Skill:
+		TickSkill();
+		break;
+	case ObjectState::Stunned:
+		TickStunned();
+		break;
+	}
 }
 
 void Monster::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
-}
-
-void Monster::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
-{
-	shared_ptr<BoxCollider> b1 = dynamic_pointer_cast<BoxCollider>(collider);
-	shared_ptr<BoxCollider> b2 = dynamic_pointer_cast<BoxCollider>(other);
-
-	if (b1 == nullptr || b2 == nullptr)
-		return;
-}
-
-void Monster::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
-{
 
 }
 
@@ -104,11 +100,42 @@ void Monster::UpdateAnimation()
 	case ObjectState::Attacked:
 		SetFlipbook(_attacked[_animDir]);
 		break;
+	case ObjectState::Stunned:
+		SetFlipbook(_stunned[_animDir]);
+		break;
 	case ObjectState::Death:
-		SetFlipbook(_dead[_animDir]);
+		SetFlipbook(_death[_animDir]);
 		break;
 	case ObjectState::Birth:
 		SetFlipbook(_birth[_animDir]);
 		break;
 	}
+}
+
+bool Monster::MoveToTarget(const Vec2Int& targetCellPos, int dist)
+{
+	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	if (scene == nullptr)
+		return false;
+
+	vector<Vec2Int> path;
+	if (scene->FindPath(GetCellPos(), targetCellPos, OUT path))
+	{
+		if (path.size() > dist)
+		{
+			Vec2Int nextPos = path[1];
+			if (scene->CanGo(nextPos))
+			{
+				SetCellPos(nextPos);
+				SetState(ObjectState::Move);
+				return true;
+			}
+		}
+		else if (!path.empty())
+		{
+			SetCellPos(path[0]);
+		}
+	}
+
+	return false;
 }
