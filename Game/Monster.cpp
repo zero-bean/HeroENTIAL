@@ -38,25 +38,18 @@ void Monster::BeginPlay()
 void Monster::Tick()
 {
 	Super::Tick();
+
+	switch (_state)
+	{
+	case ObjectState::Stunned:
+		TickStunned();
+		break;
+	}
 }
 
 void Monster::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
-}
-
-void Monster::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
-{
-	shared_ptr<BoxCollider> b1 = dynamic_pointer_cast<BoxCollider>(collider);
-	shared_ptr<BoxCollider> b2 = dynamic_pointer_cast<BoxCollider>(other);
-
-	if (b1 == nullptr || b2 == nullptr)
-		return;
-}
-
-void Monster::OnComponentEndOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)
-{
 
 }
 
@@ -103,6 +96,9 @@ void Monster::UpdateAnimation()
 		break;
 	case ObjectState::Attacked:
 		SetFlipbook(_attacked[_animDir]);
+		break;
+	case ObjectState::Stunned:
+		SetFlipbook(_stunned[_animDir]);
 		break;
 	case ObjectState::Death:
 		SetFlipbook(_dead[_animDir]);

@@ -218,8 +218,6 @@ void Stage1::LoadMonster()
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Left", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Left.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Right", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Right.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Left", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Left.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Warrior_Right", L"Sprite/Monster/Goblin/Goblin_Warrior_Right.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Warrior_Left", L"Sprite/Monster/Goblin/Goblin_Warrior_Left.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur", L"Sprite/Monster/Minotaur/Minotaur_Right.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur", L"Sprite/Monster/Minotaur/Minotaur_Left.bmp");
 

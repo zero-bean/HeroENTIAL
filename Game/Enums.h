@@ -47,6 +47,7 @@ enum class ObjectState
 	Skill,
 	Death,
 	Birth,
+	Stunned,
 };
 
 enum class WeaponType
