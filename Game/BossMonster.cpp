@@ -52,7 +52,7 @@ void BossMonster::ChangePattern(shared_ptr<BossPattern> pattern)
 
 void BossMonster::ClearPatterns()
 {
-
+	
 }
 
 void BossMonster::InterruptPattern()

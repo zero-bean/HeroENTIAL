@@ -102,6 +102,9 @@
     <Filter Include="소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur">
       <UniqueIdentifier>{0b4b8aae-8c50-4067-8ce7-c62def9f887d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Creature\Monster\Common">
+      <UniqueIdentifier>{eb880d77-5b1f-4868-b213-9f077cfe257d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -287,9 +290,6 @@
     <ClInclude Include="Monster.h">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="Goblin.h">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="Creature.h">
       <Filter>소스 파일\03.Objects\Game\Creature</Filter>
     </ClInclude>
@@ -301,6 +301,15 @@
     </ClInclude>
     <ClInclude Include="Minotaur.h">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>소스 파일\04.Resources\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>소스 파일\01.Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Goblin.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -463,9 +472,6 @@
     <ClCompile Include="CameraShake.cpp">
       <Filter>소스 파일\05.Components\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Goblin.cpp">
-      <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
     </ClCompile>
@@ -480,6 +486,15 @@
     </ClCompile>
     <ClCompile Include="Minotaur.cpp">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>소스 파일\04.Resources\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>소스 파일\01.Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Goblin.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

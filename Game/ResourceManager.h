@@ -5,6 +5,7 @@ class Sprite;
 class Flipbook;
 class Tilemap;
 class Font;
+class Sound;
 
 class ResourceManager
 {
@@ -36,6 +37,7 @@ public:
 		_flipbooks.clear();
 		_tilemaps.clear();
 		_fonts.clear();
+		_sounds.clear();
 	}
 
 	const fs::path& GetResourcePath() { return _resourcePath; }
@@ -59,6 +61,9 @@ public:
 	shared_ptr<Font> GetFont(const wstring& key) { return _fonts[key]; }
 	shared_ptr<Font> LoadFont(const wstring& key, const wstring& ttfFileName, const wstring& fontName, int size);
 
+	shared_ptr<Sound> GetSound(const wstring& key) { return _sounds[key]; }
+	shared_ptr<Sound> LoadSound(const wstring& key, const wstring& path);
+
 private:
 	HWND _hwnd = nullptr;
 	fs::path _resourcePath = {};
@@ -68,5 +73,6 @@ private:
 	unordered_map<wstring, shared_ptr<Flipbook>> _flipbooks;
 	unordered_map<wstring, shared_ptr<Tilemap>> _tilemaps;
 	unordered_map<wstring, shared_ptr<Font>> _fonts;
+	unordered_map<wstring, shared_ptr<Sound>> _sounds;
 };
 
