@@ -20,7 +20,12 @@ public:
 	virtual TILE_TYPE GetTileType() const override { return TILE_TYPE::MONSTER; }
 
 public:
+	shared_ptr<Player> GetTarget() const { return _target.lock(); }
+	void SetTarget(const shared_ptr<Player> target) { _target = target; }
+
 	void SetRank(Rank rank) { _rank = rank; }
+
+	bool MoveToTarget(const Vec2Int& targetCellPos);
 
 protected:
 	virtual void TickIdle() override {}
@@ -29,6 +34,7 @@ protected:
 	virtual void TickAttacked() override {}
 	virtual void TickDeath() override;
 	virtual void TickBirth() override;
+	virtual void TickSkill() {}
 	virtual void TickStunned() {}
 
 	virtual void UpdateAnimation() override;
@@ -42,7 +48,7 @@ protected:
 	shared_ptr<Flipbook> _attack[2] = {};
 	shared_ptr<Flipbook> _attacked[2] = {};
 	shared_ptr<Flipbook> _stunned[2] = {};
-	shared_ptr<Flipbook> _dead[2] = {};
+	shared_ptr<Flipbook> _death[2] = {};
 	shared_ptr<Flipbook> _birth[2] = {};
 
 	Rank _rank = Rank::Common;

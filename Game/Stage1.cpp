@@ -264,6 +264,7 @@ void Stage1::LoadMonster()
 			{L"AttackB", 4, 4, 0.3f, false},
 			{L"SkillB", 5, 5, 0.5f, false},
 			{L"SkillC", 8, 6, 0.5f, false},
+			{L"Stunned", 2, 7, 0.2f, false},
 			{L"Attacked", 2, 8, 0.1f, false},
 			{L"Death", 5, 9, 0.4f, false},
 		};

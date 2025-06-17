@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "BossMonster.h"
 #include "BossPattern.h"
-#include "TimeManager.h"
-#include "SceneManager.h"
+
 
 BossMonster::BossMonster()
 {
@@ -17,8 +16,6 @@ void BossMonster::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!_patternList.empty())
-		ChangePattern(_patternList[0]);
 }
 
 void BossMonster::Tick()
@@ -33,31 +30,31 @@ void BossMonster::Render(HDC hdc)
 
 }
 
-void BossMonster::AddPattern(shared_ptr<BossPattern> pattern)
+void BossMonster::AddPattern(const wstring& name, shared_ptr<BossPattern> pattern)
 {
-	_patternList.push_back(pattern);
+	if (_patterns.find(name) == _patterns.end())
+		_patterns[name] = pattern;
 }
 
 void BossMonster::ChangePattern(shared_ptr<BossPattern> pattern)
 {
-	if (_currentPattern)
-		_currentPattern->End();
-
-	if (!pattern)
-		return;
-
 	_currentPattern = pattern;
-	_currentPattern->Begin();
 }
 
 void BossMonster::ClearPatterns()
 {
-	
+	_patterns.clear();
+	_currentPattern = nullptr;
 }
 
-void BossMonster::InterruptPattern()
+void BossMonster::TickIdle()
 {
-	if (_currentPattern) 
-		_currentPattern->Interrupt();
+	if (_sequence.empty())
+		return;
+
+	const ObjectState nextState = _sequence.front();
+	_sequence.pop();
+	_sequence.push(nextState);
+	SetState(nextState);
 }
 

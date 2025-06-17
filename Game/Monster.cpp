@@ -101,10 +101,38 @@ void Monster::UpdateAnimation()
 		SetFlipbook(_stunned[_animDir]);
 		break;
 	case ObjectState::Death:
-		SetFlipbook(_dead[_animDir]);
+		SetFlipbook(_death[_animDir]);
 		break;
 	case ObjectState::Birth:
 		SetFlipbook(_birth[_animDir]);
 		break;
 	}
+}
+
+bool Monster::MoveToTarget(const Vec2Int& targetCellPos)
+{
+	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+	if (scene == nullptr)
+		return false;
+
+	vector<Vec2Int> path;
+	if (scene->FindPath(GetCellPos(), targetCellPos, OUT path))
+	{
+		if (path.size() > 1)
+		{
+			Vec2Int nextPos = path[1];
+			if (scene->CanGo(nextPos))
+			{
+				SetCellPos(nextPos);
+				SetState(ObjectState::Move);
+				return true;
+			}
+		}
+		else if (!path.empty())
+		{
+			SetCellPos(path[0]);
+		}
+	}
+
+	return false;
 }

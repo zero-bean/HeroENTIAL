@@ -16,26 +16,31 @@ public:
 	virtual void Render(HDC hdc) override;
 
 public:
-	void AddPattern(shared_ptr<BossPattern> pattern);
+	void AddPattern(const wstring& name, shared_ptr<BossPattern> pattern);
 	void ChangePattern(shared_ptr<BossPattern> pattern);
 	void ClearPatterns();
-	void InterruptPattern();
 	void ResumePattern() {}
 
+public:
+	queue<ObjectState>& GetSequence()  { return _sequence; }
+	void AddSequence(const ObjectState state) { _sequence.push(state); }
+
 protected:
-	virtual void TickIdle() override {}
+	virtual void TickIdle() override;
 	virtual void TickMove() override {}
 	virtual void TickAttack() override {}
 	virtual void TickAttacked() override {}
 	virtual void TickDeath() override {}
 	virtual void TickBirth() override {}
 	virtual void TickStunned() override {}
+	virtual void TickSkill() override {}
 
 protected:
 	virtual void DropItems() override {}
 
 protected:
 	shared_ptr<BossPattern> _currentPattern = nullptr;
-	vector<shared_ptr<BossPattern>> _patternList = {};
+	unordered_map<wstring, shared_ptr<BossPattern>> _patterns = {};
+	queue<ObjectState> _sequence = {};
 };
 

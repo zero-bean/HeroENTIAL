@@ -311,6 +311,9 @@
     <ClInclude Include="Goblin.h">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster\Common</Filter>
     </ClInclude>
+    <ClInclude Include="SmashAttack.h">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -495,6 +498,9 @@
     </ClCompile>
     <ClCompile Include="Goblin.cpp">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SmashAttack.cpp">
+      <Filter>소스 파일\03.Objects\Game\Creature\Monster\Boss\Minotaur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
