@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "BossMonster.h"
 #include "BossPattern.h"
-
+#include "TimeManager.h"
 
 BossMonster::BossMonster()
 {
@@ -20,9 +20,21 @@ void BossMonster::BeginPlay()
 
 void BossMonster::Tick()
 {
-	Super::Tick();
+	Super::Tick(); 
 
+	if (_currentPattern)
+	{
+		_currentPattern->Tick(TimeManager::GET_SINGLE()->GetDeltaTime());
+
+		if (_currentPattern->IsFinished())
+		{
+			_currentPattern->End();
+			_currentPattern = nullptr;
+			SetState(ObjectState::Idle);
+		}
+	}
 }
+
 
 void BossMonster::Render(HDC hdc)
 {
@@ -49,6 +61,7 @@ void BossMonster::ClearPatterns()
 
 void BossMonster::TickIdle()
 {
+	// 보스 패턴 순서가 없다면 ..
 	if (_sequence.empty())
 		return;
 

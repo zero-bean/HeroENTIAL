@@ -21,9 +21,11 @@ public:
 	void ClearPatterns();
 	void ResumePattern() {}
 
-public:
 	queue<ObjectState>& GetSequence()  { return _sequence; }
 	void AddSequence(const ObjectState state) { _sequence.push(state); }
+
+public:
+	virtual void SetPatternAnimation(const wstring& name) {};
 
 protected:
 	virtual void TickIdle() override;

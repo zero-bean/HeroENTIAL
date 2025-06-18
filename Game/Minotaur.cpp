@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "Minotaur.h"
+#include "Player.h"
+#include "SmashAttack.h"
 #include "TimeManager.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "SmashAttack.h"
 
 Minotaur::Minotaur()
 {
@@ -40,6 +41,7 @@ void Minotaur::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// 보스 패턴 순서 설정
 	AddSequence(ObjectState::Attack);
 	AddSequence(ObjectState::Attack);
 	AddSequence(ObjectState::Skill);
@@ -47,8 +49,11 @@ void Minotaur::BeginPlay()
 	AddSequence(ObjectState::Attack);
 	AddSequence(ObjectState::Skill);
 
+	// 패턴 로직 추가
 	AddPattern(L"Smash", make_shared<SmashAttack>(shared_from_this()));
 
+
+	// ...
 }
 
 void Minotaur::Tick()
@@ -63,17 +68,27 @@ void Minotaur::Render(HDC hdc)
 
 }
 
+void Minotaur::SetPatternAnimation(const wstring& name)
+{
+	if (name == L"Smash")
+		SetFlipbook(_smash[_animDir]);
+	else if (name == L"Stab")
+		SetFlipbook(_stab[_animDir]);
+	else if (name == L"Swing")
+		SetFlipbook(_swing[_animDir]);
+	else if (name == L"Shake")
+		SetFlipbook(_shake[_animDir]);
+	else if (name == L"Drag")
+		SetFlipbook(_drag[_animDir]);
+}
+
 void Minotaur::TickIdle()
 {
 	Super::TickIdle();
 }
 
-void Minotaur::TickMove()
-{
-
-}
-
 void Minotaur::TickAttack() {
+	// 현재 패턴을 진행 중이라면 무시
 	if (_currentPattern)
 		return;
 
@@ -85,6 +100,7 @@ void Minotaur::TickAttack() {
 
 void Minotaur::TickSkill()
 {
+	// 현재 패턴을 진행 중이라면 무시
 	if (_currentPattern)
 		return;
 

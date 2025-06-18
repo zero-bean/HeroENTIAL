@@ -25,7 +25,7 @@ public:
 
 	void SetRank(Rank rank) { _rank = rank; }
 
-	bool MoveToTarget(const Vec2Int& targetCellPos);
+	bool MoveToTarget(const Vec2Int& targetCellPos, int dist = 1);
 
 protected:
 	virtual void TickIdle() override {}

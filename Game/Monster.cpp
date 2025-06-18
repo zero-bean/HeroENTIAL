@@ -109,7 +109,7 @@ void Monster::UpdateAnimation()
 	}
 }
 
-bool Monster::MoveToTarget(const Vec2Int& targetCellPos)
+bool Monster::MoveToTarget(const Vec2Int& targetCellPos, int dist = 1)
 {
 	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 	if (scene == nullptr)
@@ -118,7 +118,7 @@ bool Monster::MoveToTarget(const Vec2Int& targetCellPos)
 	vector<Vec2Int> path;
 	if (scene->FindPath(GetCellPos(), targetCellPos, OUT path))
 	{
-		if (path.size() > 1)
+		if (path.size() > dist)
 		{
 			Vec2Int nextPos = path[1];
 			if (scene->CanGo(nextPos))

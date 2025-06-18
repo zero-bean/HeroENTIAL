@@ -14,11 +14,17 @@ public:
     virtual void End() {}
     virtual bool IsFinished() = 0;
 
+public:
+    void SetReach(const int reach) { _reach = reach; }
+    int GetReach() const { return _reach; }
+    virtual void OnRangeReached() {};
+
 protected:
     shared_ptr<BossMonster> GetOwner() const { return _owner.lock(); }
     void SetOwner(const shared_ptr<BossMonster> owner) { _owner = owner; }
 
 protected:
     weak_ptr<BossMonster> _owner;
+    int _reach = 0;
 };
 

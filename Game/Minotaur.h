@@ -13,9 +13,11 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
+	virtual void SetPatternAnimation(const wstring& name) override;
+
 private:
 	virtual void TickIdle() override;
-	virtual void TickMove() override;
+	virtual void TickMove() override {}
 	virtual void TickAttack() override;
 	virtual void TickSkill() override;
 	virtual void TickAttacked() override {}

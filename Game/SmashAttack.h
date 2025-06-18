@@ -14,11 +14,13 @@ public:
     virtual void End() override { _isFinished = true; }
     virtual bool IsFinished() override { return _isFinished; }
 
+public:
+    virtual void OnRangeReached() override;
+
 private:
     enum class SmashPhase
     {
         None,
-        Move,
         Prepare,
         Attack,
         Done
@@ -27,8 +29,6 @@ private:
 private:
     Vec2Int _targetPos = {};
     SmashPhase _phase = SmashPhase::None;
-    float _elapsed = 0.f;
-    float _prepareTime = 0.f;
     bool _isFinished = false;
 };
 
