@@ -17,11 +17,11 @@ public:
 
 private:
 	virtual void TickIdle() override;
-	virtual void TickMove() override {}
+	virtual void TickMove() override;
 	virtual void TickAttack() override;
 	virtual void TickSkill() override;
 	virtual void TickAttacked() override {}
-	virtual void TickDeath() override {}
+	virtual void TickDeath() override;
 	virtual void TickBirth() override {}
 	virtual void TickStunned() override {}
 

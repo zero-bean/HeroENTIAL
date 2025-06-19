@@ -29,8 +29,10 @@ void BossMonster::Tick()
 		if (_currentPattern->IsFinished())
 		{
 			_currentPattern->End();
-			_currentPattern = nullptr;
+
+			SetCoolDown(_currentPattern->GetCoolTime());
 			SetState(ObjectState::Idle);
+			_currentPattern = nullptr;
 		}
 	}
 }
@@ -61,6 +63,10 @@ void BossMonster::ClearPatterns()
 
 void BossMonster::TickIdle()
 {
+	_coolDown -= TimeManager::GET_SINGLE()->GetDeltaTime();
+	if (_coolDown > 0.f)
+		return;
+
 	// 보스 패턴 순서가 없다면 ..
 	if (_sequence.empty())
 		return;
@@ -69,5 +75,12 @@ void BossMonster::TickIdle()
 	_sequence.pop();
 	_sequence.push(nextState);
 	SetState(nextState);
+}
+
+void BossMonster::TickDeath()
+{
+	Super::TickDeath();
+
+	ClearSequence();
 }
 

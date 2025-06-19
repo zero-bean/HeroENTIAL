@@ -44,16 +44,17 @@ void Minotaur::BeginPlay()
 	// 보스 패턴 순서 설정
 	AddSequence(ObjectState::Attack);
 	AddSequence(ObjectState::Attack);
-	AddSequence(ObjectState::Skill);
+	//AddSequence(ObjectState::Skill);
 	AddSequence(ObjectState::Attack);
 	AddSequence(ObjectState::Attack);
-	AddSequence(ObjectState::Skill);
+	//AddSequence(ObjectState::Skill);
 
 	// 패턴 로직 추가
-	AddPattern(L"Smash", make_shared<SmashAttack>(shared_from_this()));
+	AddPattern(L"Smash", make_shared<SmashAttack>(static_pointer_cast<BossMonster>(shared_from_this())));
 
 
 	// ...
+	SetState(ObjectState::Idle);
 }
 
 void Minotaur::Tick()
@@ -87,12 +88,56 @@ void Minotaur::TickIdle()
 	Super::TickIdle();
 }
 
+void Minotaur::TickMove()
+{
+	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
+	const float speed = GetStat().speed;
+	const Vec2 dir = (_destPos - _pos);
+
+	if (_currentPattern)
+	{
+		_currentPattern->Tick(deltaTime);
+	}
+
+	if (dir.Length() < 5.f)
+	{
+		SetState(ObjectState::Idle);
+		_pos = _destPos;
+	}
+	else
+	{
+		bool horizontal = abs(dir.x) > abs(dir.y);
+
+		if (horizontal)
+			SetDir(dir.x < 0 ? DIR_LEFT : DIR_RIGHT);
+		else
+			SetDir(dir.y < 0 ? DIR_UP : DIR_DOWN);
+
+		switch (_dir)
+		{
+		case DIR_UP:
+			_pos.y -= speed * deltaTime;
+			break;
+		case DIR_DOWN:
+			_pos.y += speed * deltaTime;
+			break;
+		case DIR_LEFT:
+			_pos.x -= speed * deltaTime;
+			break;
+		case DIR_RIGHT:
+			_pos.x += speed * deltaTime;
+			break;
+		}
+	}
+}
+
 void Minotaur::TickAttack() {
 	// 현재 패턴을 진행 중이라면 무시
 	if (_currentPattern)
 		return;
 
-	const vector<wstring> attackPool = { L"Smash", L"Stab", L"Punch" };
+	//const vector<wstring> attackPool = { L"Smash", L"Stab", L"Punch" };
+	const vector<wstring> attackPool = { L"Smash" };
 	const int idx = rand() % attackPool.size();
 	_currentPattern = _patterns[attackPool[idx]];
 	_currentPattern->Begin();
@@ -117,5 +162,12 @@ void Minotaur::TickSkill()
 
 	_skillCount = (_skillCount + 1) % 3;
 	_currentPattern->Begin();
+}
+
+void Minotaur::TickDeath()
+{
+	Super::TickDeath();
+
+	// 내용 추가해야 함 - 드랍, 연출, 삭제 등
 }
 

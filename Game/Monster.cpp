@@ -109,7 +109,7 @@ void Monster::UpdateAnimation()
 	}
 }
 
-bool Monster::MoveToTarget(const Vec2Int& targetCellPos, int dist = 1)
+bool Monster::MoveToTarget(const Vec2Int& targetCellPos, int dist)
 {
 	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
 	if (scene == nullptr)

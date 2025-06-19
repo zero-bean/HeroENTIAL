@@ -13,7 +13,7 @@ struct Stat
 	__int32 maxHp = 100;
 	__int32 attack = 10;
 	__int32 defence = 0;
-	float speed = 0;
+	float speed = 100;
 };
 
 class Creature : public GameObject

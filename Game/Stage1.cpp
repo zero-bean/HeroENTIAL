@@ -16,6 +16,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Goblin.h"
+#include "Minotaur.h"
 #include "Bullet.h"
 #include "Item.h"
 #include "Potion.h"
@@ -218,8 +219,8 @@ void Stage1::LoadMonster()
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Left", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Left.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Right", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Right.bmp");
 	ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Left", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Left.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur", L"Sprite/Monster/Minotaur/Minotaur_Right.bmp");
-	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur", L"Sprite/Monster/Minotaur/Minotaur_Left.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur_Right", L"Sprite/Monster/Minotaur/Minotaur_Right.bmp");
+	ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur_Left", L"Sprite/Monster/Minotaur/Minotaur_Left.bmp");
 
 	auto LoadGoblin = [](const wstring& name) {
 		shared_ptr<Texture> tx_right = ResourceManager::GET_SINGLE()->GetTexture(name + L"_Right");
@@ -285,6 +286,11 @@ void Stage1::LoadMonster()
 		};
 
 	LoadMinotaur(L"Minotaur");
+
+	shared_ptr<Minotaur> monster = make_shared<Minotaur>();
+	monster->SetCellPos({7, 5}, true);
+	monster->SetScale(4);
+	AddActor(monster);
 }
 
 void Stage1::LoadBullet()

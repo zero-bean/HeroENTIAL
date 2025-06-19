@@ -1,13 +1,15 @@
 #include "pch.h"
 #include "SmashAttack.h"
 #include "BossMonster.h"
+#include "Scene.h"
 #include "BattleScene.h"
 #include "SceneManager.h"
 #include "Player.h"
 
 SmashAttack::SmashAttack(shared_ptr<BossMonster> owner) : Super(owner)
 {
-    _reach = 3;
+    _reach = 7;
+    _coolTime = 1.f;
 }
 
 SmashAttack::~SmashAttack()
@@ -16,26 +18,40 @@ SmashAttack::~SmashAttack()
 
 void SmashAttack::Begin()
 {
-    shared_ptr<BossMonster> owner = GetOwner();
-    if (owner == nullptr)
+    shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
+    if (scene == nullptr)
         return;
-    
 
-    if (shared_ptr<Player> target = owner->GetTarget())
-    {
-        _targetPos = target->GetCellPos();
-        _phase = SmashPhase::Prepare;
-        _isFinished = false;
+    shared_ptr<BossMonster> owner = GetOwner();
+    // 실행할 몬스터가 존재하지 않으면 바로 종료
+    if (owner == nullptr) {
+        _isFinished = true;
+        return;
     }
+
+    shared_ptr<Player> target = owner->GetTarget();
+    // 적합한 대상을 찾지 못하면 대상을 지정 후, 패턴을 실행하지 않고 종료
+    if (target == nullptr) {
+        owner->SetTarget(scene->FindClosestPlayer(owner->GetCellPos()));
+        _isFinished = true;
+        return;
+    }
+
+    // 대상을 찾았으면 패턴 실행
+    _targetPos = target->GetCellPos();
+    _phase = SmashPhase::Prepare;
+    _isFinished = false;
 }
 
 void SmashAttack::Tick(float deltaTime)
 {
     shared_ptr<BossMonster> owner = GetOwner();
-    if (owner == nullptr) return;
+    if (owner == nullptr) 
+        return;
 
     shared_ptr<Player> player = owner->GetTarget();
-    if (player == nullptr) return;
+    if (player == nullptr) 
+        return;
 
     switch (_phase)
     {
@@ -53,29 +69,7 @@ void SmashAttack::Tick(float deltaTime)
         else
         {
             owner->SetState(ObjectState::Move); 
-
-            bool horizontal = abs(dir.x) > abs(dir.y);
-            if (horizontal)
-                owner->SetDir(dir.x < 0 ? DIR_LEFT : DIR_RIGHT);
-            else
-                owner->SetDir(dir.y < 0 ? DIR_UP : DIR_DOWN);
-
-            const float speed = owner->GetStat().speed;
-            switch (owner->GetDir())
-            {
-            case DIR_UP:    
-                owner->SetPos(owner->GetPos() + Vec2(0, -speed * deltaTime)); 
-                break;
-            case DIR_DOWN:  
-                owner->SetPos(owner->GetPos() + Vec2(0, +speed * deltaTime)); 
-                break;
-            case DIR_LEFT:  
-                owner->SetPos(owner->GetPos() + Vec2(-speed * deltaTime, 0));
-                break;
-            case DIR_RIGHT:
-                owner->SetPos(owner->GetPos() + Vec2(+speed * deltaTime, 0)); 
-                break;
-            }
+            owner->SetDestPos(player->GetPos());
         }
 
         break;
@@ -88,22 +82,7 @@ void SmashAttack::Tick(float deltaTime)
             if (shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene()))
             {
                 const Vec2Int center = _targetPos;
-                const vector<Vec2Int> area = {
-                    center + Vec2Int(0, 0),
-                    center + Vec2Int(1, 0),
-                    center + Vec2Int(-1, 0),
-                    center + Vec2Int(0, 1),
-                    center + Vec2Int(0, -1),
-                };
-
-                for (const Vec2Int& cellPos : area)
-                {
-                    shared_ptr<Bullet> aoe = scene->SpawnObject<Bullet>(cellPos);
-                    aoe->SetBulletType(BulletType::AOE);
-                    aoe->SetAttack(30);
-                    aoe->SetLifeTime(0.2f);
-                    aoe->SetOwner(owner);
-                }
+                // TODO
             }
 
             _phase = SmashPhase::Done;

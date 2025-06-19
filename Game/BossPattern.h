@@ -19,6 +19,8 @@ public:
     int GetReach() const { return _reach; }
     virtual void OnRangeReached() {};
 
+    float GetCoolTime() const { return _coolTime; }
+
 protected:
     shared_ptr<BossMonster> GetOwner() const { return _owner.lock(); }
     void SetOwner(const shared_ptr<BossMonster> owner) { _owner = owner; }
@@ -26,5 +28,6 @@ protected:
 protected:
     weak_ptr<BossMonster> _owner;
     int _reach = 0;
+    float _coolTime = 0.f;
 };
 
