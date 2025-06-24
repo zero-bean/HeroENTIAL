@@ -25,7 +25,7 @@ public:
 	void Clear();
 
 public:
-	void ChangeScene(SceneType sceneType);
+	void RequestToChangeScene(SceneType newSceneType);
 	shared_ptr<Scene> GetCurrentScene();
 
 public:
@@ -36,9 +36,15 @@ public:
 	float GetCameraZoom() const { return _cameraZoom; }
 
 private:
+	void ChangeScene(SceneType sceneType);
+
+private:
 	shared_ptr<Scene> _scene;
 	SceneType _sceneType = SceneType::None;
 	
+	bool _sceneChangeRequested = false;
+	SceneType _nextSceneType = SceneType::None;
+
 private:
 	Vec2 _cameraPos = { 400, 300 };
 	float _cameraZoom = 1.0f;

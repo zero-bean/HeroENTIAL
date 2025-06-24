@@ -106,7 +106,7 @@ void DungeonEnterPanel::SetButtonFunction(const int idx)
 	switch (idx)
 	{
 	case 0:
-		SceneManager::GET_SINGLE()->ChangeScene(SceneType::Stage1);
+		SceneManager::GET_SINGLE()->RequestToChangeScene(SceneType::Stage1);
 		break;
 	default:
 		break;

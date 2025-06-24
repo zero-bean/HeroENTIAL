@@ -25,20 +25,18 @@ public:
 	virtual void Render(HDC hdc) override;
 
 protected:
+	virtual void LoadResources() {};
 	virtual void LoadMap() {};
 	virtual void LoadTileMap() {};
-	virtual shared_ptr<Player> LoadPlayer() { return nullptr; }
+	virtual void LoadPlayer() {};
 	virtual void LoadMonster() {};
-	virtual void LoadBullet() {};
-	virtual void LoadEffect() {};
-	virtual void LoadItem() {};
-	virtual void LoadUI(shared_ptr<Player> player) {};
-
-	virtual void InitObjects();
+	virtual void LoadUI() {};
+	void InitObjects();
 
 public:
 	// Observe Pattern..? ¸Â³ª
 	void NotifyPlayerOnDied();
+	void NotifyMonsterOnDied();
 
 protected:
 	ObjectConfig ParseObjectConfig(const wstring& meta);
@@ -80,7 +78,6 @@ public:
 	bool FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int32 maxDepth = 10);
 
 protected:
-	const __int32 DESIRED_COUNT = 3;
-	__int32 _monsterCount = 0;
+	__int32 _monsterCount = 1;
 };
 

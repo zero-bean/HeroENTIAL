@@ -1,13 +1,17 @@
 #include "pch.h"
 #include "BattleScene.h"
 #include "CollisionManager.h"
+#include "UIManager.h"
 #include "Tilemap.h"
 #include "TilemapActor.h"
 #include "Player.h"
 #include "Monster.h"
 #include "Goblin.h"
 #include "Item.h"
+#include "Bullet.h"
 #include "Inventory.h"
+#include "GameEndPanel.h"
+#include "InventoryPanel.h"
 
 BattleScene::BattleScene()
 {
@@ -50,12 +54,27 @@ void BattleScene::InitObjects()
 
 void BattleScene::NotifyPlayerOnDied()
 {
-	for (vector<shared_ptr<Actor>>& actors : _actors)
+	// 예외 처리 - 현재 구조상 반드시 인벤토리 패널부터 제거
+	if (auto panel = UIManager::GET_SINGLE()->GetUI<InventoryPanel>())
+		UIManager::GET_SINGLE()->RemoveUI(panel);
+
+	// 현재는 오브젝트 타입만 제거해도 무방
+	_actors[LAYER_OBJECT].clear();
+
+	if (shared_ptr<GameEndPanel> panel = UIManager::GET_SINGLE()->GetUI<GameEndPanel>())
+		panel->SetVisible(true);
+}
+
+void BattleScene::NotifyMonsterOnDied()
+{
+	_monsterCount -= 1;
+
+	if (_monsterCount <= 0)
 	{
-		for (shared_ptr<Actor>& actor : actors)
+		if (shared_ptr<GameEndPanel> panel = UIManager::GET_SINGLE()->GetUI<GameEndPanel>())
 		{
-			if (shared_ptr<Monster> monster = dynamic_pointer_cast<Monster>(actor))
-				monster->NotifiedPlayerOnDied();
+			panel->SetOutputContent(L"Clear!");
+			panel->SetVisible(true);
 		}
 	}
 }

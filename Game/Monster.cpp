@@ -70,6 +70,7 @@ void Monster::TickDeath()
 			return;
 
 		scene->RemoveActor(shared_from_this());
+		scene->NotifyMonsterOnDied();
 		scene->MarkTileType(GetCellPos(), TILE_TYPE::EMPTY);
 		DropItems();
 	}
@@ -110,32 +111,4 @@ void Monster::UpdateAnimation()
 		SetFlipbook(_birth[_animDir]);
 		break;
 	}
-}
-
-bool Monster::MoveToTarget(const Vec2Int& targetCellPos, int dist)
-{
-	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());
-	if (scene == nullptr)
-		return false;
-
-	vector<Vec2Int> path;
-	if (scene->FindPath(GetCellPos(), targetCellPos, OUT path))
-	{
-		if (path.size() > dist)
-		{
-			Vec2Int nextPos = path[1];
-			if (scene->CanGo(nextPos))
-			{
-				SetCellPos(nextPos);
-				SetState(ObjectState::Move);
-				return true;
-			}
-		}
-		else if (!path.empty())
-		{
-			SetCellPos(path[0]);
-		}
-	}
-
-	return false;
 }

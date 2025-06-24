@@ -27,9 +27,6 @@ public:
 
 public:
 	virtual void SetPatternAnimation(const wstring& name) {};
-	
-	// 플레이어 죽으면 알림 캐치
-	virtual void NotifiedPlayerOnDied() override;
 
 protected:
 	void SetCoolDown(float time) { _coolDown = time; }

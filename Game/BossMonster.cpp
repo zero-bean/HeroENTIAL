@@ -62,13 +62,6 @@ void BossMonster::ClearPatterns()
 	_currentPattern = nullptr;
 }
 
-void BossMonster::NotifiedPlayerOnDied()
-{
-	ClearSequence();
-	SetFlipbook(_idle[_animDir]);
-	SetState(ObjectState::Idle);
-}
-
 void BossMonster::TickIdle()
 {
 	_coolDown -= TimeManager::GET_SINGLE()->GetDeltaTime();

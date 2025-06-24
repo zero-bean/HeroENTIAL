@@ -85,6 +85,11 @@ void Minotaur::TickIdle()
 
 void Minotaur::TickMove()
 {
+
+	shared_ptr<Scene> scene = SceneManager::GET_SINGLE()->GetCurrentScene();
+	if (!scene)
+		return;
+
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
 	const float speed = GetStat().speed;
 	const Vec2 dir = (_destPos - _pos);
@@ -118,6 +123,9 @@ void Minotaur::TickMove()
 			_pos.x += speed * deltaTime;
 			break;
 		}
+
+		// 움직이고 나서 Cell 좌표 갱신 요청
+		scene->UpdateCellPos(dynamic_pointer_cast<GameObject>(shared_from_this()));
 	}
 }
 

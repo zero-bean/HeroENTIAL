@@ -273,4 +273,26 @@ void Scene::TryPickUpItem(const Vec2Int center)
 	}
 }
 
+void Scene::UpdateCellPos(shared_ptr<GameObject> obj)
+{
+	if (_tilemapActor == nullptr || obj == nullptr)
+		return;
+
+	shared_ptr<Tilemap> tileMap = _tilemapActor->GetTilemap();
+	if (tileMap == nullptr)
+		return;
+
+	int tileSize = tileMap->GetTileSize() * tileMap->GetScale();
+	Vec2 tilemapPos = _tilemapActor->GetPos();
+
+	Vec2 pos = obj->GetPos() - tilemapPos;
+
+	Vec2Int newCellPos;
+	newCellPos.x = static_cast<int>(pos.x) / tileSize;
+	newCellPos.y = static_cast<int>(pos.y) / tileSize;
+
+	if (obj->GetCellPos() != newCellPos)
+		obj->SetCellPos(newCellPos);
+}
+
 

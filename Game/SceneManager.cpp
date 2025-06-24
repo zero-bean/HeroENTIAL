@@ -14,6 +14,12 @@ void SceneManager::Init()
 
 void SceneManager::Update()
 {
+	if (_sceneChangeRequested)
+	{
+		_sceneChangeRequested = false;
+		ChangeScene(_nextSceneType);
+	}
+
 	if (_scene)
 		_scene->Update();
 }
@@ -29,6 +35,12 @@ void SceneManager::Clear()
 	UIManager::GET_SINGLE()->Clear();
 	ResourceManager::GET_SINGLE()->Clear();
 	_scene.reset();
+}
+
+void SceneManager::RequestToChangeScene(SceneType newSceneType)
+{
+	_sceneChangeRequested = true;
+	_nextSceneType = newSceneType;
 }
 
 void SceneManager::ChangeScene(SceneType sceneType)
@@ -49,13 +61,15 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	case SceneType::Stage1:
 		newScene = make_shared<Stage1>();
 		break;
+	default:
+		assert(false && "Invalid SceneType");
+		break;
 	}
 
 	Clear();
 
 	_scene = newScene;
 	_sceneType = sceneType;
-	
 	_scene->Init();
 }
 

@@ -39,6 +39,8 @@ public:
 	void DropItem(shared_ptr<Item> item, Vec2Int pos);
 	void TryPickUpItem(const Vec2Int centerPos);
 
+	void UpdateCellPos(shared_ptr<GameObject> obj);
+
 protected:
 	vector<shared_ptr<Actor>> _actors[LAYER_MAXCOUNT];
 	shared_ptr<TilemapActor> _tilemapActor = nullptr;

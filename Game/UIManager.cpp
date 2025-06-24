@@ -10,14 +10,40 @@ void UIManager::Init(HWND hwnd)
 
 void UIManager::BeginPlay()
 {
+	while (!_addQueue.empty())
+	{
+		auto target = _addQueue.front();
+		_addQueue.pop();
+
+		_uis.push_back(target);
+	}
+
 	for (shared_ptr<UI> ui : _uis)
 		ui->BeginPlay();
 }
 
 void UIManager::Update()
 {
+	while (!_removeQueue.empty())
+	{
+		auto target = _removeQueue.front();
+		_removeQueue.pop();
+
+		auto it = std::remove(_uis.begin(), _uis.end(), target);
+		if (it != _uis.end())
+			_uis.erase(it, _uis.end());
+	}
+	
 	for (shared_ptr<UI> ui : _uis)
 		ui->Tick();
+
+	while (!_addQueue.empty())
+	{
+		auto target = _addQueue.front();
+		_addQueue.pop();
+
+		_uis.push_back(target);
+	}
 }
 
 void UIManager::Render(HDC hdc)
@@ -28,8 +54,15 @@ void UIManager::Render(HDC hdc)
 
 void UIManager::Clear()
 {
-	_uis.clear();
 	_drag = {};
+
+	while (!_addQueue.empty()) 
+		_addQueue.pop();
+
+	while (!_removeQueue.empty()) 
+		_removeQueue.pop();
+	
+	_uis.clear();
 }
 
 void UIManager::AddUI(shared_ptr<UI> ui)
@@ -37,7 +70,7 @@ void UIManager::AddUI(shared_ptr<UI> ui)
 	if (ui == nullptr)
 		return;
 
-	_uis.push_back(ui);
+	_addQueue.push(ui);
 }
 
 void UIManager::RemoveUI(shared_ptr<UI> ui)
@@ -45,8 +78,7 @@ void UIManager::RemoveUI(shared_ptr<UI> ui)
 	if (ui == nullptr)
 		return;
 
-	vector<shared_ptr<UI>>& v = _uis;
-	v.erase(std::remove(v.begin(), v.end(), ui), v.end());
+	_removeQueue.push(ui);
 }
 
 bool UIManager::IsMouseInUIs()

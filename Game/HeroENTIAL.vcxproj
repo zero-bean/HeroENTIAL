@@ -166,6 +166,8 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameEndContainer.h" />
+    <ClInclude Include="GameEndPanel.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goblin.h" />
     <ClInclude Include="HeroENTIAL.h" />
@@ -237,6 +239,8 @@
     <ClCompile Include="FlipbookActor.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameEndContainer.cpp" />
+    <ClCompile Include="GameEndPanel.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="HeroENTIAL.cpp" />

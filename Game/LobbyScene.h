@@ -23,12 +23,10 @@ public:
 	virtual void Render(HDC hdc) override;
 
 private:
+	void LoadResources();
 	void LoadMap();
 	void LoadTileMap();
-	shared_ptr<Player> LoadPlayer();
+	void LoadPlayer();
 	void LoadNPC();
-	void LoadItem();
-	void LoadUI(shared_ptr<Player> player);
-
 };
 

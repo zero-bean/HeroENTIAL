@@ -76,4 +76,6 @@ private:
     HWND _hwnd = nullptr;
 	DragState _drag = {};
 	vector<shared_ptr<UI>> _uis;
+	queue<shared_ptr<UI>> _addQueue;
+	queue<shared_ptr<UI>> _removeQueue;
 };

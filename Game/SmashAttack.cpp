@@ -96,7 +96,7 @@ void SmashAttack::Tick(float deltaTime)
             if (auto scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene()))
             {
                 shared_ptr<Bullet> bullet = make_shared<Bullet>();
-                bullet->SetCellPos(player->GetCellPos(), true);
+                bullet->SetCellPos(_targetPos, true);
                 bullet->SetBulletType(BulletType::Transparent);
                 bullet->SetTimer(0.1f);
                 bullet->SetAttack(5);

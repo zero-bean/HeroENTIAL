@@ -2,6 +2,7 @@
 #include "DungeonEnterContainer.h"
 #include "Sprite.h"
 #include "ResourceManager.h"
+
 DungeonEnterContainer::DungeonEnterContainer()
 {
 	SetSize({ 1000, 300 });
@@ -27,6 +28,16 @@ void DungeonEnterContainer::Tick()
 void DungeonEnterContainer::Render(HDC hdc)
 {
 	Super::Render(hdc);
+
+	// 화면 중앙에 50% 투명한 검은 배경
+	Utils::DrawRectTransparent(
+		hdc,
+		{ GWinSizeX / 2, GWinSizeY / 2 },
+		static_cast<int>(GWinSizeX),
+		static_cast<int>(GWinSizeY),
+		RGB(0, 0, 0),
+		128
+	);
 
     ::StretchBlt(
         hdc,
