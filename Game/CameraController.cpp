@@ -1,26 +1,22 @@
 #include "pch.h"
-#include "CameraComponent.h"
-#include "Actor.h"
-#include "SceneManager.h"
-#include "TimeManager.h"
-#include "InputManager.h"
+#include "CameraController.h"
 
-CameraComponent::CameraComponent()
+CameraController::CameraController()
+{
+	SetLayer(LAYER_CAMERA);
+}
+
+CameraController::~CameraController()
 {
 
 }
 
-CameraComponent::~CameraComponent()
+void CameraController::BeginPlay()
 {
 
 }
 
-void CameraComponent::BeginPlay()
-{
-
-}
-
-void CameraComponent::TickComponent()
+void CameraController::Tick()
 {
 	// µð¹ö±ë
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::Q)) {
@@ -42,12 +38,12 @@ void CameraComponent::TickComponent()
 		_shake.Start(ShakeType::SubtlePulse);
 	}
 
-	shared_ptr<Actor> owner = _owner.lock();
-	if (!owner) return;
+	if (_target == nullptr) 
+		return;
 
 	const float screenX = static_cast<float>(GWinSizeX / 2);
 	const float screenY = static_cast<float>(GWinSizeY / 2);
-	Vec2 pos = owner->GetPos();
+	Vec2 pos = _target->GetPos();
 
 	// 1. Èçµé¸²
 	_shake.Update(TimeManager::GET_SINGLE()->GetDeltaTime());
@@ -67,14 +63,7 @@ void CameraComponent::TickComponent()
 	SceneManager::GET_SINGLE()->SetCameraZoom(_zoom);
 }
 
-
-
-void CameraComponent::Render(HDC hdc)
-{
-
-}
-
-void CameraComponent::SetTargetZoom(float zoom, float speed)
+void CameraController::SetTargetZoom(float zoom, float speed)
 {
 	_targetZoom = zoom;
 	_zoomSpeed = speed;

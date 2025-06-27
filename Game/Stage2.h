@@ -1,12 +1,12 @@
 #pragma once
 #include "BattleScene.h"
 
-class Stage1 : public BattleScene
+class Stage2 : public BattleScene
 {
 	using Super = BattleScene;
 public:
-	Stage1();
-	virtual ~Stage1() override;
+	Stage2();
+	virtual ~Stage2() override;
 
 public:
 	virtual void Init() override;

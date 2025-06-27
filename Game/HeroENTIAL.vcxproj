@@ -148,7 +148,7 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CameraController.h" />
     <ClInclude Include="CameraShake.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -160,6 +160,7 @@
     <ClInclude Include="DungeonEnterContainer.h" />
     <ClInclude Include="DungeonEnterPanel.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="EngineComponents.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Flipbook.h" />
     <ClInclude Include="FlipbookActor.h" />
@@ -169,6 +170,8 @@
     <ClInclude Include="GameEndContainer.h" />
     <ClInclude Include="GameEndPanel.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjects.h" />
+    <ClInclude Include="GameUI.h" />
     <ClInclude Include="Goblin.h" />
     <ClInclude Include="HeroENTIAL.h" />
     <ClInclude Include="HPbar.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteActor.h" />
     <ClInclude Include="Stage1.h" />
+    <ClInclude Include="Stage2.h" />
     <ClInclude Include="SwingStormSkill.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
@@ -215,6 +219,7 @@
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Values.h" />
+    <ClInclude Include="WarningBannerUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
@@ -224,7 +229,7 @@
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
@@ -279,6 +284,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteActor.cpp" />
     <ClCompile Include="Stage1.cpp" />
+    <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="SwingStormSkill.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tilemap.cpp" />
@@ -287,6 +293,7 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="WarningBannerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HeroENTIAL.rc" />

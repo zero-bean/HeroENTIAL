@@ -11,6 +11,7 @@ class Item;
 class Potion;
 class UI;
 class Monster;
+class BossMonster;
 
 class BattleScene : public Scene
 {
@@ -29,12 +30,17 @@ protected:
 	virtual void LoadMap() {};
 	virtual void LoadTileMap() {};
 	virtual void LoadPlayer() {};
-	virtual void LoadMonster() {};
 	virtual void LoadUI() {};
+	virtual void LoadCamera() {};
 	void InitObjects();
 
+protected:
+	// ScenePhase 변경 관련 기능
+	virtual void OnPhaseEnter(ScenePhase newPhase) override;
+	virtual void PlayBossIntroStart();
+	virtual void PlayBossIntroEnd();
+
 public:
-	// Observe Pattern..? 맞나
 	void NotifyPlayerOnDied();
 	void NotifyMonsterOnDied();
 
@@ -78,6 +84,6 @@ public:
 	bool FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int32 maxDepth = 10);
 
 protected:
-	__int32 _monsterCount = 1;
+	__int32 _monsterCount = 0;
 };
 

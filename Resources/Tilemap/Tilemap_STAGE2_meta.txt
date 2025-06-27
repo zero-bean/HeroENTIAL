@@ -1,0 +1,1 @@
+11 5 MONSTER class=Minotaur;rank=Boss

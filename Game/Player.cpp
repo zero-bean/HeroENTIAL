@@ -1,19 +1,8 @@
 #include "pch.h"
 #include "Player.h"
-#include "InputManager.h"
-#include "TimeManager.h"
-#include "ResourceManager.h"
-#include "SceneManager.h"
-#include "CollisionManager.h"
-#include "UIManager.h"
 #include "Flipbook.h"
-#include "Collider.h"
-#include "BoxCollider.h"
-#include "CameraComponent.h"
 #include "BattleScene.h"
 #include "Bullet.h"
-#include "Item.h"
-#include "Inventory.h"
 
 Player::Player()
 {

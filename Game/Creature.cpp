@@ -1,13 +1,7 @@
 #include "pch.h"
 #include "Creature.h"
-#include "InputManager.h"
-#include "TimeManager.h"
 #include "Flipbook.h"
 #include "Projectile.h"
-#include "CameraComponent.h"
-#include "ResourceManager.h"
-#include "SceneManager.h"
-#include "UIManager.h"
 #include "Scene.h"
 #include "HPbar.h"
 #include "DamageSkin.h"
@@ -93,7 +87,9 @@ void Creature::OnDamaged(shared_ptr<Projectile> projectile)
 	if (stat.hp == 0)
 		SetState(ObjectState::Death);
 	else
+	{
 		SetState(ObjectState::Attacked);
+	}
 
 	// 피격 데미지 이펙트 추가
 	shared_ptr<DamageSkin> dmg = make_shared<DamageSkin>();

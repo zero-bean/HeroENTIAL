@@ -7,10 +7,21 @@ enum class SceneType
 	LobbyScene,
 	BattleScene,
 	Stage1,
+	Stage2,
+};
+
+enum class ScenePhase
+{
+	None,
+	Normal,
+	BossIntroStart,
+	BossIntroEnd,
+	StageClear,
 };
 
 enum LAYER_TYPE
 {
+	LAYER_CAMERA,
 	LAYER_BACKGROUND,
 	LAYER_OBJECT,
 	LAYER_EFFECT,

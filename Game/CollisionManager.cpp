@@ -11,36 +11,19 @@ void CollisionManager::Init()
 
 void CollisionManager::Update()
 {
-    // 1. Remove 먼저 처리
-    while (!_removeQueue.empty())
+    // 1. 요청된 Collider 추가 작업을 진행하고, 
+    ProcessAddCollider();
+
+    // 2. 충돌 검사를 진행한다
+    for (__int32 i = 0; i < _colliders.size(); i++)
     {
-        auto target = _removeQueue.front();
-        _removeQueue.pop();
-
-        auto it = std::find(colliders.begin(), colliders.end(), target);
-        if (it != colliders.end())
-            colliders.erase(it);
-    }
-
-    // 2. Add 처리
-    while (!_addQueue.empty())
-    {
-        auto target = _addQueue.front();
-        _addQueue.pop();
-
-        colliders.push_back(target);
-    }
-
-    // 3. 충돌 검사 시작
-    for (__int32 i = 0; i < colliders.size(); i++)
-    {
-        shared_ptr<BoxCollider> src = dynamic_pointer_cast<BoxCollider>(colliders[i]);
+        shared_ptr<BoxCollider> src = dynamic_pointer_cast<BoxCollider>(_colliders[i]);
         if (src == nullptr || src->GetOwner() == nullptr)
             continue;
 
-        for (__int32 j = i + 1; j < colliders.size(); j++)
+        for (__int32 j = i + 1; j < _colliders.size(); j++)
         {
-            shared_ptr<BoxCollider> dest = dynamic_pointer_cast<BoxCollider>(colliders[j]);
+            shared_ptr<BoxCollider> dest = dynamic_pointer_cast<BoxCollider>(_colliders[j]);
             if (dest == nullptr || dest->GetOwner() == nullptr)
                 continue;
 
@@ -66,6 +49,9 @@ void CollisionManager::Update()
             }
         }
     }
+
+    // 3. 마지막으로 요청된 Collider 삭제 작업을 진행한다
+    ProcessRemoveCollider();
 }
 
 
@@ -79,4 +65,35 @@ void CollisionManager::RemoveCollider(shared_ptr<Collider> collider)
 {
     if (collider)
         _removeQueue.push(collider);
+}
+
+void CollisionManager::ProcessAddCollider()
+{
+    while (!_addQueue.empty())
+    {
+        const shared_ptr<Collider> target = _addQueue.front();
+        _addQueue.pop();
+
+        if (target)
+            _colliders.push_back(target);
+    }
+}
+
+void CollisionManager::ProcessRemoveCollider()
+{
+    while (!_removeQueue.empty())
+    {
+        const shared_ptr<Collider> target = _removeQueue.front();
+        _removeQueue.pop();
+
+        // 삭제할 대상을 찾고,
+        auto it = find(_colliders.begin(), _colliders.end(), target);
+        // 발견했다면,
+        if (it != _colliders.end())
+        {
+            // 맨 뒤로 보내어 제거 : O(1), 정렬X면 가능
+            iter_swap(it, prev(_colliders.end()));
+            _colliders.pop_back();
+        }
+    }
 }

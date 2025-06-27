@@ -5,6 +5,7 @@
 1. [Collision Manager: 2가지의 원인이 오류를 일으켰다]
 Update에서 Collider를 vector에 넣어 추가, 삭제, 실행 등을 한 번에 운용했다는 점이다. 삭제와 추가는 Queue를 통해 관리하고, 충돌 끼리의 검사는 vector를 통해 관리하는 것으로 해결함.
 Collider는 _collisionMap을 통해서 다른 Collider과 충돌 여부를 확인하는데, shared_ptr로 추가하여 순환 참조 문제가 발생함. weak_ptr로 변경하여 해결함.
++ Manager 및 Scene들의 생명 주기를 (삭제 - 업데이트 - 추가) 구조로 변경하여 danglin pointer 방지.
 
 2. [Player가 피격 과정에서 강제로 이동하는 오류]
 이동 거리의 괴리에 관한 보정을 하고 이동한 거리 만큼 감소하는 부분을 추가함.
@@ -22,3 +23,12 @@ BitBlt로 변경하는 것으로 갈음.
 6. [Scene 전환에서 플레이어 스프라이트가 등록되지 않는 현상]
 ResourceManager는 unordered_map을 통해서 관리하는데, 로드 과정에서 잔류한 파일과 collision이 발생하는 것이 원인.
 Scene을 Clear할 때, ResourceManager도 Clear하도록 구조를 변경하여 해결함.
+
+* 코드 리팩터링 목록
+1. [Remove 함수들 개선]
+Manager 단위의 클래스가 관리하던 (추가 - 업데이트 - 삭제) 코드를 개선함
+변경 전에는 삭제를 할 때 v.erase(std::remove(v.begin(), v.end(), target), v.end()); 를 사용함.
+그러나 이 코드는 삭제를 하면 모든 원소를 한칸씩 앞으로 당겨 O(N) 오버헤드가 발생하게 됨.
+			iter_swap(it, prev(_uis.end()));
+			_uis.pop_back();
+하지만 삭제할 대상을 맨 뒤로 스왑하여 삭제하는 것으로 바꾸어 O(1)로 줄이게 바꿈.

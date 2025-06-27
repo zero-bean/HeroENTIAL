@@ -1,31 +1,8 @@
 #include "pch.h"
 #include "LobbyScene.h"
-#include "Actor.h"
-#include "TilemapActor.h"
-#include "SpriteActor.h"
-#include "Sprite.h"
-#include "Texture.h"
-#include "Flipbook.h"
-#include "Tilemap.h"
-#include "Player.h"
-#include "NPC.h"
-#include "Inventory.h"
-#include "Item.h"
-#include "Potion.h"
-#include "Consumable.h"
-#include "BoxCollider.h"
-#include "CameraComponent.h"
-#include "Minimap.h"
-#include "UI.h"
-#include "QuickslotPanel.h"
-#include "InventoryPanel.h"
-#include "DungeonEnterPanel.h"
-#include "ResourceManager.h"
-#include "InputManager.h"
-#include "TimeManager.h"
-#include "CollisionManager.h"
-#include "UIManager.h"
-
+#include "EngineComponents.h"
+#include "GameObjects.h"
+#include "GameUI.h"
 
 LobbyScene::LobbyScene()
 {
@@ -42,8 +19,10 @@ void LobbyScene::Init()
 	LoadTileMap();
 	LoadPlayer();
 	LoadNPC();
-	
+
 	Super::Init();
+	
+	LoadCamera();
 }
 
 void LobbyScene::Update()
@@ -339,11 +318,6 @@ void LobbyScene::LoadPlayer()
 	player->SetCellPos({ 16,9 }, true);
 	AddActor(player);
 
-	// 카메라
-	shared_ptr<CameraComponent> camera = make_shared<CameraComponent>();
-	camera->SetBackGroundRange({ 2112, 1472 });
-	player->AddComponent(camera);
-
 	// 미니맵
 	shared_ptr<Minimap> minimap = make_shared<Minimap>();
 	minimap->SetTilemap(_tilemapActor->GetTilemap());
@@ -390,11 +364,11 @@ void LobbyScene::LoadNPC()
 	npc_Dungeon->AddCollider({ 128,128 });
 	npc_Dungeon->SetCellPos({ 16,5 }, true);
 	npc_Dungeon->SetOnActivate([]() {
-		if (auto dungeonPanel = UIManager::GET_SINGLE()->GetUI<DungeonEnterPanel>())
+		if (auto dungeonPanel = UIManager::GET_SINGLE()->FindUI<DungeonEnterPanel>())
 			dungeonPanel->SetVisible(true);
 		});
 	npc_Dungeon->SetOnDeActivate([]() {
-		if (auto dungeonPanel = UIManager::GET_SINGLE()->GetUI<DungeonEnterPanel>())
+		if (auto dungeonPanel = UIManager::GET_SINGLE()->FindUI<DungeonEnterPanel>())
 			dungeonPanel->SetVisible(false);
 		});
 	AddActor(npc_Dungeon);
@@ -403,4 +377,13 @@ void LobbyScene::LoadNPC()
 	npc_Shop->AddCollider({ 128,128 });
 	npc_Shop->SetCellPos({ 24,7 }, true);
 	AddActor(npc_Shop);
+}
+
+void LobbyScene::LoadCamera()
+{
+	// 카메라
+	shared_ptr<CameraController> camera = make_shared<CameraController>();
+	camera->SetBackGroundRange({ 2112, 1472 });
+	AddActor(camera);
+	camera->SetTarget(FindActor<Player>());
 }

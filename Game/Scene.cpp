@@ -11,7 +11,7 @@
 
 Scene::Scene()
 {
-
+	_isLayerUpdateEnabled.resize(LAYER_MAXCOUNT, true);
 }
 
 Scene::~Scene()
@@ -20,20 +20,36 @@ Scene::~Scene()
 
 void Scene::Init()
 {
-	for (const vector<shared_ptr<Actor>>& actors : _actors)
-		for (shared_ptr<Actor> actor : actors)
+	// 1. 요청된 객체 추가 작업을 처리 후,
+	ProcessAddActor();
+
+	// 2. Scene 내에서 초기화
+	for (vector<shared_ptr<Actor>>& actors : _actors)
+		for (shared_ptr<Actor>& actor : actors)
 			actor->BeginPlay();
 
+	// 3. 그 뒤, UI 초기화를 진행
 	UIManager::GET_SINGLE()->BeginPlay();
 }
 
 void Scene::Update()
 {
-	for (const vector<shared_ptr<Actor>> actors : _actors)
-		for (shared_ptr<Actor> actor : actors)
-			actor->Tick();
+	// 1. 요청된 객체 삭제
+	ProcessRemoveActor();
 
+	// 2. 업데이트
+	for (int layer = 0; layer < LAYER_MAXCOUNT; ++layer)
+	{
+		if (!_isLayerUpdateEnabled[layer])
+			continue;
+
+		for (const shared_ptr<Actor>& actor : _actors[layer])
+			actor->Tick();
+	}
 	UIManager::GET_SINGLE()->Update();
+
+	// 3. 요청된 객체 추가
+	ProcessAddActor();
 }
 
 void Scene::Render(HDC hdc)
@@ -50,7 +66,8 @@ void Scene::AddActor(shared_ptr<Actor> actor)
 	if (actor == nullptr)
 		return;
 
-	_actors[actor->GetLayer()].push_back(actor);
+	// Actor 추가를 예약
+	_addQueue.push(actor);
 }
 
 void Scene::RemoveActor(shared_ptr<Actor> actor)
@@ -58,8 +75,8 @@ void Scene::RemoveActor(shared_ptr<Actor> actor)
 	if (actor == nullptr)
 		return;
 	
-	vector<shared_ptr<Actor>>& v = _actors[actor->GetLayer()];
-	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
+	// Actor 삭제를 예약
+	_removeQueue.push(actor);
 }
 
 bool Scene::CanGo(Vec2Int cellPos)
@@ -295,4 +312,34 @@ void Scene::UpdateCellPos(shared_ptr<GameObject> obj)
 		obj->SetCellPos(newCellPos);
 }
 
+void Scene::ProcessAddActor()
+{
+	while (!_addQueue.empty())
+	{
+		const shared_ptr<Actor> target = _addQueue.front();
+		_addQueue.pop();
 
+		if (target)
+			_actors[target->GetLayer()].push_back(target);
+	}
+}
+
+void Scene::ProcessRemoveActor()
+{
+	while (!_removeQueue.empty())
+	{
+		const shared_ptr<Actor> target = _removeQueue.front();
+		_removeQueue.pop();
+		vector<shared_ptr<Actor>>& v = _actors[target->GetLayer()];
+
+		// 삭제할 대상을 찾고,
+		auto it = find(v.begin(), v.end(), target);
+		// 발견했다면,
+		if (it != v.end())
+		{
+			// 맨 뒤로 보내어 제거 : O(1), 정렬X면 가능
+			iter_swap(it, prev(v.end()));
+			v.pop_back();
+		}
+	}
+}

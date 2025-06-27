@@ -62,7 +62,7 @@ public:
 
 public:
 	template<typename T>
-	shared_ptr<T> GetUI()
+	shared_ptr<T> FindUI()
 	{
 		for (auto& ui : _uis) {
 			if (auto casted = dynamic_pointer_cast<T>(ui)) 
@@ -71,6 +71,10 @@ public:
 
 		return nullptr;
 	}
+
+private:
+	void ProcessAddUI();
+	void ProcessRemoveUI();
 
 private:
     HWND _hwnd = nullptr;

@@ -1,7 +1,10 @@
 #include "pch.h"
+#include "Creature.h"
 #include "BossMonster.h"
+#include "Projectile.h"
+#include "DamageSkin.h"
+#include "BattleScene.h"
 #include "BossPattern.h"
-#include "TimeManager.h"
 
 BossMonster::BossMonster()
 {
@@ -15,7 +18,6 @@ BossMonster::~BossMonster()
 void BossMonster::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void BossMonster::Tick()
@@ -60,6 +62,49 @@ void BossMonster::ClearPatterns()
 {
 	_patterns.clear();
 	_currentPattern = nullptr;
+}
+
+void BossMonster::OnDamaged(shared_ptr<Creature> attacker)
+{
+	if (!attacker)
+		return;
+
+	Stat& attackerStat = attacker->GetStat();
+	Stat& stat = GetStat();
+
+	__int32 damage = attackerStat.attack - stat.defence;
+	if (damage <= 0)
+		return;
+
+	stat.hp = max(0, stat.hp - damage);
+
+	if (stat.hp == 0)
+		SetState(ObjectState::Death);
+}
+
+void BossMonster::OnDamaged(shared_ptr<Projectile> projectile)
+{
+	if (!projectile)
+		return;
+
+	__int32 attack = projectile->GetAttack();
+	Stat& stat = GetStat();
+
+	__int32 damage = attack - stat.defence;
+	if (damage <= 0)
+		return;
+
+	stat.hp = max(0, stat.hp - damage);
+	if (stat.hp == 0)
+		SetState(ObjectState::Death);
+
+	// 피격 데미지 이펙트 추가
+	shared_ptr<DamageSkin> dmg = make_shared<DamageSkin>();
+	dmg->SetDamage(damage);
+	dmg->SetPos(GetPos() + Vec2(0, -60));
+	dmg->SetFont(ResourceManager::GET_SINGLE()->GetFont(L"DungeonFont"));
+	dmg->SetColor(RGB(255, 80, 80));
+	SceneManager::GET_SINGLE()->GetCurrentScene()->AddActor(dmg);
 }
 
 void BossMonster::TickIdle()

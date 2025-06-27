@@ -41,6 +41,9 @@ void Minotaur::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// 스텟
+	SetStat(Stat(500, 500, 30, 5, 200));
+
 	// 보스 패턴 순서 설정
 	AddSequence(ObjectState::Attack);
 	AddSequence(ObjectState::Attack);

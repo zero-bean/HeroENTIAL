@@ -54,9 +54,6 @@
     <Filter Include="소스 파일\05.Components\Game">
       <UniqueIdentifier>{edc81f6e-f861-4560-beac-97f02e8bfccd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\05.Components\Camera">
-      <UniqueIdentifier>{112fd4ad-f020-45a5-97ce-f355cdda2d8d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\04.Resources\Sound">
       <UniqueIdentifier>{785bf802-51c0-4670-86fb-9f47be7b3046}</UniqueIdentifier>
     </Filter>
@@ -104,6 +101,12 @@
     </Filter>
     <Filter Include="소스 파일\03.Objects\Game\Creature\Monster\Common">
       <UniqueIdentifier>{eb880d77-5b1f-4868-b213-9f077cfe257d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99.Headers\Game">
+      <UniqueIdentifier>{5f5e8a79-c9d0-4acb-8cc1-8905423140e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03.Objects\Game\Camera">
+      <UniqueIdentifier>{112fd4ad-f020-45a5-97ce-f355cdda2d8d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -173,8 +176,8 @@
     <ClInclude Include="Component.h">
       <Filter>소스 파일\05.Components</Filter>
     </ClInclude>
-    <ClInclude Include="CameraComponent.h">
-      <Filter>소스 파일\05.Components\Camera</Filter>
+    <ClInclude Include="CameraController.h">
+      <Filter>소스 파일\03.Objects\Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="SpriteActor.h">
       <Filter>소스 파일\03.Objects\Unreal</Filter>
@@ -285,7 +288,7 @@
       <Filter>소스 파일\05.Components\Game\Minimap</Filter>
     </ClInclude>
     <ClInclude Include="CameraShake.h">
-      <Filter>소스 파일\05.Components\Camera</Filter>
+      <Filter>소스 파일\03.Objects\Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
@@ -327,6 +330,21 @@
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
     </ClInclude>
     <ClInclude Include="GameEndContainer.h">
+      <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineComponents.h">
+      <Filter>소스 파일\99.Headers\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects.h">
+      <Filter>소스 파일\99.Headers\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUI.h">
+      <Filter>소스 파일\99.Headers\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="WarningBannerUI.h">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
     </ClInclude>
   </ItemGroup>
@@ -376,8 +394,8 @@
     <ClCompile Include="Component.cpp">
       <Filter>소스 파일\05.Components</Filter>
     </ClCompile>
-    <ClCompile Include="CameraComponent.cpp">
-      <Filter>소스 파일\05.Components\Camera</Filter>
+    <ClCompile Include="CameraController.cpp">
+      <Filter>소스 파일\03.Objects\Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="SpriteActor.cpp">
       <Filter>소스 파일\03.Objects\Unreal</Filter>
@@ -488,7 +506,7 @@
       <Filter>소스 파일\05.Components\Game\Minimap</Filter>
     </ClCompile>
     <ClCompile Include="CameraShake.cpp">
-      <Filter>소스 파일\05.Components\Camera</Filter>
+      <Filter>소스 파일\03.Objects\Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>소스 파일\03.Objects\Game\Creature\Monster</Filter>
@@ -530,6 +548,12 @@
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
     </ClCompile>
     <ClCompile Include="GameEndContainer.cpp">
+      <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="WarningBannerUI.cpp">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
     </ClCompile>
   </ItemGroup>

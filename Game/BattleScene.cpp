@@ -1,17 +1,8 @@
 #include "pch.h"
 #include "BattleScene.h"
-#include "CollisionManager.h"
-#include "UIManager.h"
-#include "Tilemap.h"
-#include "TilemapActor.h"
-#include "Player.h"
-#include "Monster.h"
-#include "Goblin.h"
-#include "Item.h"
-#include "Bullet.h"
-#include "Inventory.h"
-#include "GameEndPanel.h"
-#include "InventoryPanel.h"
+#include "EngineComponents.h"
+#include "GameObjects.h"
+#include "GameUI.h"
 
 BattleScene::BattleScene()
 {
@@ -28,7 +19,38 @@ void BattleScene::Init()
 
 void BattleScene::Update()
 {
-	Super::Update();
+	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
+
+	if (_phase != _prevPhase)
+	{
+		OnPhaseEnter(_phase);
+		_prevPhase = _phase;
+		_phaseElapsed = 0.f;
+	}
+
+	_phaseElapsed += deltaTime;
+
+	switch (_phase)
+	{
+	case ScenePhase::BossIntroStart:
+		if (_phaseElapsed >= 2.f)
+			_phase = ScenePhase::BossIntroEnd;
+		Super::Update();
+		break;
+
+	case ScenePhase::BossIntroEnd:
+		if (_phaseElapsed >= 1.0f)
+			_phase = ScenePhase::Normal;
+		Super::Update();
+		break;
+
+	case ScenePhase::Normal:
+		Super::Update();
+		break;
+
+	case ScenePhase::StageClear:
+		break;
+	}
 }
 
 void BattleScene::Render(HDC hdc)
@@ -52,16 +74,79 @@ void BattleScene::InitObjects()
 	}
 }
 
+void BattleScene::OnPhaseEnter(ScenePhase newPhase)
+{
+	switch (newPhase)
+	{
+	case ScenePhase::BossIntroStart:
+		PlayBossIntroStart();
+		break;
+
+	case ScenePhase::BossIntroEnd:
+		PlayBossIntroEnd();
+		break;
+
+	case ScenePhase::Normal:
+		// 음악이나 전투 준비 등
+		break;
+
+	case ScenePhase::StageClear:
+		// 스테이지 클리어 연출
+		break;
+
+	default:
+		break;
+	}
+}
+
+void BattleScene::PlayBossIntroStart()
+{
+	// 0. 업데이트 설정
+	_isLayerUpdateEnabled[LAYER_TYPE::LAYER_OBJECT] = false;
+	_isLayerUpdateEnabled[LAYER_TYPE::LAYER_EFFECT] = false;
+	_isLayerUpdateEnabled[LAYER_TYPE::LAYER_UI] = false;
+
+	// 1. 등장 보스에게 카메라 고정
+	if (auto camera = FindActor<CameraController>(); auto boss = FindActor<BossMonster>())
+	{
+		camera->SetTarget(boss);
+		camera->SetTargetZoom(1.5f, 2.f);
+	}
+
+	// 2. 이펙트용 UI 추가
+	shared_ptr<WarningBannerUI> warning = make_shared<WarningBannerUI>();
+	UIManager::GET_SINGLE()->AddUI(warning);
+}
+
+void BattleScene::PlayBossIntroEnd()
+{
+	// 0. 업데이트 설정
+	_isLayerUpdateEnabled[LAYER_TYPE::LAYER_OBJECT] = true;
+	_isLayerUpdateEnabled[LAYER_TYPE::LAYER_EFFECT] = true;
+	_isLayerUpdateEnabled[LAYER_TYPE::LAYER_UI] = true;
+
+	// 1. 등장 보스에게 카메라 고정
+	if (auto camera = FindActor<CameraController>(); auto player = FindActor<Player>())
+	{
+		camera->SetTarget(player);
+		camera->SetTargetZoom(1.f, 5.f);
+	}
+
+	// 경고 이펙트 삭제 요청
+	if (auto warning = UIManager::GET_SINGLE()->FindUI<WarningBannerUI>())
+		UIManager::GET_SINGLE()->RemoveUI(warning);
+}
+
 void BattleScene::NotifyPlayerOnDied()
 {
 	// 예외 처리 - 현재 구조상 반드시 인벤토리 패널부터 제거
-	if (auto panel = UIManager::GET_SINGLE()->GetUI<InventoryPanel>())
+	if (auto panel = UIManager::GET_SINGLE()->FindUI<InventoryPanel>())
 		UIManager::GET_SINGLE()->RemoveUI(panel);
 
 	// 현재는 오브젝트 타입만 제거해도 무방
 	_actors[LAYER_OBJECT].clear();
 
-	if (shared_ptr<GameEndPanel> panel = UIManager::GET_SINGLE()->GetUI<GameEndPanel>())
+	if (shared_ptr<GameEndPanel> panel = UIManager::GET_SINGLE()->FindUI<GameEndPanel>())
 		panel->SetVisible(true);
 }
 
@@ -71,7 +156,7 @@ void BattleScene::NotifyMonsterOnDied()
 
 	if (_monsterCount <= 0)
 	{
-		if (shared_ptr<GameEndPanel> panel = UIManager::GET_SINGLE()->GetUI<GameEndPanel>())
+		if (shared_ptr<GameEndPanel> panel = UIManager::GET_SINGLE()->FindUI<GameEndPanel>())
 		{
 			panel->SetOutputContent(L"Clear!");
 			panel->SetVisible(true);
@@ -147,7 +232,7 @@ void BattleScene::SpawnMonster(const Vec2Int pos, const ObjectConfig& config)
 
 	if (config.className == L"Goblin")
 	{
-		shared_ptr<Goblin> goblin = std::make_shared<Goblin>();
+		shared_ptr<Goblin> goblin = make_shared<Goblin>();
 
 		if (config.properties.count(L"type"))
 		{
@@ -159,6 +244,15 @@ void BattleScene::SpawnMonster(const Vec2Int pos, const ObjectConfig& config)
 			goblin->SetRank(ParseRank(config.properties.at(L"rank")));
 
 		monster = goblin;
+	}
+	else if (config.className == L"Minotaur")
+	{
+		shared_ptr<Minotaur> minotaur = make_shared<Minotaur>();
+
+		if (config.properties.count(L"rank"))
+			minotaur->SetRank(ParseRank(config.properties.at(L"rank")));
+
+		monster = minotaur;
 	}
 
 	if (monster)
@@ -203,7 +297,7 @@ shared_ptr<Player> BattleScene::FindClosestPlayer(Vec2Int pos)
 	float best = FLT_MAX;
 	shared_ptr<Player> res = nullptr;
 
-	for (shared_ptr<Actor> actor : _actors[LAYER_OBJECT])
+	for (const shared_ptr<Actor>& actor : _actors[LAYER_OBJECT])
 	{
 		if (shared_ptr<Player> player = dynamic_pointer_cast<Player>(actor))
 		{

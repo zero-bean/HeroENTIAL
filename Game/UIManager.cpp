@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "UIManager.h"
+#include "GameUI.h"
 #include "UI.h"
 #include "Panel.h"
 
@@ -10,40 +11,25 @@ void UIManager::Init(HWND hwnd)
 
 void UIManager::BeginPlay()
 {
-	while (!_addQueue.empty())
-	{
-		auto target = _addQueue.front();
-		_addQueue.pop();
+	// 1. 요청된 객체 추가 작업을 처리 후,
+	ProcessAddUI();
 
-		_uis.push_back(target);
-	}
-
+	// 2. UI 객체 초기화
 	for (shared_ptr<UI> ui : _uis)
 		ui->BeginPlay();
 }
 
 void UIManager::Update()
 {
-	while (!_removeQueue.empty())
-	{
-		auto target = _removeQueue.front();
-		_removeQueue.pop();
-
-		auto it = std::remove(_uis.begin(), _uis.end(), target);
-		if (it != _uis.end())
-			_uis.erase(it, _uis.end());
-	}
+	// 1. 요청된 UI 추가 작업을 진행하고, 
+	ProcessAddUI();
 	
+	// 2. UI Tick 실행
 	for (shared_ptr<UI> ui : _uis)
 		ui->Tick();
 
-	while (!_addQueue.empty())
-	{
-		auto target = _addQueue.front();
-		_addQueue.pop();
-
-		_uis.push_back(target);
-	}
+	// 3. 요청된 UI 삭제 작업을 진행한다
+	ProcessRemoveUI();
 }
 
 void UIManager::Render(HDC hdc)
@@ -100,4 +86,35 @@ bool UIManager::IsMouseInUIs()
 	}
 
 	return false;
+}
+
+void UIManager::ProcessAddUI()
+{
+	while (!_addQueue.empty())
+	{
+		const shared_ptr<UI> target = _addQueue.front();
+		_addQueue.pop();
+
+		if (target)
+			_uis.push_back(target);
+	}
+}
+
+void UIManager::ProcessRemoveUI()
+{
+	while (!_removeQueue.empty())
+	{
+		const shared_ptr<UI> target = _removeQueue.front();
+		_removeQueue.pop();
+
+		// 삭제할 대상을 찾고,
+		auto it = find(_uis.begin(), _uis.end(), target);
+		// 발견했다면,
+		if (it != _uis.end())
+		{
+			// 맨 뒤로 보내어 제거 : O(1), 정렬X면 가능
+			iter_swap(it, prev(_uis.end()));
+			_uis.pop_back();
+		}
+	}
 }

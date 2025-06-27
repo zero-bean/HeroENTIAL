@@ -2,6 +2,8 @@
 #include "Monster.h"
 
 class BossPattern;
+class Creature;
+class Projectile;
 
 class BossMonster : public Monster
 {
@@ -27,6 +29,9 @@ public:
 
 public:
 	virtual void SetPatternAnimation(const wstring& name) {};
+	
+	virtual void OnDamaged(shared_ptr<Creature> attacker);
+	virtual void OnDamaged(shared_ptr<Projectile> attacker);
 
 protected:
 	void SetCoolDown(float time) { _coolDown = time; }

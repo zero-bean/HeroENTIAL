@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "UI.h"
-#include "InputManager.h"
 
 UI::UI()
 {

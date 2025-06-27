@@ -26,7 +26,11 @@ public:
 	void RemoveCollider(shared_ptr<Collider> collider);
 
 private:
-	vector<shared_ptr<Collider>> colliders;
+	void ProcessAddCollider();
+	void ProcessRemoveCollider();
+
+private:
+	vector<shared_ptr<Collider>> _colliders;
 	queue<shared_ptr<Collider>> _addQueue;
 	queue<shared_ptr<Collider>> _removeQueue;
 

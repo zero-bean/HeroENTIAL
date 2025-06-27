@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "Button.h"
-#include "InputManager.h"
-#include "TimeManager.h"
 #include "Sprite.h"
 
 Button::Button()

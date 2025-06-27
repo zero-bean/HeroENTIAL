@@ -1,56 +1,55 @@
 #include "pch.h"
-#include "Stage1.h"
+#include "Stage2.h"
 #include "EngineComponents.h"
 #include "GameObjects.h"
 #include "GameUI.h"
 
-Stage1::Stage1()
+Stage2::Stage2()
 {
-	_monsterCount = 4;
+	_phase = ScenePhase::BossIntroStart;
+	_monsterCount = 1;
 }
 
-Stage1::~Stage1()
+Stage2::~Stage2()
 {
 }
 
-void Stage1::Init()
+void Stage2::Init()
 {
 	LoadResources();
 	LoadMap();
 	LoadTileMap();
 	LoadPlayer();
 	LoadUI();
+	LoadCamera();
 	InitObjects();
 
 	Super::Init();
-
-	LoadCamera();
 }
 
-void Stage1::Update()
+void Stage2::Update()
 {
 	Super::Update();
 
-	/*
+	/* 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
-		ResourceManager::GET_SINGLE()->SaveTilemap(L"Tilemap_STAGE1", L"Tilemap\\Tilemap_STAGE1.txt");
+		ResourceManager::GET_SINGLE()->SaveTilemap(L"Tilemap_STAGE2", L"Tilemap\\Tilemap_STAGE2.txt");
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::G))
-		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_STAGE1", L"Tilemap\\Tilemap_STAGE1.txt");
+		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_STAGE2", L"Tilemap\\Tilemap_STAGE2.txt");
 	*/
 }
 
-void Stage1::Render(HDC hdc)
+void Stage2::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
 }
 
-void Stage1::LoadResources()
+void Stage2::LoadResources()
 {
 	// LobbyMap
 	{
-		ResourceManager::GET_SINGLE()->LoadTexture(L"Stage-01", L"Sprite\\Map\\Stage-01.bmp");
-		ResourceManager::GET_SINGLE()->CreateSprite(L"Stage-01", ResourceManager::GET_SINGLE()->GetTexture(L"Stage-01"));
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Stage-02", L"Sprite\\Map\\Stage-02.bmp");
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Stage-02", ResourceManager::GET_SINGLE()->GetTexture(L"Stage-02"));
 	}
 
 	// TileMap
@@ -142,7 +141,7 @@ void Stage1::LoadResources()
 		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_2_Disabled", L"Sprite\\UI\\Icons\\Disable_05.bmp");
 		ResourceManager::GET_SINGLE()->LoadTexture(L"Icon_3_Disabled", L"Sprite\\UI\\Icons\\Disable_06.bmp");
 		ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Dungeon", L"Sprite\\UI\\Banners\\Banner_Dungeon.bmp");
-
+		
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Dungeon", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Dungeon"), 0, 0, 192, 192);
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Button", ResourceManager::GET_SINGLE()->GetTexture(L"Button"), 0, 0, 64, 64);
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Pressed"), 0, 0, 64, 64);
@@ -189,24 +188,26 @@ void Stage1::LoadResources()
 
 	// Monster
 	{
-		// Goblin
+		// Minotaur
 		{
-			ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Right", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Right.bmp");
-			ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Bow_Left", L"Sprite/Monster/Goblin/Goblin_Common_Bow_Left.bmp");
-			ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Right", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Right.bmp");
-			ResourceManager::GET_SINGLE()->LoadTexture(L"Goblin_Axe_Left", L"Sprite/Monster/Goblin/Goblin_Common_Axe_Left.bmp");
-		
-			auto LoadGoblin = [](const wstring& name) {
+			ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur_Right", L"Sprite/Monster/Minotaur/Minotaur_Right.bmp");
+			ResourceManager::GET_SINGLE()->LoadTexture(L"Minotaur_Left", L"Sprite/Monster/Minotaur/Minotaur_Left.bmp");
+
+			auto LoadMinotaur = [](const wstring& name) {
 				shared_ptr<Texture> tx_right = ResourceManager::GET_SINGLE()->GetTexture(name + L"_Right");
 				shared_ptr<Texture> tx_left = ResourceManager::GET_SINGLE()->GetTexture(name + L"_Left");
 
 				vector<tuple<wstring, int, int, float, bool>> animations = {
-					{L"Idle", 5, 0, 0.6f, true},
-					{L"Move", 4, 1, 0.5f, true},
-					{L"Attack", 6, 2, 0.5f, false},
-					{L"Attacked", 4, 3, 0.4f, false},
-					{L"Death", 8, 4, 0.8f, false},
-					{L"Birth", 5, 5, 0.4f, false}
+					{L"Idle", 4, 0, 0.5f, true},
+					{L"Move", 7, 1, 0.5f, true},
+					{L"Prepare", 4, 2, 0.3f, false},
+					{L"AttackA", 8, 3, 1.f, false},
+					{L"AttackB", 4, 4, 0.3f, false},
+					{L"SkillA", 5, 5, 0.5f, false},
+					{L"SkillB", 8, 6, 0.7f, false},
+					{L"Stunned", 2, 7, 0.2f, false},
+					{L"Attacked", 2, 8, 0.1f, false},
+					{L"Death", 5, 9, 0.4f, false},
 				};
 
 				for (auto& anim : animations) {
@@ -217,16 +218,16 @@ void Stage1::LoadResources()
 					tie(animName, frameCount, index, duration, loop) = anim;
 
 					shared_ptr<Flipbook> fb_right = ResourceManager::GET_SINGLE()->CreateFlipbook(name + L"_Right_" + animName);
-					fb_right->SetInfo({ tx_right, name + L"_Right_" + animName, {32, 32}, 0, frameCount, index, duration, loop });
+					fb_right->SetInfo({ tx_right, name + L"_Right_" + animName, {96, 96}, 0, frameCount, index, duration, loop });
 
 					shared_ptr<Flipbook> fb_left = ResourceManager::GET_SINGLE()->CreateFlipbook(name + L"_Left_" + animName);
-					fb_left->SetInfo({ tx_left, name + L"_Left_" + animName, {32, 32}, 0, frameCount, index, duration, loop });
+					fb_left->SetInfo({ tx_left, name + L"_Left_" + animName, {96, 96}, 0, frameCount, index, duration, loop });
 				}
 				};
 
-			LoadGoblin(L"Goblin_Bow");
-			LoadGoblin(L"Goblin_Axe");
+			LoadMinotaur(L"Minotaur");
 		}
+
 	}
 
 	// Bullet
@@ -236,6 +237,12 @@ void Stage1::LoadResources()
 			shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Bullet_Red");
 			shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Bullet_Red_Basic");
 			fb->SetInfo({ texture, L"Bullet_Red_Basic", {16, 17}, 0, 4, 1, 0.3f });
+		}
+
+		{
+			shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Bullet_Red");
+			shared_ptr<Flipbook> fb = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Bullet_Red_Cutter");
+			fb->SetInfo({ texture, L"Bullet_Red_Cutter", {16, 17}, 36, 39, 1, 0.2f });
 		}
 	}
 
@@ -263,11 +270,18 @@ void Stage1::LoadResources()
 
 		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont64", L"Font\\DungeonFont.ttf", L"DungeonFont", 64);
 	}
+
+	// WarningBannerUI
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Effect_Warning", L"Sprite\\UI\\Effects\\warning.bmp");
+
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Effect_Warning", ResourceManager::GET_SINGLE()->GetTexture(L"Effect_Warning"), 0, 0, 1366, 144);
+	}
 }
 
-void Stage1::LoadMap()
+void Stage2::LoadMap()
 {
-	shared_ptr<Sprite> sprite = ResourceManager::GET_SINGLE()->GetSprite(L"Stage-01");
+	shared_ptr<Sprite> sprite = ResourceManager::GET_SINGLE()->GetSprite(L"Stage-02");
 	shared_ptr<SpriteActor> background = make_shared<SpriteActor>();
 	background->SetSprite(sprite);
 	background->SetLayer(LAYER_BACKGROUND);
@@ -276,16 +290,16 @@ void Stage1::LoadMap()
 	AddActor(background);
 }
 
-void Stage1::LoadTileMap()
+void Stage2::LoadTileMap()
 {
 	shared_ptr<TilemapActor> actor = make_shared<TilemapActor>();
 	AddActor(actor);
 
 	_tilemapActor = actor;
 	{
-		shared_ptr<Tilemap> tilemap = ResourceManager::GET_SINGLE()->CreateTilemap(L"Tilemap_STAGE1");
-		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_STAGE1", L"Tilemap\\Tilemap_STAGE1.txt");
-		ResourceManager::GET_SINGLE()->LoadTilemapMetadata(L"Tilemap_STAGE1", L"Tilemap\\Tilemap_STAGE1_meta.txt");
+		shared_ptr<Tilemap> tilemap = ResourceManager::GET_SINGLE()->CreateTilemap(L"Tilemap_STAGE2");
+		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_STAGE2", L"Tilemap\\Tilemap_STAGE2.txt");
+		ResourceManager::GET_SINGLE()->LoadTilemapMetadata(L"Tilemap_STAGE2", L"Tilemap\\Tilemap_STAGE2_meta.txt");
 		tilemap->SetTileSize(16);
 		tilemap->SetScale(4);
 
@@ -294,10 +308,10 @@ void Stage1::LoadTileMap()
 	}
 }
 
-void Stage1::LoadPlayer()
+void Stage2::LoadPlayer()
 {
 	shared_ptr<Player> player = make_shared<Player>();
-	player->SetCellPos({ 11,29 }, true);
+	player->SetCellPos({ 11,20 }, true);
 	AddActor(player);
 
 	// 미니맵
@@ -330,18 +344,18 @@ void Stage1::LoadPlayer()
 	player->AddComponent(collider);
 }
 
-void Stage1::LoadUI()
+void Stage2::LoadUI()
 {
 	// 결과창 패널 추가
 	shared_ptr<GameEndPanel> gameEndPanel = make_shared<GameEndPanel>();
 	UIManager::GET_SINGLE()->AddUI(gameEndPanel);
 }
 
-void Stage1::LoadCamera()
+void Stage2::LoadCamera()
 {
 	// 카메라
 	shared_ptr<CameraController> camera = make_shared<CameraController>();
-	camera->SetBackGroundRange({ 1472, 1984 });
+	camera->SetBackGroundRange({ 1472, 1472 });
 	AddActor(camera);
 	camera->SetTarget(FindActor<Player>());
 }
