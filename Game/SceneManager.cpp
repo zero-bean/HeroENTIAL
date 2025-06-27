@@ -6,6 +6,7 @@
 #include "LobbyScene.h"
 #include "BattleScene.h"
 #include "Stage1.h"
+#include "Stage2.h"
 
 void SceneManager::Init()
 {
@@ -60,6 +61,9 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		break;
 	case SceneType::Stage1:
 		newScene = make_shared<Stage1>();
+		break;
+	case SceneType::Stage2:
+		newScene = make_shared<Stage2>();
 		break;
 	default:
 		assert(false && "Invalid SceneType");

@@ -108,8 +108,11 @@ void DungeonEnterPanel::SetButtonFunction(const int idx)
 	case 0:
 		SceneManager::GET_SINGLE()->RequestToChangeScene(SceneType::Stage1);
 		break;
-	default:
+	case 1:
+		SceneManager::GET_SINGLE()->RequestToChangeScene(SceneType::Stage2);
 		break;
+	default:
+		return;
 	}
 
 	UIManager::GET_SINGLE()->RemoveUI(shared_from_this());

@@ -7,6 +7,7 @@ enum class SceneType
 	LobbyScene,
 	BattleScene,
 	Stage1,
+	Stage2,
 };
 
 enum LAYER_TYPE

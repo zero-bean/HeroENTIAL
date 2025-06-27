@@ -105,6 +105,9 @@
     <Filter Include="소스 파일\03.Objects\Game\Creature\Monster\Common">
       <UniqueIdentifier>{eb880d77-5b1f-4868-b213-9f077cfe257d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\99.Headers\Game">
+      <UniqueIdentifier>{5f5e8a79-c9d0-4acb-8cc1-8905423140e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -329,6 +332,18 @@
     <ClInclude Include="GameEndContainer.h">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
     </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineComponents.h">
+      <Filter>소스 파일\99.Headers\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects.h">
+      <Filter>소스 파일\99.Headers\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUI.h">
+      <Filter>소스 파일\99.Headers\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -531,6 +546,9 @@
     </ClCompile>
     <ClCompile Include="GameEndContainer.cpp">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>소스 파일\02.Scenes\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

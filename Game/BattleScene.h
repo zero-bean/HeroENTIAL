@@ -78,6 +78,6 @@ public:
 	bool FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, __int32 maxDepth = 10);
 
 protected:
-	__int32 _monsterCount = 1;
+	__int32 _monsterCount = 0;
 };
 

@@ -26,13 +26,6 @@ void TilemapActor::Tick()
 	Super::Tick();
 
 	//TickPicking();
-
-	/* 해당 씬에서 사용
-	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
-		ResourceManager::GET_SINGLE()->SaveTilemap(L"Tilemap_TEST_01", L"Tilemap\\Tilemap_TEST_01.txt");
-	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::G))
-		ResourceManager::GET_SINGLE()->LoadTilemap(L"Tilemap_TEST_01", L"Tilemap\\Tilemap_TEST_01.txt");
-	*/
 }
 
 void TilemapActor::Render(HDC hdc)

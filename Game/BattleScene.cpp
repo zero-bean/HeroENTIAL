@@ -1,17 +1,8 @@
 #include "pch.h"
 #include "BattleScene.h"
-#include "CollisionManager.h"
-#include "UIManager.h"
-#include "Tilemap.h"
-#include "TilemapActor.h"
-#include "Player.h"
-#include "Monster.h"
-#include "Goblin.h"
-#include "Item.h"
-#include "Bullet.h"
-#include "Inventory.h"
-#include "GameEndPanel.h"
-#include "InventoryPanel.h"
+#include "EngineComponents.h"
+#include "GameObjects.h"
+#include "GameUI.h"
 
 BattleScene::BattleScene()
 {
@@ -147,7 +138,7 @@ void BattleScene::SpawnMonster(const Vec2Int pos, const ObjectConfig& config)
 
 	if (config.className == L"Goblin")
 	{
-		shared_ptr<Goblin> goblin = std::make_shared<Goblin>();
+		shared_ptr<Goblin> goblin = make_shared<Goblin>();
 
 		if (config.properties.count(L"type"))
 		{
@@ -159,6 +150,15 @@ void BattleScene::SpawnMonster(const Vec2Int pos, const ObjectConfig& config)
 			goblin->SetRank(ParseRank(config.properties.at(L"rank")));
 
 		monster = goblin;
+	}
+	else if (config.className == L"Minotaur")
+	{
+		shared_ptr<Minotaur> minotaur = make_shared<Minotaur>();
+
+		if (config.properties.count(L"rank"))
+			minotaur->SetRank(ParseRank(config.properties.at(L"rank")));
+
+		monster = minotaur;
 	}
 
 	if (monster)
