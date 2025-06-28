@@ -42,6 +42,8 @@ void CameraComponent::TickComponent()
 		_shake.Start(ShakeType::SubtlePulse);
 	}
 
+
+
 	shared_ptr<Actor> owner = _owner.lock();
 	if (!owner) return;
 
@@ -78,4 +80,16 @@ void CameraComponent::SetTargetZoom(float zoom, float speed)
 {
 	_targetZoom = zoom;
 	_zoomSpeed = speed;
+}
+
+void CameraComponent::ForceFocusTo(Vec2 targetPos, float zoom, float duration)
+{
+	_isForced = true;
+	_forcedPos = pos;
+	_forcedZoom = zoom;
+	_forcedDuration = duration;
+	_elapsed = 0.0f;
+
+	_zoom = zoom; // 즉시 반영하거나 점진적으로 보간해도 됨
+	_targetZoom = zoom;
 }

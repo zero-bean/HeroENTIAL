@@ -10,6 +10,16 @@ enum class SceneType
 	Stage2,
 };
 
+enum class ScenePhase
+{
+	None,
+	Normal,
+	BossIntroStart,
+	BossIntroWait,
+	BossIntroEnd,
+	StageClear,
+};
+
 enum LAYER_TYPE
 {
 	LAYER_BACKGROUND,

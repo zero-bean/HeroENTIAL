@@ -88,7 +88,9 @@ void Creature::OnDamaged(shared_ptr<Projectile> projectile)
 	if (stat.hp == 0)
 		SetState(ObjectState::Death);
 	else
+	{
 		SetState(ObjectState::Attacked);
+	}
 
 	// 피격 데미지 이펙트 추가
 	shared_ptr<DamageSkin> dmg = make_shared<DamageSkin>();

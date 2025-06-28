@@ -19,8 +19,43 @@ void BattleScene::Init()
 
 void BattleScene::Update()
 {
-	Super::Update();
+	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
+
+	if (_phase != _prevPhase)
+	{
+		OnPhaseEnter(_phase);
+		_prevPhase = _phase;
+		_phaseElapsed = 0.f;
+	}
+
+	_phaseElapsed += deltaTime;
+
+	switch (_phase)
+	{
+	case ScenePhase::BossIntroStart:
+		if (_phaseElapsed >= 1.5f)
+			_phase = ScenePhase::BossIntroWait;
+		break;
+
+	case ScenePhase::BossIntroWait:
+		if (_phaseElapsed >= 1.5f)
+			_phase = ScenePhase::BossIntroEnd;
+		break;
+
+	case ScenePhase::BossIntroEnd:
+		if (_phaseElapsed >= 1.0f)
+			_phase = ScenePhase::Normal;
+		break;
+
+	case ScenePhase::Normal:
+		Super::Update();
+		break;
+
+	case ScenePhase::StageClear:
+		break;
+	}
 }
+
 
 void BattleScene::Render(HDC hdc)
 {
@@ -41,6 +76,63 @@ void BattleScene::InitObjects()
 			tile.metadata = {};
 		}
 	}
+}
+
+void BattleScene::OnPhaseEnter(ScenePhase newPhase)
+{
+	switch (newPhase)
+	{
+	case ScenePhase::BossIntroStart:
+		PlayBossIntroStart();
+		break;
+
+	case ScenePhase::BossIntroEnd:
+		PlayBossIntroEnd();
+		break;
+
+	case ScenePhase::Normal:
+		// 음악이나 전투 준비 등
+		break;
+
+	case ScenePhase::StageClear:
+		// 스테이지 클리어 연출
+		break;
+
+	default:
+		break;
+	}
+}
+
+void BattleScene::PlayBossIntroStart()
+{
+	shared_ptr<BossMonster> boss = nullptr;
+	shared_ptr<Player> player = nullptr;
+
+	// 1. 보스를 찾는다
+	for (const shared_ptr<Actor>& actor : _actors[LAYER_OBJECT])
+	{
+		if (boss = dynamic_pointer_cast<BossMonster>(actor))
+			break;
+	}
+
+	// 2. 플레이어를 찾는다
+	for (const shared_ptr<Actor>& actor : _actors[LAYER_OBJECT])
+	{
+		if (player = dynamic_pointer_cast<Player>(actor))
+			break;
+	}
+
+	// 3. 두 객체가 존재한다면
+	if (player && boss)
+	{
+		// 카메라 연출 실행
+		if (shared_ptr<CameraComponent> camera = player->FindComponent<CameraComponent>())
+			camera->ForceFocusTo(boss->GetPos(), 1.5f, 2.5f); // 줌인 연출
+
+	}
+
+	_phase = ScenePhase::BossIntroWait;
+	_phaseElapsed = 0.f;
 }
 
 void BattleScene::NotifyPlayerOnDied()
@@ -203,7 +295,7 @@ shared_ptr<Player> BattleScene::FindClosestPlayer(Vec2Int pos)
 	float best = FLT_MAX;
 	shared_ptr<Player> res = nullptr;
 
-	for (shared_ptr<Actor> actor : _actors[LAYER_OBJECT])
+	for (const shared_ptr<Actor>& actor : _actors[LAYER_OBJECT])
 	{
 		if (shared_ptr<Player> player = dynamic_pointer_cast<Player>(actor))
 		{

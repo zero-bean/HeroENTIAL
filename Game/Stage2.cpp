@@ -6,6 +6,7 @@
 
 Stage2::Stage2()
 {
+	_phase = ScenePhase::BossIntroStart;
 	_monsterCount = 1;
 }
 
