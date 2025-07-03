@@ -21,11 +21,15 @@ public:
 	virtual void SetVisible(bool visible) { _isVisible = visible; }
 	bool GetVisible() const { return _isVisible; }
 
+	virtual void SetEnabled(bool isEnabled) { _isEnabled = isEnabled; }
+	bool GetEnabled() const { return _isEnabled; }
+
 	RECT GetRect();
 	bool IsMouseInRect();
 
 protected:
 	bool _isVisible = false;
+	bool _isEnabled = false;
 	Vec2	_pos = { 400, 300 };
 	Vec2Int _size = { 150, 150 };
 };

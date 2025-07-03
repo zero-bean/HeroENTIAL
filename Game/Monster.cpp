@@ -3,8 +3,6 @@
 #include "Collider.h"
 #include "BoxCollider.h"
 #include "BattleScene.h"
-#include "SceneManager.h"
-#include "CollisionManager.h"
 
 Monster::Monster()
 {

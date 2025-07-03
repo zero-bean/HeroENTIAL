@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Scene.h"
 #include "Effect.h"
-#include "TimeManager.h"
-#include "SceneManager.h"
 
 Effect::Effect()
 {

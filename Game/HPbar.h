@@ -6,6 +6,7 @@ class Creature;
 
 class HPbar : public UI
 {
+	using Super = UI;
 public:
 	virtual void BeginPlay();
 	virtual void Tick() override;

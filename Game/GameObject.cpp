@@ -1,9 +1,5 @@
 #include "pch.h"
 #include "GameObject.h"
-#include "InputManager.h"
-#include "TimeManager.h"
-#include "ResourceManager.h"
-#include "SceneManager.h"
 #include "Scene.h"
 #include "Flipbook.h"
 

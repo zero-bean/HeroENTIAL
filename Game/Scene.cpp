@@ -7,7 +7,6 @@
 #include "Player.h"
 #include "Inventory.h"
 #include "Tilemap.h"
-#include "UIManager.h"
 
 Scene::Scene()
 {
@@ -16,6 +15,11 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	_addQueue = {};
+	_removeQueue = {};
+	for (auto& actors : _actors)
+		actors.clear();
+	_tilemapActor = nullptr;
 }
 
 void Scene::Init()
@@ -43,7 +47,9 @@ void Scene::Update()
 		if (!_isLayerUpdateEnabled[layer])
 			continue;
 
-		for (const shared_ptr<Actor>& actor : _actors[layer])
+		// 복사함으로써 Tick 동안 생명 주기 보장함
+		vector<shared_ptr<Actor>> actors = _actors[layer];
+		for (const auto& actor : actors)
 			actor->Tick();
 	}
 	UIManager::GET_SINGLE()->Update();
@@ -178,7 +184,6 @@ Vec2Int Scene::GetClosestEmptyCellPos(const Vec2Int& center)
 	return ret;
 }
 
-
 void Scene::NotifyObjectMoved(shared_ptr<GameObject> obj, const Vec2Int oldPos, const Vec2Int newPos)
 {
 	if (!obj->ShouldAffectTilemap())
@@ -202,6 +207,9 @@ void Scene::PickUpItem(shared_ptr<Item> item, shared_ptr<Player> player)
 	if (!item || !player)
 		return;
 
+	// 사운드 출력
+	SoundManager::GET_SINGLE()->Play(L"SFX_PICK");
+
 	// 인벤토리 귀속
 	if (auto inventory = player->FindComponent<Inventory>())
 	{
@@ -209,7 +217,7 @@ void Scene::PickUpItem(shared_ptr<Item> item, shared_ptr<Player> player)
 		item->SetOwner(player);
 		inventory->AddItem(item);
 
-		// 타일 정보 갱신 및 드랍
+		// 타일 정보 갱신 및 아이템 획득
 		MarkTileType(item->GetCellPos(), TILE_TYPE::EMPTY);
 		RemoveActor(item);
 	}
@@ -219,6 +227,9 @@ void Scene::DropItem(shared_ptr<Item> item, Vec2Int pos)
 {
 	if (!item)
 		return;
+
+	// 사운드 출력
+	SoundManager::GET_SINGLE()->Play(L"SFX_POP");
 
 	// 실제 드랍 가능한 위치 계산
 	const Vec2Int dropPos = GetClosestEmptyCellPos(pos);
@@ -337,8 +348,9 @@ void Scene::ProcessRemoveActor()
 		// 발견했다면,
 		if (it != v.end())
 		{
-			// 맨 뒤로 보내어 제거 : O(1), 정렬X면 가능
-			iter_swap(it, prev(v.end()));
+			// 마지막 요소의 소유권을 뺏고,
+			*it = move(v.back());
+			// 비어있는 마지막 요소는 삭제
 			v.pop_back();
 		}
 	}

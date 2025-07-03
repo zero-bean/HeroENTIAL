@@ -19,6 +19,8 @@ void LobbyScene::Init()
 	LoadTileMap();
 	LoadPlayer();
 	LoadNPC();
+	LoadSound();
+	LoadUI();
 
 	Super::Init();
 	
@@ -29,6 +31,8 @@ void LobbyScene::Update()
 {
 	Super::Update();
 	
+	UIManager::GET_SINGLE()->HandleInputs();
+
 	/*
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
 		ResourceManager::GET_SINGLE()->SaveTilemap(L"Tilemap_LOBBY", L"Tilemap\\Tilemap_LOBBY.txt");
@@ -46,6 +50,12 @@ void LobbyScene::Render(HDC hdc)
 
 void LobbyScene::LoadResources()
 {
+	// Font
+	{
+		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont64", L"Font\\DungeonFont.ttf", L"DungeonFont", 64);
+		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont32", L"Font\\DungeonFont.ttf", L"DungeonFont", 32);
+	}
+
 	// DungeonEnterPanel
 	{
 		// 표지
@@ -81,10 +91,29 @@ void LobbyScene::LoadResources()
 		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Stage6_Pressed", L"Sprite\\UI\\Buttons\\Stage6_Pressed.bmp");
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage6_Regular", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage6_Regular"), 0, 0, 64, 64);
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Stage6_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Stage6_Pressed"), 0, 0, 64, 64);
-		// 폰트
-		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont64", L"Font\\DungeonFont.ttf", L"DungeonFont", 64);
 	}
 	
+	// SettingsPanel
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Back", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Back.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Back_Pressed", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Back_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Quit", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Quit.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Quit_Pressed", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Quit_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Sound", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Sound.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Sound_Pressed", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Sound_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Settings", L"Sprite\\UI\\Banners\\Banner_Settings.bmp");
+
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Back", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Back"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Back_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Back_Pressed"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Quit", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Quit"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Quit_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Quit_Pressed"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Sound", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Sound"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Sound_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Sound_Pressed"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Settings", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Settings"), 0, 0, 683, 384);
+		
+		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont48", L"Font\\DungeonFont.ttf", L"DungeonFont", 48);
+	}
+
 	// LobbyMap
 	{
 		ResourceManager::GET_SINGLE()->LoadTexture(L"Stage-Lobby", L"Sprite\\Map\\Lobby.bmp");
@@ -282,6 +311,15 @@ void LobbyScene::LoadResources()
 			flipbook->SetInfo({ texture, L"Sandwitch", {32, 32}, 0, 0, 0 });
 		}
 	}
+
+	// Sound
+	{
+		ResourceManager::GET_SINGLE()->LoadSound(L"BGM_LOBBY", L"Sound\\Sound_Lobby.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_PICK", L"Sound\\Sound_Pick.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_POP", L"Sound\\Sound_Pop.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_CLICK", L"Sound\\Sound_Click.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_FIRE1", L"Sound\\Sound_Fire1.wav");
+	}
 }
 
 void LobbyScene::LoadMap()
@@ -357,26 +395,72 @@ void LobbyScene::LoadNPC()
 	/* 소환 */
 	shared_ptr<NPC> npc_Quest = make_shared<NPC>();
 	npc_Quest->AddCollider({ 128,128 });
+	npc_Quest->SetRoleText(L"<Quest>");
 	npc_Quest->SetCellPos({ 7,8 }, true);
 	AddActor(npc_Quest);
 
 	shared_ptr<NPC> npc_Dungeon = make_shared<NPC>();
 	npc_Dungeon->AddCollider({ 128,128 });
 	npc_Dungeon->SetCellPos({ 16,5 }, true);
+	npc_Dungeon->SetRoleText(L"<Dungeon>");
 	npc_Dungeon->SetOnActivate([]() {
 		if (auto dungeonPanel = UIManager::GET_SINGLE()->FindUI<DungeonEnterPanel>())
+		{
 			dungeonPanel->SetVisible(true);
+			dungeonPanel->SetEnabled(true);
+		}
 		});
 	npc_Dungeon->SetOnDeActivate([]() {
 		if (auto dungeonPanel = UIManager::GET_SINGLE()->FindUI<DungeonEnterPanel>())
+		{
 			dungeonPanel->SetVisible(false);
+			dungeonPanel->SetEnabled(false);
+		}
 		});
 	AddActor(npc_Dungeon);
 
 	shared_ptr<NPC> npc_Shop = make_shared<NPC>();
+	npc_Shop->SetRoleText(L"<Shop>");
 	npc_Shop->AddCollider({ 128,128 });
 	npc_Shop->SetCellPos({ 24,7 }, true);
 	AddActor(npc_Shop);
+}
+
+void LobbyScene::LoadSound()
+{
+	SoundManager::GET_SINGLE()->PlayBGM(L"BGM_LOBBY");
+}
+
+void LobbyScene::LoadUI()
+{
+	// Settings
+	{
+		shared_ptr<SettingsMainPanel> mp = make_shared<SettingsMainPanel>();
+		mp->SetSoundBtnClick([mp]() {
+			mp->SetEnabled(false);
+			mp->SetVisible(false);
+			if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsSoundPanel>())
+			{
+				panel->SetEnabled(true);
+				panel->SetVisible(true);
+			}});
+		mp->SetBackBtnClick([mp]() {
+			mp->SetEnabled(false);
+			mp->SetVisible(false); });
+		mp->SetQuitBtnClick([]() {PostQuitMessage(0); });
+		UIManager::GET_SINGLE()->AddUI(mp);
+
+		shared_ptr<SettingsSoundPanel> sp = make_shared<SettingsSoundPanel>();
+		sp->SetBtnClick([sp]() {
+			if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsMainPanel>())
+			{
+				panel->SetEnabled(true);
+				panel->SetVisible(true);
+			}
+			sp->SetEnabled(false);
+			sp->SetVisible(false); });
+		UIManager::GET_SINGLE()->AddUI(sp);
+	}
 }
 
 void LobbyScene::LoadCamera()

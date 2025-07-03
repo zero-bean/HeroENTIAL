@@ -18,12 +18,13 @@ void UI::BeginPlay()
 
 void UI::Tick()
 {
-
+	if (!GetEnabled())
+		return;
 }
 
 void UI::Render(HDC hdc)
 {
-	if (!_isVisible)
+	if (!GetVisible())
 		return;
 }
 

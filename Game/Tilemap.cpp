@@ -10,7 +10,7 @@ Tilemap::Tilemap()
 
 Tilemap::~Tilemap()
 {
-
+	
 }
 
 void Tilemap::LoadFile(const wstring& path)

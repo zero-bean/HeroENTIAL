@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "GameEndContainer.h"
 #include "Sprite.h"
-#include "ResourceManager.h"
 
 GameEndContainer::GameEndContainer()
 {
@@ -22,7 +21,6 @@ void GameEndContainer::BeginPlay()
 void GameEndContainer::Tick()
 {
     Super::Tick();
-
 }
 
 void GameEndContainer::Render(HDC hdc)

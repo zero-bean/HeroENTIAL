@@ -4,9 +4,6 @@
 #include "Player.h"
 #include "Collider.h"
 #include "BoxCollider.h"
-#include "ResourceManager.h"
-#include "CollisionManager.h"
-#include "SceneManager.h"
 #include "Inventory.h"
 
 unordered_map<PotionType, function<void(shared_ptr<Player>&)>> Potion::_effect = {

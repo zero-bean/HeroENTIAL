@@ -5,10 +5,6 @@
 #include "Creature.h"
 #include "Player.h"
 #include "Monster.h"
-#include "ResourceManager.h"
-#include "SceneManager.h"
-#include "TimeManager.h"
-#include "CollisionManager.h"
 #include "Scene.h"
 #include "BattleScene.h"
 

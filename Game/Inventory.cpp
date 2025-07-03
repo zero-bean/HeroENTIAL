@@ -6,8 +6,6 @@
 #include "Scene.h"
 #include "Player.h"
 #include "BoxCollider.h"
-#include "SceneManager.h"
-#include "CollisionManager.h"
 
 Inventory::Inventory()
 {

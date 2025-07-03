@@ -8,9 +8,6 @@
 #include "InventoryTooltip.h"
 #include "InventoryContainer.h"
 #include "Button.h"
-#include "ResourceManager.h"
-#include "InputManager.h"
-#include "UIManager.h"
 
 InventoryPanel::InventoryPanel()
 {
@@ -32,15 +29,14 @@ InventoryPanel::InventoryPanel()
 	_buttons.resize(3, nullptr);
 	for (int i = 0; i < 3; i++)
 	{
-		shared_ptr<Button> button = make_shared<Button>();
-		button->SetSize({ 64, 64 });
-		button->SetPos({ startX + 64.f * i, btnY });
-		button->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button"), BS_Default);
-		button->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button_Pressed"), BS_Pressed);
-		button->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(defaultIcons[i]), BS_Default);
-		button->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(pressedIcons[i]), BS_Pressed);
-		_buttons[i] = button;
-		AddChild(button);
+		_buttons[i] = make_shared<Button>();
+		_buttons[i]->SetSize({ 64, 64 });
+		_buttons[i]->SetPos({ startX + 64.f * i, btnY });
+		_buttons[i]->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button"), BS_Default);
+		_buttons[i]->SetSprite(ResourceManager::GET_SINGLE()->GetSprite(L"Button_Pressed"), BS_Pressed);
+		_buttons[i]->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(defaultIcons[i]), BS_Default);
+		_buttons[i]->SetCoverSprite(ResourceManager::GET_SINGLE()->GetSprite(pressedIcons[i]), BS_Pressed);
+		AddChild(_buttons[i]);
 	}
 
 	// 슬롯
@@ -80,45 +76,44 @@ void InventoryPanel::BeginPlay()
 
 			_slots[index]->SetPos(pos);
 
-			_slots[index]->SetHover([this, &pos, &index](shared_ptr<Slot> slot) {
-				shared_ptr<Item> item = slot->GetOwner();
-				if (!item) return;
-				
-				_tooltip->SetOwner(item);
-				_tooltip->SetPos(slot->GetPos() + Vec2(48, 0));
-				_tooltip->SetVisible(true);
-				});
-
-			_slots[index]->SetUnhover([this]() {
-				_tooltip->SetVisible(false);
-				});
-
-			_slots[index]->SetOnClick([this](shared_ptr<Slot> slot) {
-				DragState& drag = UIManager::GET_SINGLE()->GetDragState();
-
-				if (!slot) 
-					return;
-
-				if (drag.IsDrag())
+			_slots[index]->SetHover([this, &pos, &index](shared_ptr<Slot> slot) 
 				{
-				// 아이템 타입이 다르면 스왑 불가능
-				const ItemType from = drag.GetSlot()->GetSlotType();
-				const ItemType To = slot->GetSlotType();
-				if (from != To)
-					return;
+					if (shared_ptr<Item> item = slot->GetOwner())
+					{
+						_tooltip->SetOwner(item);
+						_tooltip->SetPos(slot->GetPos() + Vec2(48, 0));
+					}
+				});
 
-					shared_ptr<Item>* srcPtr = drag.GetSlot()->GetOwnerPtr();
-					shared_ptr<Item>* dstPtr = slot->GetOwnerPtr();
+			_slots[index]->SetUnhover([this]() {_tooltip->SetOwner(nullptr); });
 
-					if (srcPtr && dstPtr)
-						std::swap(*srcPtr, *dstPtr);
+			_slots[index]->SetOnClick([this](shared_ptr<Slot> slot) 
+				{
+					DragState& drag = UIManager::GET_SINGLE()->GetDragState();
 
-					drag.EndDrag();
-					return;
-				}
+					if (!slot)
+						return;
 
-				// 드래그 활성화
-				drag.BeginDrag(slot);
+					if (drag.IsDrag() && this->GetVisible())
+					{
+						// 아이템 타입이 다르면 스왑 불가능
+						const ItemType from = drag.GetSlot()->GetSlotType();
+						const ItemType To = slot->GetSlotType();
+						if (from != To)
+							return;
+
+						shared_ptr<Item>* srcPtr = drag.GetSlot()->GetOwnerPtr();
+						shared_ptr<Item>* dstPtr = slot->GetOwnerPtr();
+
+						if (srcPtr && dstPtr)
+							std::swap(*srcPtr, *dstPtr);
+
+						drag.EndDrag();
+						return;
+					}
+
+					// 드래그 활성화
+					drag.BeginDrag(slot);
 				});
 
 		}
@@ -130,21 +125,9 @@ void InventoryPanel::BeginPlay()
 void InventoryPanel::Tick()
 {
 	Super::Tick();
-	
+
 	if (!_inventory.lock())
 		return;
-
-	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::I)) 
-	{
-		SetVisible(!GetVisible());
-
-		// 인벤토리 닫으면 드래그 정보 초기화
-		if (!GetVisible())
-		{
-			DragState& drag = UIManager::GET_SINGLE()->GetDragState();
-			drag.EndDrag();
-		}
-	}
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::LEFT_MOUSE))
 		DropDraggedItem();
@@ -154,9 +137,6 @@ void InventoryPanel::Render(HDC hdc)
 {
 	Super::Render(hdc);
 	
-	if (!GetVisible())
-		return;
-
 	if (!_inventory.lock())
 		return;
 
@@ -203,8 +183,11 @@ void InventoryPanel::UpdateSlots(const ItemType category)
 {
 	if (shared_ptr<Inventory> inventory = _inventory.lock())
 	{
-		vector<shared_ptr<Item>>& items = inventory->GetItemsRef(static_cast<int>(category));
+		// 사운드 출력
+		SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
 
+		// 슬롯 갱신
+		vector<shared_ptr<Item>>& items = inventory->GetItemsRef(static_cast<int>(category));
 		for (int i = 0; i < _slots.size(); i++)
 		{
 			_slots[i]->SetOwnerPtr(&items[i]);

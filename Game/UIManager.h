@@ -52,6 +52,8 @@ public:
 	void Clear();
 
 public:
+	void HandleInputs();
+
 	DragState& GetDragState() { return _drag; }
 	void SetDragState(DragState drag) { _drag = drag; }
 

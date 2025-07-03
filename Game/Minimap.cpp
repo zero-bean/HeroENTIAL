@@ -3,7 +3,6 @@
 #include "Tilemap.h"
 #include "Player.h"
 #include "Sprite.h"
-#include "ResourceManager.h"
 
 Minimap::Minimap()
 {

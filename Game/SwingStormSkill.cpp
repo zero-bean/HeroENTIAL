@@ -6,7 +6,6 @@
 #include "Bullet.h"
 #include "Scene.h"
 #include "BattleScene.h"
-#include "SceneManager.h"
 
 SwingStormSkill::SwingStormSkill(shared_ptr<BossMonster> owner) : Super(owner)
 {
@@ -86,6 +85,9 @@ void SwingStormSkill::Tick(float deltaTime)
 
 void SwingStormSkill::FireBulletsPhase1()
 {
+    // 사운드 출력
+    SoundManager::GET_SINGLE()->Play(L"SFX_SWING");
+
     const Vec2 center = GetOwner()->GetPos();
     vector<float> angles = { 0.f, 45.f, 90.f, 135.f, 180.f, 225.f, 270.f, 315.f };
 
@@ -106,6 +108,9 @@ void SwingStormSkill::FireBulletsPhase1()
 
 void SwingStormSkill::FireBulletsPhase2()
 {
+    // 사운드 출력
+    SoundManager::GET_SINGLE()->Play(L"SFX_SWING");
+
     const Vec2 center = GetOwner()->GetPos();
     vector<float> angles = { 0.f, 45.f, 90.f, 135.f, 180.f, 225.f, 270.f, 315.f };
 

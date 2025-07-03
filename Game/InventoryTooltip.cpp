@@ -21,13 +21,16 @@ void InventoryTooltip::BeginPlay()
 
 void InventoryTooltip::Tick()
 {
-
+	Super::Tick();
 }
 
 void InventoryTooltip::Render(HDC hdc)
 {
+	Super::Render(hdc);
+
 	shared_ptr<Item> item = _owner.lock();
-	if (!item || !isVisible) return;
+	if (!item) 
+		return;
 
 	const ItemContent content = item->GetItemContent();
 	const shared_ptr<Flipbook> flip = item->GetFlipbook();

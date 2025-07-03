@@ -3,6 +3,7 @@
 
 class Flipbook;
 class Collider;
+class Font;
 
 class NPC : public Creature
 {
@@ -30,6 +31,9 @@ public:
 	void SetOnActivate(function<void()> active) { _onActivate = active; }
 	void SetOnDeActivate(function<void()> dective) { _onDeactivate = dective; }
 
+public:
+	void SetRoleText(const wstring& text) { _roleText = text; }
+
 private:
 	virtual void TickIdle() override {}
 	virtual void TickMove() override {}
@@ -44,6 +48,10 @@ private:
 	bool isPlayerOverlapped = false;
 	function<void()> _onActivate = {};
 	function<void()> _onDeactivate = {};
+
+	shared_ptr<Font> _font = nullptr;
+	wstring _roleText = {};
+	wstring _interactText = L"[Press z]";
 
 private:
 	shared_ptr<Flipbook> _idle[2] = {};

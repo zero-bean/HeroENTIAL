@@ -31,6 +31,7 @@ protected:
 	virtual void LoadTileMap() {};
 	virtual void LoadPlayer() {};
 	virtual void LoadUI() {};
+	virtual void LoadSound() {};
 	virtual void LoadCamera() {};
 	void InitObjects();
 

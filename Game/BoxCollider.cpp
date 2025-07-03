@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "BoxCollider.h"
-#include "SceneManager.h"
 #include "Actor.h"
 
 BoxCollider::BoxCollider()

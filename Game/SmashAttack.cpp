@@ -6,7 +6,6 @@
 #include "RedRectWarningEffect.h"
 #include "Scene.h"
 #include "BattleScene.h"
-#include "SceneManager.h"
 
 SmashAttack::SmashAttack(shared_ptr<BossMonster> owner) : Super(owner)
 {
@@ -92,6 +91,9 @@ void SmashAttack::Tick(float deltaTime)
     {
         if (owner->IsAnimationEnded())
         {
+            // 사운드 출력
+            SoundManager::GET_SINGLE()->Play(L"SFX_SMASH");
+
             // 공격 이펙트 생성 등 처리
             if (auto scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene()))
             {

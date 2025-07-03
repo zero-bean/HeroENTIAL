@@ -4,9 +4,6 @@
 #include "BattleScene.h"
 #include "SmashAttack.h"
 #include "SwingStormSkill.h"
-#include "TimeManager.h"
-#include "SceneManager.h"
-#include "ResourceManager.h"
 
 Minotaur::Minotaur()
 {

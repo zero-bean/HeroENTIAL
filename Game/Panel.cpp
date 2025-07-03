@@ -31,19 +31,8 @@ void Panel::Render(HDC hdc)
 {
 	Super::Render(hdc);
 
-	if (!GetVisible())
-		return;
-
 	for (shared_ptr<UI> child : _children)
 		child->Render(hdc);
-}
-
-void Panel::SetVisible(bool visible)
-{
-	Super::SetVisible(visible);
-
-	for (shared_ptr<UI>& child : _children)
-		child->SetVisible(visible);
 }
 
 void Panel::AddChild(shared_ptr<UI> ui)

@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "DamageSkin.h"
 #include "Font.h"
-#include "SceneManager.h"
-#include "TimeManager.h"
 #include "Scene.h"
 
 DamageSkin::DamageSkin()

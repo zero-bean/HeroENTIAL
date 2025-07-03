@@ -3,12 +3,11 @@
 #include "QuickslotContainer.h"
 #include "QuickslotSlot.h"
 #include "Inventory.h"
-#include "InputManager.h"
-#include "UIManager.h"
 
 QuickslotPanel::QuickslotPanel()
 {	
 	SetVisible(true);
+	SetEnabled(true);
 
 	// 패널
 	SetSize({ 192 * 3, 192 });
@@ -40,11 +39,10 @@ QuickslotPanel::QuickslotPanel()
 		_slots[i]->SetSlotType(ItemType::Consumable);
 
 		_slots[i]->SetOnClick([this](shared_ptr<Slot> slot) {
-			DragState& drag = UIManager::GET_SINGLE()->GetDragState();
-
 			if (!slot)
 				return;
 
+			DragState& drag = UIManager::GET_SINGLE()->GetDragState();
 			if (drag.IsDrag())
 			{
 				const ItemType from = drag.GetSlot()->GetSlotType();
@@ -78,10 +76,10 @@ void QuickslotPanel::BeginPlay()
 
 void QuickslotPanel::Tick()
 {
+	Super::Tick();
+
 	if (!_inventory.lock())
 		return;
-
-	Super::Tick();
 
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::KEY_1))
 		_slots[0]->UseItem();
@@ -94,13 +92,10 @@ void QuickslotPanel::Tick()
 
 void QuickslotPanel::Render(HDC hdc)
 {
+	Super::Render(hdc);
+
 	if (!_inventory.lock())
 		return;
-
-	if (!GetVisible())
-		return;
-
-	Super::Render(hdc);
 }
 
 void QuickslotPanel::SetSlotsOwnerPtr(shared_ptr<Inventory> inventory)

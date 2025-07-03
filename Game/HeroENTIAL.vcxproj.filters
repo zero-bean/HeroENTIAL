@@ -108,6 +108,9 @@
     <Filter Include="소스 파일\03.Objects\Game\Camera">
       <UniqueIdentifier>{112fd4ad-f020-45a5-97ce-f355cdda2d8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\06.UIs\Game\Settings">
+      <UniqueIdentifier>{130e83d1-40ac-49e4-be72-295b5e66110e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -347,6 +350,18 @@
     <ClInclude Include="WarningBannerUI.h">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
     </ClInclude>
+    <ClInclude Include="SettingsContainer.h">
+      <Filter>소스 파일\06.UIs\Game\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsMainPanel.h">
+      <Filter>소스 파일\06.UIs\Game\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsSoundPanel.h">
+      <Filter>소스 파일\06.UIs\Game\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>소스 파일\06.UIs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -555,6 +570,18 @@
     </ClCompile>
     <ClCompile Include="WarningBannerUI.cpp">
       <Filter>소스 파일\06.UIs\Game\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsContainer.cpp">
+      <Filter>소스 파일\06.UIs\Game\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsMainPanel.cpp">
+      <Filter>소스 파일\06.UIs\Game\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsSoundPanel.cpp">
+      <Filter>소스 파일\06.UIs\Game\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>소스 파일\06.UIs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -54,6 +54,17 @@ void CollisionManager::Update()
     ProcessRemoveCollider();
 }
 
+void CollisionManager::Clear()
+{
+    _colliders.clear();
+
+    while (!_addQueue.empty()) 
+        _addQueue.pop();
+
+    while (!_removeQueue.empty()) 
+        _removeQueue.pop();
+}
+
 
 void CollisionManager::AddCollider(shared_ptr<Collider> collider)
 {
@@ -91,8 +102,9 @@ void CollisionManager::ProcessRemoveCollider()
         // 발견했다면,
         if (it != _colliders.end())
         {
-            // 맨 뒤로 보내어 제거 : O(1), 정렬X면 가능
-            iter_swap(it, prev(_colliders.end()));
+            // 마지막 요소의 소유권을 뺏고,
+            *it = move(_colliders.back());
+            // 비어있는 마지막 요소는 삭제
             _colliders.pop_back();
         }
     }

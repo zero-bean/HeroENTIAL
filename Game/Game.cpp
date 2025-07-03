@@ -1,11 +1,5 @@
 #include "pch.h"
 #include "Game.h"
-#include "TimeManager.h"
-#include "InputManager.h"
-#include "ResourceManager.h"
-#include "SceneManager.h"
-#include "CollisionManager.h"
-#include "UIManager.h"
 
 Game::Game()
 {
@@ -32,10 +26,11 @@ void Game::Init(HWND hwnd)
 	TimeManager::GET_SINGLE()->Init();
 	InputManager::GET_SINGLE()->Init(hwnd);
 	ResourceManager::GET_SINGLE()->Init(hwnd, fs::current_path().parent_path().string() + "\\Resources");
+	SoundManager::GET_SINGLE()->Init(hwnd);
 	SceneManager::GET_SINGLE()->Init();
 	CollisionManager::GET_SINGLE()->Init();
-
 	UIManager::GET_SINGLE()->Init(hwnd);
+
 	SceneManager::GET_SINGLE()->RequestToChangeScene(SceneType::LobbyScene);
 }
 
@@ -44,6 +39,7 @@ void Game::Update()
 	TimeManager::GET_SINGLE()->Update();
 	InputManager::GET_SINGLE()->Update();
 	SceneManager::GET_SINGLE()->Update();
+	SoundManager::GET_SINGLE()->Update();
 	CollisionManager::GET_SINGLE()->Update();
 }
 

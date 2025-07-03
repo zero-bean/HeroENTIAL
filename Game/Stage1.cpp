@@ -20,6 +20,7 @@ void Stage1::Init()
 	LoadTileMap();
 	LoadPlayer();
 	LoadUI();
+	LoadSound();
 	InitObjects();
 
 	Super::Init();
@@ -30,6 +31,8 @@ void Stage1::Init()
 void Stage1::Update()
 {
 	Super::Update();
+
+	UIManager::GET_SINGLE()->HandleInputs();
 
 	/*
 	if (InputManager::GET_SINGLE()->GetButtonDown(KeyType::F))
@@ -263,6 +266,36 @@ void Stage1::LoadResources()
 
 		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont64", L"Font\\DungeonFont.ttf", L"DungeonFont", 64);
 	}
+
+	// SettingsPanel
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Back", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Back.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Back_Pressed", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Back_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Quit", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Quit.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Quit_Pressed", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Quit_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Sound", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Sound.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Sound_Pressed", L"Sprite\\UI\\Buttons\\Button_Blue_3Slides_Sound_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Banner_Settings", L"Sprite\\UI\\Banners\\Banner_Settings.bmp");
+
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Back", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Back"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Back_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Back_Pressed"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Quit", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Quit"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Quit_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Quit_Pressed"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Sound", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Sound"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Sound_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Sound_Pressed"), 0, 0, 192, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Settings", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Settings"), 0, 0, 683, 384);
+		
+		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont48", L"Font\\DungeonFont.ttf", L"DungeonFont", 48);
+	}
+
+	// Sound
+	{
+		ResourceManager::GET_SINGLE()->LoadSound(L"BGM_STAGE", L"Sound\\Sound_Stage.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_PICK", L"Sound\\Sound_Pick.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_POP", L"Sound\\Sound_Pop.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_CLICK", L"Sound\\Sound_Click.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_FIRE1", L"Sound\\Sound_Fire1.wav");
+	}
 }
 
 void Stage1::LoadMap()
@@ -335,6 +368,40 @@ void Stage1::LoadUI()
 	// 결과창 패널 추가
 	shared_ptr<GameEndPanel> gameEndPanel = make_shared<GameEndPanel>();
 	UIManager::GET_SINGLE()->AddUI(gameEndPanel);
+
+	// Settings
+	{
+		shared_ptr<SettingsMainPanel> mp = make_shared<SettingsMainPanel>();
+		mp->SetSoundBtnClick([mp]() {
+			mp->SetEnabled(false);
+			mp->SetVisible(false);
+			if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsSoundPanel>())
+			{
+				panel->SetEnabled(true);
+				panel->SetVisible(true);
+			}});
+			mp->SetBackBtnClick([mp]() {
+				mp->SetEnabled(false);
+				mp->SetVisible(false); });
+			mp->SetQuitBtnClick([]() {SceneManager::GET_SINGLE()->RequestToChangeScene(SceneType::LobbyScene); });
+			UIManager::GET_SINGLE()->AddUI(mp);
+
+			shared_ptr<SettingsSoundPanel> sp = make_shared<SettingsSoundPanel>();
+			sp->SetBtnClick([sp]() {
+				if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsMainPanel>())
+				{
+					panel->SetEnabled(true);
+					panel->SetVisible(true);
+				}
+				sp->SetEnabled(false);
+				sp->SetVisible(false); });
+			UIManager::GET_SINGLE()->AddUI(sp);
+	}
+}
+
+void Stage1::LoadSound()
+{
+	SoundManager::GET_SINGLE()->PlayBGM(L"BGM_STAGE");
 }
 
 void Stage1::LoadCamera()

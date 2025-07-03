@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "InventoryContainer.h"
-#include "ResourceManager.h"
 #include "Sprite.h"
 
 InventoryContainer::InventoryContainer()

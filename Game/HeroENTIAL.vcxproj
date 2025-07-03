@@ -200,6 +200,10 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SettingsContainer.h" />
+    <ClInclude Include="SettingsMainPanel.h" />
+    <ClInclude Include="SettingsSoundPanel.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="Slot.h" />
     <ClInclude Include="SmashAttack.h" />
     <ClInclude Include="Sound.h" />
@@ -277,6 +281,10 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SettingsContainer.cpp" />
+    <ClCompile Include="SettingsMainPanel.cpp" />
+    <ClCompile Include="SettingsSoundPanel.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Slot.cpp" />
     <ClCompile Include="SmashAttack.cpp" />
     <ClCompile Include="Sound.cpp" />

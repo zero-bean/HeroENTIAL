@@ -3,9 +3,6 @@
 #include "GameEndContainer.h"
 #include "Button.h"
 #include "Font.h"
-#include "ResourceManager.h"
-#include "SceneManager.h"
-#include "UIManager.h"
 
 GameEndPanel::GameEndPanel()
 {
@@ -45,10 +42,16 @@ void GameEndPanel::BeginPlay()
 		panelCenter.y + verticalOffset
 		});
 
-	// 버튼 클릭 시 로비로 이동
+	// 버튼 클릭 시,
 	auto self = shared_from_this();
 	_button->AddOnClickDelegate(self, [self]() {
+		// 사운드 출력
+		SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
+
+		// 씬 교체 요청
 		SceneManager::GET_SINGLE()->RequestToChangeScene(SceneType::LobbyScene);
+
+		// 본인 삭제 요청
 		UIManager::GET_SINGLE()->RemoveUI(self);
 		});
 
@@ -64,9 +67,6 @@ void GameEndPanel::Tick()
 void GameEndPanel::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
-	if (!GetVisible())
-		return;
 
 	if (_font)
 	{
@@ -90,4 +90,3 @@ void GameEndPanel::Render(HDC hdc)
 		Utils::DrawTextColored(hdc, textPos, str, font, RGB(0, 0, 0));
 	}
 }
-

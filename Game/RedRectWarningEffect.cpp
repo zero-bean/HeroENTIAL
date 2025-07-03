@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "RedRectWarningEffect.h"
-#include "SceneManager.h"
 
 RedRectWarningEffect::RedRectWarningEffect()
 {

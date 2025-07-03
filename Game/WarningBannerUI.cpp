@@ -5,7 +5,8 @@
 WarningBannerUI::WarningBannerUI()
 {
 	_sprite = ResourceManager::GET_SINGLE()->GetSprite(L"Effect_Warning");
-	_isVisible = true;
+    SetVisible(true);
+    SetEnabled(true);
 }
 
 WarningBannerUI::~WarningBannerUI()
@@ -38,8 +39,6 @@ void WarningBannerUI::Tick()
 void WarningBannerUI::Render(HDC hdc)
 {
     Super::Render(hdc);
-    if (!GetVisible())
-        return;
 
     // »ó´Ü
     for (int i = 0; i < 2; ++i)

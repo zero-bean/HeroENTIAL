@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "QuickslotContainer.h"
-#include "ResourceManager.h"
 #include "Sprite.h"
 
 QuickslotContainer::QuickslotContainer()

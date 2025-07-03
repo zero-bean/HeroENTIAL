@@ -3,9 +3,6 @@
 #include "DungeonEnterContainer.h"
 #include "Button.h"
 #include "Font.h"
-#include "ResourceManager.h"
-#include "SceneManager.h"
-#include "UIManager.h"
 
 DungeonEnterPanel::DungeonEnterPanel()
 {
@@ -86,9 +83,6 @@ void DungeonEnterPanel::Render(HDC hdc)
 {
 	Super::Render(hdc);
 
-	if (!GetVisible())
-		return;
-
 	// 폰트
 	if (_font)
 	{
@@ -103,6 +97,9 @@ void DungeonEnterPanel::Render(HDC hdc)
 
 void DungeonEnterPanel::SetButtonFunction(const int idx)
 {
+	// 사운드 출력
+	SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
+
 	switch (idx)
 	{
 	case 0:

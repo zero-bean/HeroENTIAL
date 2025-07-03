@@ -3,7 +3,6 @@
 #include "Item.h"
 #include "Flipbook.h"
 #include "Texture.h"
-#include "InputManager.h"
 
 QuickslotSlot::QuickslotSlot()
 {

@@ -4,10 +4,6 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Potion.h"
-#include "InputManager.h"
-#include "TimeManager.h"
-#include "ResourceManager.h"
-#include "SceneManager.h"
 #include "BattleScene.h"
 
 Goblin::Goblin()

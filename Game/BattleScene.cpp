@@ -147,7 +147,10 @@ void BattleScene::NotifyPlayerOnDied()
 	_actors[LAYER_OBJECT].clear();
 
 	if (shared_ptr<GameEndPanel> panel = UIManager::GET_SINGLE()->FindUI<GameEndPanel>())
+	{
 		panel->SetVisible(true);
+		panel->SetEnabled(true);
+	}
 }
 
 void BattleScene::NotifyMonsterOnDied()
@@ -160,6 +163,7 @@ void BattleScene::NotifyMonsterOnDied()
 		{
 			panel->SetOutputContent(L"Clear!");
 			panel->SetVisible(true);
+			panel->SetEnabled(true);
 		}
 	}
 }

@@ -1,21 +1,25 @@
 #include "pch.h"
 #include "HPbar.h"
 #include "Creature.h"
-#include "SceneManager.h"
 
 void HPbar::BeginPlay()
 {
-
+    SetVisible(true);
+    SetEnabled(true);
 }
 
 void HPbar::Tick()
 {
+    Super::Tick();
+
     if (auto owner = _owner.lock())
         SetPos(owner->GetPos());
 }
 
 void HPbar::Render(HDC hdc)
 {
+    Super::Render(hdc);
+
     if (auto owner = _owner.lock())
     {
         Stat& stat = owner->GetStat();

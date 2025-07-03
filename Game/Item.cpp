@@ -6,8 +6,6 @@
 #include "BoxCollider.h"
 #include "Player.h"
 #include "Scene.h"
-#include "CollisionManager.h"
-#include "SceneManager.h"
 
 Item::Item()
 {

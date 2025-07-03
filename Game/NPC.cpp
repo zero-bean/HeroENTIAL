@@ -4,11 +4,7 @@
 #include "BoxCollider.h"
 #include "Flipbook.h"
 #include "Player.h"
-#include "ResourceManager.h"
-#include "InputManager.h"
-#include "CollisionManager.h"
-#include "TimeManager.h"
-#include "SceneManager.h"
+#include "Font.h"
 
 NPC::NPC()
 {
@@ -37,9 +33,9 @@ NPC::~NPC()
 
 void NPC::BeginPlay()
 {
+	_font = ResourceManager::GET_SINGLE()->GetFont(L"DungeonFont32");
+
 	Super::BeginPlay();
-
-
 }
 
 void NPC::Tick()
@@ -61,6 +57,24 @@ void NPC::Tick()
 void NPC::Render(HDC hdc)
 {
 	Super::Render(hdc);
+
+	if (_font)
+	{
+		Vec2 cameraPos = SceneManager::GET_SINGLE()->GetCameraPos();
+		float cameraZoom = SceneManager::GET_SINGLE()->GetCameraZoom();
+		Vec2 screenCenter = Vec2(GWinSizeX / 2.0f, GWinSizeY / 2.0f);
+		Vec2 renderPos = (_pos - cameraPos) * cameraZoom + screenCenter;
+
+		SIZE roleSize;
+		GetTextExtentPoint32(hdc, _roleText.c_str(), static_cast<int>(_roleText.length()), &roleSize);
+		Vec2 rolePos = { renderPos.x - roleSize.cx / 2.0f, renderPos.y - 70.0f };
+		Utils::DrawTextColored(hdc, rolePos, _roleText, _font->GetHandle(), RGB(155, 255, 155));
+
+		SIZE interSize;
+		GetTextExtentPoint32(hdc, _interactText.c_str(), static_cast<int>(_interactText.length()), &interSize);
+		Vec2 interactPos = { renderPos.x - interSize.cx / 2.0f, renderPos.y - 100.0f };
+		Utils::DrawTextColored(hdc, interactPos, _interactText, _font->GetHandle(), RGB(255, 255, 255));
+	}
 }
 
 void NPC::OnComponentBeginOverlap(shared_ptr<Collider> collider, shared_ptr<Collider> other)

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Consumable.h"
-#include "SceneManager.h"
 #include "Scene.h"
 
 Consumable::Consumable()
