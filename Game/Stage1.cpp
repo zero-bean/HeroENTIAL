@@ -20,6 +20,7 @@ void Stage1::Init()
 	LoadTileMap();
 	LoadPlayer();
 	LoadUI();
+	LoadSound();
 	InitObjects();
 
 	Super::Init();
@@ -263,6 +264,14 @@ void Stage1::LoadResources()
 
 		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont64", L"Font\\DungeonFont.ttf", L"DungeonFont", 64);
 	}
+
+	// Sound
+	{
+		ResourceManager::GET_SINGLE()->LoadSound(L"BGM_STAGE", L"Sound\\Sound_Stage.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_PICK", L"Sound\\Sound_Pick.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_POP", L"Sound\\Sound_Pop.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_FIRE1", L"Sound\\Sound_Fire1.wav");
+	}
 }
 
 void Stage1::LoadMap()
@@ -335,6 +344,11 @@ void Stage1::LoadUI()
 	// 결과창 패널 추가
 	shared_ptr<GameEndPanel> gameEndPanel = make_shared<GameEndPanel>();
 	UIManager::GET_SINGLE()->AddUI(gameEndPanel);
+}
+
+void Stage1::LoadSound()
+{
+	SoundManager::GET_SINGLE()->PlayBGM(L"BGM_STAGE");
 }
 
 void Stage1::LoadCamera()

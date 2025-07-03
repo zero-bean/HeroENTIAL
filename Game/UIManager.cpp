@@ -112,8 +112,9 @@ void UIManager::ProcessRemoveUI()
 		// 발견했다면,
 		if (it != _uis.end())
 		{
-			// 맨 뒤로 보내어 제거 : O(1), 정렬X면 가능
-			iter_swap(it, prev(_uis.end()));
+			// 마지막 요소의 소유권을 뺏고,
+			*it = move(_uis.back());
+			// 비어있는 마지막 요소는 삭제
 			_uis.pop_back();
 		}
 	}

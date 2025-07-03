@@ -19,6 +19,7 @@ void LobbyScene::Init()
 	LoadTileMap();
 	LoadPlayer();
 	LoadNPC();
+	LoadSound();
 
 	Super::Init();
 	
@@ -282,6 +283,15 @@ void LobbyScene::LoadResources()
 			flipbook->SetInfo({ texture, L"Sandwitch", {32, 32}, 0, 0, 0 });
 		}
 	}
+
+	// Sound
+	{
+		ResourceManager::GET_SINGLE()->LoadSound(L"BGM_LOBBY", L"Sound\\Sound_Lobby.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"BGM_STAGE", L"Sound\\Sound_Stage.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_PICK", L"Sound\\Sound_Pick.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_POP", L"Sound\\Sound_Pop.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_FIRE1", L"Sound\\Sound_Fire1.wav");
+	}
 }
 
 void LobbyScene::LoadMap()
@@ -377,6 +387,11 @@ void LobbyScene::LoadNPC()
 	npc_Shop->AddCollider({ 128,128 });
 	npc_Shop->SetCellPos({ 24,7 }, true);
 	AddActor(npc_Shop);
+}
+
+void LobbyScene::LoadSound()
+{
+	SoundManager::GET_SINGLE()->PlayBGM(L"BGM_LOBBY");
 }
 
 void LobbyScene::LoadCamera()

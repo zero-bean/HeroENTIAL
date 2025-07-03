@@ -91,3 +91,15 @@ void Sound::Stop(bool reset)
 	if (reset)
 		_soundBuffer->SetCurrentPosition(0);
 }
+
+LPDIRECTSOUNDBUFFER Sound::CloneBuffer()
+{
+	if (_soundBuffer == nullptr)
+		return nullptr;
+
+	LPDIRECTSOUNDBUFFER clone = nullptr;
+	if (FAILED(SoundManager::GET_SINGLE()->GetSoundDevice()->DuplicateSoundBuffer(_soundBuffer, &clone)))
+		return nullptr;
+
+	return clone;
+}

@@ -7,7 +7,6 @@
 #include "Player.h"
 #include "Inventory.h"
 #include "Tilemap.h"
-#include "UIManager.h"
 
 Scene::Scene()
 {
@@ -337,8 +336,9 @@ void Scene::ProcessRemoveActor()
 		// 발견했다면,
 		if (it != v.end())
 		{
-			// 맨 뒤로 보내어 제거 : O(1), 정렬X면 가능
-			iter_swap(it, prev(v.end()));
+			// 마지막 요소의 소유권을 뺏고,
+			*it = move(v.back());
+			// 비어있는 마지막 요소는 삭제
 			v.pop_back();
 		}
 	}

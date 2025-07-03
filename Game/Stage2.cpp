@@ -21,6 +21,7 @@ void Stage2::Init()
 	LoadTileMap();
 	LoadPlayer();
 	LoadUI();
+	LoadSound();
 	LoadCamera();
 	InitObjects();
 
@@ -277,6 +278,14 @@ void Stage2::LoadResources()
 
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Effect_Warning", ResourceManager::GET_SINGLE()->GetTexture(L"Effect_Warning"), 0, 0, 1366, 144);
 	}
+
+	// Sound
+	{
+		ResourceManager::GET_SINGLE()->LoadSound(L"BGM_BOSS", L"Sound\\Sound_Boss.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_PICK", L"Sound\\Sound_Pick.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_POP", L"Sound\\Sound_Pop.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_FIRE1", L"Sound\\Sound_Fire1.wav");
+	}
 }
 
 void Stage2::LoadMap()
@@ -349,6 +358,11 @@ void Stage2::LoadUI()
 	// 결과창 패널 추가
 	shared_ptr<GameEndPanel> gameEndPanel = make_shared<GameEndPanel>();
 	UIManager::GET_SINGLE()->AddUI(gameEndPanel);
+}
+
+void Stage2::LoadSound()
+{
+	SoundManager::GET_SINGLE()->PlayBGM(L"BGM_BOSS");
 }
 
 void Stage2::LoadCamera()

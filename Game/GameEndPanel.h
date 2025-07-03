@@ -19,6 +19,7 @@ public:
 
 public:
 	void SetOutputContent(const wstring content) { _content = content; }
+	void SetButtonEnabled(bool enabled);
 
 private:
 	shared_ptr<GameEndContainer> _container = nullptr;

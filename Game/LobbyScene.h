@@ -28,6 +28,7 @@ private:
 	void LoadTileMap();
 	void LoadPlayer();
 	void LoadNPC();
+	void LoadSound();
 	void LoadCamera();
 };
 

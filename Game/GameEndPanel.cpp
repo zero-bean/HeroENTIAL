@@ -52,6 +52,8 @@ void GameEndPanel::BeginPlay()
 		UIManager::GET_SINGLE()->RemoveUI(self);
 		});
 
+	_button->SetEnabled(false);
+
 	Super::BeginPlay();
 }
 
@@ -90,4 +92,6 @@ void GameEndPanel::Render(HDC hdc)
 		Utils::DrawTextColored(hdc, textPos, str, font, RGB(0, 0, 0));
 	}
 }
+
+void GameEndPanel::SetButtonEnabled(bool enabled) { _button->SetEnabled(enabled); }
 

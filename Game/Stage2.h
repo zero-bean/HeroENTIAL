@@ -19,6 +19,7 @@ private:
 	virtual void LoadTileMap() override;
 	virtual void LoadPlayer() override;
 	virtual void LoadUI() override;
+	virtual void LoadSound() override;
 	virtual void LoadCamera() override;
 };
 

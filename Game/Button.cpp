@@ -21,6 +21,9 @@ void Button::BeginPlay()
 
 void Button::Tick()
 {
+	if (!_isEnabled)
+		return;
+
 	Super::Tick();
 
 	POINT mousePos = InputManager::GET_SINGLE()->GetMousePos();
