@@ -54,6 +54,17 @@ void CollisionManager::Update()
     ProcessRemoveCollider();
 }
 
+void CollisionManager::Clear()
+{
+    _colliders.clear();
+
+    while (!_addQueue.empty()) 
+        _addQueue.pop();
+
+    while (!_removeQueue.empty()) 
+        _removeQueue.pop();
+}
+
 
 void CollisionManager::AddCollider(shared_ptr<Collider> collider)
 {

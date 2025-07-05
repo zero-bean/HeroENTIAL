@@ -59,6 +59,22 @@ void SoundManager::Update()
 	}
 }
 
+void SoundManager::Clear()
+{
+	for (auto& buffer : _SFXBuffers)
+	{
+		if (buffer)
+			buffer->Release();
+	}
+	_SFXBuffers.clear();
+
+	if (_currentBGM)
+	{
+		_currentBGM->Stop(true);
+		_currentBGM = nullptr;
+	}
+}
+
 void SoundManager::Play(const wstring& key, bool loop)
 {
 	shared_ptr<Sound> sound = ResourceManager::GET_SINGLE()->GetSound(key);

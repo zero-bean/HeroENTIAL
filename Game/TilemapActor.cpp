@@ -14,6 +14,7 @@ TilemapActor::TilemapActor()
 
 TilemapActor::~TilemapActor()
 {
+	_tilemap = nullptr;
 }
 
 void TilemapActor::BeginPlay()

@@ -21,6 +21,7 @@ private:
 public:
 	void Init();
 	void Update();
+	void Clear();
 
 	void AddCollider(shared_ptr<Collider> collider);
 	void RemoveCollider(shared_ptr<Collider> collider);

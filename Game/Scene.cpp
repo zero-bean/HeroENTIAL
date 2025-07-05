@@ -15,6 +15,11 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	_addQueue = {};
+	_removeQueue = {};
+	for (auto& actors : _actors)
+		actors.clear();
+	_tilemapActor = nullptr;
 }
 
 void Scene::Init()
@@ -42,7 +47,9 @@ void Scene::Update()
 		if (!_isLayerUpdateEnabled[layer])
 			continue;
 
-		for (const shared_ptr<Actor>& actor : _actors[layer])
+		// 복사함으로써 Tick 동안 생명 주기 보장함
+		vector<shared_ptr<Actor>> actors = _actors[layer];
+		for (const auto& actor : actors)
 			actor->Tick();
 	}
 	UIManager::GET_SINGLE()->Update();

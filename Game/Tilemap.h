@@ -19,7 +19,6 @@ public:
 	virtual void SaveFile(const wstring& path) override;
 	
 	void LoadMetadata(const wstring& path);
-	//void SaveMetadata(const wstring& path);
 
 public:
 	Vec2Int GetMapSize() const { return _mapSize; }

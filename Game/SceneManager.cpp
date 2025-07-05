@@ -33,8 +33,10 @@ void SceneManager::Render(HDC hdc)
 
 void SceneManager::Clear()
 {
-	UIManager::GET_SINGLE()->Clear();
 	ResourceManager::GET_SINGLE()->Clear();
+	UIManager::GET_SINGLE()->Clear();
+	CollisionManager::GET_SINGLE()->Clear();
+	SoundManager::GET_SINGLE()->Clear();
 	_scene.reset();
 }
 
@@ -71,7 +73,7 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	}
 
 	Clear();
-
+	
 	_scene = newScene;
 	_sceneType = sceneType;
 	_scene->Init();

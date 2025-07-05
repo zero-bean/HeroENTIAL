@@ -19,6 +19,7 @@ private:
 public:
 	void Init(HWND hwnd);
 	void Update();
+	void Clear();
 
 public:
 	void Play(const wstring& key, bool loop = false);      // È¿°úÀ½
