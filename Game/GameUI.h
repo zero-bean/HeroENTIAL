@@ -8,4 +8,5 @@
 #include "WarningBannerUI.h"
 #include "SettingsMainPanel.h"
 #include "SettingsSoundPanel.h"
+#include "QuestPanel.h"
 #include "Font.h"

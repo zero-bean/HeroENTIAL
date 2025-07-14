@@ -53,6 +53,7 @@ void LobbyScene::LoadResources()
 	// Font
 	{
 		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont64", L"Font\\DungeonFont.ttf", L"DungeonFont", 64);
+		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont48", L"Font\\DungeonFont.ttf", L"DungeonFont", 48);
 		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont32", L"Font\\DungeonFont.ttf", L"DungeonFont", 32);
 	}
 
@@ -110,8 +111,27 @@ void LobbyScene::LoadResources()
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Sound", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Sound"), 0, 0, 192, 64);
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Sound_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Sound_Pressed"), 0, 0, 192, 64);
 		ResourceManager::GET_SINGLE()->CreateSprite(L"Banner_Settings", ResourceManager::GET_SINGLE()->GetTexture(L"Banner_Settings"), 0, 0, 683, 384);
-		
-		ResourceManager::GET_SINGLE()->LoadFont(L"DungeonFont48", L"Font\\DungeonFont.ttf", L"DungeonFont", 48);
+	}
+
+	// QuestPanel
+	{
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Arrow_Right", L"Sprite\\UI\\Buttons\\Button_Arrow_Right.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Arrow_Right_Pressed", L"Sprite\\UI\\Buttons\\Button_Arrow_Right_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Arrow_Left", L"Sprite\\UI\\Buttons\\Button_Arrow_Left.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Arrow_Left_Pressed", L"Sprite\\UI\\Buttons\\Button_Arrow_Left_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Accept", L"Sprite\\UI\\Buttons\\Button_Accept.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Accept_Pressed", L"Sprite\\UI\\Buttons\\Button_Accept_Pressed.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Cancle", L"Sprite\\UI\\Buttons\\Button_Cancle.bmp");
+		ResourceManager::GET_SINGLE()->LoadTexture(L"Button_Cancle_Pressed", L"Sprite\\UI\\Buttons\\Button_Cancle_Pressed.bmp");
+
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Arrow_Right", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Arrow_Right"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Arrow_Right_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Arrow_Right_Pressed"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Arrow_Left", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Arrow_Left"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Arrow_Left_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Arrow_Left_Pressed"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Accept", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Accept"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Accept_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Accept_Pressed"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Cancle", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Cancle"), 0, 0, 64, 64);
+		ResourceManager::GET_SINGLE()->CreateSprite(L"Button_Cancle_Pressed", ResourceManager::GET_SINGLE()->GetTexture(L"Button_Cancle_Pressed"), 0, 0, 64, 64);
 	}
 
 	// LobbyMap
@@ -319,6 +339,7 @@ void LobbyScene::LoadResources()
 		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_POP", L"Sound\\Sound_Pop.wav");
 		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_CLICK", L"Sound\\Sound_Click.wav");
 		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_FIRE1", L"Sound\\Sound_Fire1.wav");
+		ResourceManager::GET_SINGLE()->LoadSound(L"SFX_QUESTCLEAR", L"Sound\\Sound_QuestClear.wav");
 	}
 }
 
@@ -392,13 +413,32 @@ void LobbyScene::LoadNPC()
 	shared_ptr<DungeonEnterPanel> dungeonPanel = make_shared<DungeonEnterPanel>();
 	UIManager::GET_SINGLE()->AddUI(dungeonPanel);
 
-	/* 소환 */
+	// 퀘스트 패널 추가
+	shared_ptr<QuestPanel> questPanel = make_shared<QuestPanel>();
+	UIManager::GET_SINGLE()->AddUI(questPanel);
+
+	/* 퀘스트 NPC */
 	shared_ptr<NPC> npc_Quest = make_shared<NPC>();
 	npc_Quest->AddCollider({ 128,128 });
-	npc_Quest->SetRoleText(L"<Quest>");
 	npc_Quest->SetCellPos({ 7,8 }, true);
+	npc_Quest->SetRoleText(L"<Quest>");
+	npc_Quest->SetOnActivate([]() {
+		if (auto questPanel = UIManager::GET_SINGLE()->FindUI<QuestPanel>())
+		{
+			questPanel->SetVisible(true);
+			questPanel->SetEnabled(true);
+		}
+		});
+	npc_Quest->SetOnDeActivate([]() {
+		if (auto questPanel = UIManager::GET_SINGLE()->FindUI<QuestPanel>())
+		{
+			questPanel->SetVisible(false);
+			questPanel->SetEnabled(false);
+		}
+		});
 	AddActor(npc_Quest);
 
+	/* 던전 NPC */
 	shared_ptr<NPC> npc_Dungeon = make_shared<NPC>();
 	npc_Dungeon->AddCollider({ 128,128 });
 	npc_Dungeon->SetCellPos({ 16,5 }, true);
@@ -419,6 +459,7 @@ void LobbyScene::LoadNPC()
 		});
 	AddActor(npc_Dungeon);
 
+	/* 상점 NPC */
 	shared_ptr<NPC> npc_Shop = make_shared<NPC>();
 	npc_Shop->SetRoleText(L"<Shop>");
 	npc_Shop->AddCollider({ 128,128 });

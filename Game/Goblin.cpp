@@ -231,6 +231,14 @@ void Goblin::TickAttacked()
 	}
 }
 
+void Goblin::TickDeath()
+{
+	Super::TickDeath();
+
+	if (IsAnimationEnded())
+		QuestManager::GET_SINGLE()->Notify(EventType::MonsterKilled, L"Goblin");
+}
+
 void Goblin::DropItems()
 {
 	shared_ptr<BattleScene> scene = static_pointer_cast<BattleScene>(SceneManager::GET_SINGLE()->GetCurrentScene());

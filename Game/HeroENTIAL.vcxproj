@@ -180,7 +180,9 @@
     <ClInclude Include="InventoryContainer.h" />
     <ClInclude Include="InventoryPanel.h" />
     <ClInclude Include="InventoryTooltip.h" />
+    <ClInclude Include="IObjective.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="KillMonsterCondition.h" />
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="Minotaur.h" />
@@ -191,6 +193,12 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Potion.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Quest.h" />
+    <ClInclude Include="QuestCondition.h" />
+    <ClInclude Include="QuestContainer.h" />
+    <ClInclude Include="QuestManager.h" />
+    <ClInclude Include="QuestPanel.h" />
+    <ClInclude Include="QuestSlot.h" />
     <ClInclude Include="QuickslotContainer.h" />
     <ClInclude Include="QuickslotPanel.h" />
     <ClInclude Include="QuickslotSlot.h" />
@@ -259,7 +267,9 @@
     <ClCompile Include="InventoryContainer.cpp" />
     <ClCompile Include="InventoryPanel.cpp" />
     <ClCompile Include="InventoryTooltip.cpp" />
+    <ClCompile Include="IObjective.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="KillMonsterCondition.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="Minotaur.cpp" />
@@ -273,6 +283,12 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Potion.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="QuestContainer.cpp" />
+    <ClCompile Include="QuestManager.cpp" />
+    <ClCompile Include="QuestPanel.cpp" />
+    <ClCompile Include="QuestSlot.cpp" />
     <ClCompile Include="QuickslotContainer.cpp" />
     <ClCompile Include="QuickslotPanel.cpp" />
     <ClCompile Include="QuickslotSlot.cpp" />

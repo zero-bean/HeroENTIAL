@@ -1,5 +1,6 @@
 #pragma once
 
+/* 02. Scene */
 enum class SceneType
 {
 	None,
@@ -29,20 +30,7 @@ enum LAYER_TYPE
 	LAYER_MAXCOUNT
 };
 
-enum COLLISION_LAYER_TYPE : unsigned __int8
-{
-	CLT_BULLET,
-	CLT_MYBULLET,
-	CLT_PLAYER,
-	CLT_NPC,
-	CLT_MONSTER,
-	CLT_OBJECT,
-	CLT_LAYER,
-	CLT_GROUND,
-	CLT_WALL,
-	// ...
-};
-
+/* 03. Object */
 enum Dir
 {
 	DIR_RIGHT,
@@ -79,6 +67,23 @@ enum class ItemType
 	MAX_COUNT
 };
 
+enum class ShakeType
+{
+	Explosion,  // 폭발
+	Earthquake, // 지진
+	HitRecoil,  // 피격
+	SubtlePulse // 보스 구르기 패턴..?
+};
+
+enum class Rank
+{
+	Common,
+	Rare,
+	Elite,
+	Boss,
+};
+
+/* 04. Resources */
 enum class TILE_TYPE
 {
 	EMPTY,
@@ -91,18 +96,41 @@ enum class TILE_TYPE
 	ITEM,
 };
 
-enum class Rank
+/* 05. Component */
+enum COLLISION_LAYER_TYPE : unsigned __int8
 {
-	Common,
-	Rare,
-	Elite,
-	Boss,
+	CLT_BULLET,
+	CLT_MYBULLET,
+	CLT_PLAYER,
+	CLT_NPC,
+	CLT_MONSTER,
+	CLT_OBJECT,
+	CLT_LAYER,
+	CLT_GROUND,
+	CLT_WALL,
+	// ...
 };
 
-enum class ShakeType
-{
-	Explosion,  // 폭발
-	Earthquake, // 지진
-	HitRecoil,  // 피격
-	SubtlePulse // 보스 구르기 패턴..?
+/* 07. Systems */
+enum class ProgressType {
+	Quest,
+	Achievement
+};
+
+enum class ProgressState {
+	Inactive,
+	Active,
+	Completed,
+	Finished
+};
+
+enum class EventType {
+	MonsterKilled,
+	StageCleared,
+	ItemAcquired
+};
+
+enum class QuestConditionType {
+	KillMonster,
+	DungeonClearWithHp
 };

@@ -75,7 +75,7 @@ public:
 	{
 		Vec2Int randPos = GetRandomEmptyCellPos();
 
-		return SpawnMonster<T>(randPos);
+		return SpawnObject<T>(randPos);
 	}
 
 	Vec2Int GetRandomEmptyCellPos();

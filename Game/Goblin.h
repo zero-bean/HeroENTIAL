@@ -28,6 +28,7 @@ private:
 	virtual void TickMove() override;
 	virtual void TickAttack() override;
 	virtual void TickAttacked() override;
+	virtual void TickDeath() override;
 
 	virtual void DropItems() override;
 

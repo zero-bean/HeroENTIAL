@@ -49,3 +49,4 @@ namespace fs = std::filesystem;
 #include "UIManager.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
+#include "QuestManager.h"
