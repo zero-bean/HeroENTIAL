@@ -28,10 +28,6 @@ public:
 	virtual void Use() override;
 	virtual void DisUse() override {}
 
-private:
-	virtual void TickIdle() override;
-	virtual void TickMove() override {}
-
 public:
 	void SetPotionType(PotionType type);
 	PotionType GetPotionType() const { return _type; }

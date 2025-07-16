@@ -167,6 +167,13 @@ void Stage1::LoadResources()
 
 	// Item
 	{
+		// 코인
+		{
+			ResourceManager::GET_SINGLE()->LoadTexture(L"Coin", L"Sprite/Item/coin.bmp");
+			shared_ptr<Texture> texture = ResourceManager::GET_SINGLE()->GetTexture(L"Coin");
+			shared_ptr<Flipbook> flipbook = ResourceManager::GET_SINGLE()->CreateFlipbook(L"Coin");
+			flipbook->SetInfo({ texture, L"BCoinurger", {32, 32}, 0, 0, 0 });
+		}
 		// 햄버거
 		{
 			ResourceManager::GET_SINGLE()->LoadTexture(L"Burger", L"Sprite/Item/Food/burger.bmp");
@@ -338,20 +345,6 @@ void Stage1::LoadPlayer()
 	minimap->SetTilemap(_tilemapActor->GetTilemap());
 	player->AddComponent(minimap);
 
-	// 인벤토리
-	shared_ptr<Inventory> inventory = make_shared<Inventory>();
-	player->AddComponent(inventory);
-
-	// 퀵슬롯
-	shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
-	quickslotUI->SetSlotsOwnerPtr(inventory);
-	UIManager::GET_SINGLE()->AddUI(quickslotUI);
-
-	// 인벤토리 UI
-	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
-	invenUI->SetInventory(inventory);
-	UIManager::GET_SINGLE()->AddUI(invenUI);
-
 	// 충돌
 	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
@@ -365,6 +358,16 @@ void Stage1::LoadPlayer()
 
 void Stage1::LoadUI()
 {
+	// 퀵슬롯
+	shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
+	quickslotUI->SetSlotsOwnerPtr(GameManager::GET_SINGLE()->GetInventory());
+	UIManager::GET_SINGLE()->AddUI(quickslotUI);
+
+	// 인벤토리 UI
+	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
+	invenUI->SetInventory(GameManager::GET_SINGLE()->GetInventory());
+	UIManager::GET_SINGLE()->AddUI(invenUI);
+
 	// 결과창 패널 추가
 	shared_ptr<GameEndPanel> gameEndPanel = make_shared<GameEndPanel>();
 	UIManager::GET_SINGLE()->AddUI(gameEndPanel);

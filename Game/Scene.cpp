@@ -211,7 +211,7 @@ void Scene::PickUpItem(shared_ptr<Item> item, shared_ptr<Player> player)
 	SoundManager::GET_SINGLE()->Play(L"SFX_PICK");
 
 	// 인벤토리 귀속
-	if (auto inventory = player->FindComponent<Inventory>())
+	if (auto inventory = GameManager::GET_SINGLE()->GetInventory())
 	{
 		// 소유주 갱신
 		item->SetOwner(player);

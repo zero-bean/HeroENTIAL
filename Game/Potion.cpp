@@ -36,22 +36,16 @@ Potion::~Potion()
 void Potion::BeginPlay()
 {
 	Super::BeginPlay();
-
-
 }
 
 void Potion::Tick()
 {
 	Super::Tick();
-
-
 }
 
 void Potion::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
-
 }
 
 void Potion::UpdateAnimation()
@@ -102,10 +96,6 @@ void Potion::Use()
 		if (scene)
 			scene->RemoveActor(shared_from_this());
 	}
-}
-
-void Potion::TickIdle()
-{
 }
 
 void Potion::SetPotionType(PotionType type)

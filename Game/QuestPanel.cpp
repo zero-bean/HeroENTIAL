@@ -70,7 +70,7 @@ void QuestPanel::Refresh()
     _slots.clear();
 
     // 2. 전체 퀘스트 목록 갱신
-    const vector<shared_ptr<Quest>>& quests = QuestManager::GET_SINGLE()->GetAllQuests();
+    const vector<shared_ptr<Quest>>& quests = GameManager::GET_SINGLE()->GetQuestSystem()->GetAllQuests();
     const int slotHeight = 80;
     const int slotStartY = GetPos().y - GetSize().y / 2 + 50;
     int startIdx = _scrollOffset;
@@ -104,7 +104,7 @@ void QuestPanel::OnScrollDown()
 {
     SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
 
-    int questCount = static_cast<int>(QuestManager::GET_SINGLE()->GetAllQuests().size());
+    int questCount = static_cast<int>(GameManager::GET_SINGLE()->GetQuestSystem()->GetAllQuests().size());
     int maxScrollOffset = max(0, questCount - _visibleSlotCount);
 
     if (_scrollOffset < maxScrollOffset)

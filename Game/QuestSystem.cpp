@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "QuestManager.h"
+#include "QuestSystem.h"
 #include "Quest.h"
 #include "KillMonsterCondition.h"
 
-void QuestManager::Init()
+void QuestSystem::Init()
 {
     // 고블린 4마리 처치
     auto goblinQuest = make_shared<Quest>(L"Quest: Goblin Hunter", L"Hunt 4 goblins!");
@@ -36,7 +36,7 @@ void QuestManager::Init()
     _questList.push_back(bossQuest3);
 }
 
-void QuestManager::Notify(EventType type, const wstring& param)
+void QuestSystem::Notify(EventType type, const wstring& param)
 {
     for (shared_ptr<Quest>& quest : _questList)
     {
@@ -45,7 +45,7 @@ void QuestManager::Notify(EventType type, const wstring& param)
     }
 }
 
-const vector<shared_ptr<Quest>>& QuestManager::GetAllQuests() const
+const vector<shared_ptr<Quest>>& QuestSystem::GetAllQuests() const
 {
     return _questList;
 }

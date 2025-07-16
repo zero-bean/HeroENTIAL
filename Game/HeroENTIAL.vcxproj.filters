@@ -120,6 +120,9 @@
     <Filter Include="소스 파일\06.UIs\Game\Quest">
       <UniqueIdentifier>{f60095d2-4cda-4856-9908-1b706aedf0f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\07.Systems\Game\Qust">
+      <UniqueIdentifier>{7e8207a9-328b-4987-9d07-169a9bb835b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -374,26 +377,32 @@
     <ClInclude Include="IObjective.h">
       <Filter>소스 파일\07.Systems</Filter>
     </ClInclude>
-    <ClInclude Include="QuestCondition.h">
-      <Filter>소스 파일\07.Systems\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Quest.h">
-      <Filter>소스 파일\07.Systems\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="KillMonsterCondition.h">
-      <Filter>소스 파일\07.Systems\Game</Filter>
-    </ClInclude>
     <ClInclude Include="QuestPanel.h">
       <Filter>소스 파일\06.UIs\Game\Quest</Filter>
-    </ClInclude>
-    <ClInclude Include="QuestManager.h">
-      <Filter>소스 파일\01.Managers</Filter>
     </ClInclude>
     <ClInclude Include="QuestSlot.h">
       <Filter>소스 파일\06.UIs\Game\Quest</Filter>
     </ClInclude>
     <ClInclude Include="QuestContainer.h">
       <Filter>소스 파일\06.UIs\Game\Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="CurrencyItem.h">
+      <Filter>소스 파일\03.Objects\Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>소스 파일\01.Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestCondition.h">
+      <Filter>소스 파일\07.Systems\Game\Qust</Filter>
+    </ClInclude>
+    <ClInclude Include="KillMonsterCondition.h">
+      <Filter>소스 파일\07.Systems\Game\Qust</Filter>
+    </ClInclude>
+    <ClInclude Include="Quest.h">
+      <Filter>소스 파일\07.Systems\Game\Qust</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestSystem.h">
+      <Filter>소스 파일\07.Systems\Game\Qust</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -619,26 +628,32 @@
     <ClCompile Include="IObjective.cpp">
       <Filter>소스 파일\07.Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Quest.cpp">
-      <Filter>소스 파일\07.Systems\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestCondition.cpp">
-      <Filter>소스 파일\07.Systems\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="KillMonsterCondition.cpp">
-      <Filter>소스 파일\07.Systems\Game</Filter>
-    </ClCompile>
     <ClCompile Include="QuestPanel.cpp">
       <Filter>소스 파일\06.UIs\Game\Quest</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestManager.cpp">
-      <Filter>소스 파일\01.Managers</Filter>
     </ClCompile>
     <ClCompile Include="QuestSlot.cpp">
       <Filter>소스 파일\06.UIs\Game\Quest</Filter>
     </ClCompile>
     <ClCompile Include="QuestContainer.cpp">
       <Filter>소스 파일\06.UIs\Game\Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="CurrencyItem.cpp">
+      <Filter>소스 파일\03.Objects\Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>소스 파일\01.Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="KillMonsterCondition.cpp">
+      <Filter>소스 파일\07.Systems\Game\Qust</Filter>
+    </ClCompile>
+    <ClCompile Include="Quest.cpp">
+      <Filter>소스 파일\07.Systems\Game\Qust</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestCondition.cpp">
+      <Filter>소스 파일\07.Systems\Game\Qust</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestSystem.cpp">
+      <Filter>소스 파일\07.Systems\Game\Qust</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

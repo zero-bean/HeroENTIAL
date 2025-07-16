@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Potion.h"
+#include "CurrencyItem.h"
 #include "BattleScene.h"
 
 Goblin::Goblin()
@@ -236,7 +237,7 @@ void Goblin::TickDeath()
 	Super::TickDeath();
 
 	if (IsAnimationEnded())
-		QuestManager::GET_SINGLE()->Notify(EventType::MonsterKilled, L"Goblin");
+		GameManager::GET_SINGLE()->GetQuestSystem()->Notify(EventType::MonsterKilled, L"Goblin");
 }
 
 void Goblin::DropItems()
@@ -255,5 +256,11 @@ void Goblin::DropItems()
 		shared_ptr<Potion> potion2 = scene->SpawnObject<Potion>({ _cellPos.x, _cellPos.y + 1 });
 		potion2->SetScale(1);
 		potion2->SetPotionType(PotionType::Sandwitch);
+	}
+
+	{
+		shared_ptr<CurrencyItem> coin = scene->SpawnObject<CurrencyItem>(_cellPos);
+		coin->SetScale(1);
+		coin->SetItemRarity(ItemRarity::Common);
 	}
 }

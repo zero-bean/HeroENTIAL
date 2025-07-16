@@ -8,6 +8,7 @@
 #include "InventoryTooltip.h"
 #include "InventoryContainer.h"
 #include "Button.h"
+#include "Font.h"
 
 InventoryPanel::InventoryPanel()
 {
@@ -49,6 +50,9 @@ InventoryPanel::InventoryPanel()
 	// ÅøÆÁ
 	_tooltip = make_shared<InventoryTooltip>();
 	AddChild(_tooltip);
+
+	// ÆùÆ®
+	_font = ResourceManager::GET_SINGLE()->GetFont(L"DungeonFont48");
 }
 
 InventoryPanel::~InventoryPanel()
@@ -161,6 +165,21 @@ void InventoryPanel::Render(HDC hdc)
 				info.size.y,
 				info.texture->GetTransparent());
 		}
+	}
+
+	if (_font)
+	{
+		const __int32 totalGold = _inventory.lock()->GetGold();
+		const wstring goldText = to_wstring(totalGold);
+		const HFONT font = _font->GetHandle();
+		const int fontSize = _font->GetSize();
+
+		Utils::DrawTextColored(
+			hdc,
+			{ GetPos().x + 70, GetPos().y - 184.f },
+			goldText,
+			font,
+			RGB(255, 215, 0));
 	}
 }
 

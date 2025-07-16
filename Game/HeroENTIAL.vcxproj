@@ -155,6 +155,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="Consumable.h" />
     <ClInclude Include="Creature.h" />
+    <ClInclude Include="CurrencyItem.h" />
     <ClInclude Include="DamageSkin.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DungeonEnterContainer.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameEndContainer.h" />
     <ClInclude Include="GameEndPanel.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjects.h" />
     <ClInclude Include="GameUI.h" />
@@ -196,7 +198,7 @@
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestCondition.h" />
     <ClInclude Include="QuestContainer.h" />
-    <ClInclude Include="QuestManager.h" />
+    <ClInclude Include="QuestSystem.h" />
     <ClInclude Include="QuestPanel.h" />
     <ClInclude Include="QuestSlot.h" />
     <ClInclude Include="QuickslotContainer.h" />
@@ -248,6 +250,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Consumable.cpp" />
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="CurrencyItem.cpp" />
     <ClCompile Include="DamageSkin.cpp" />
     <ClCompile Include="DungeonEnterContainer.cpp" />
     <ClCompile Include="DungeonEnterPanel.cpp" />
@@ -258,6 +261,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEndContainer.cpp" />
     <ClCompile Include="GameEndPanel.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="HeroENTIAL.cpp" />
@@ -286,7 +290,7 @@
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
     <ClCompile Include="QuestContainer.cpp" />
-    <ClCompile Include="QuestManager.cpp" />
+    <ClCompile Include="QuestSystem.cpp" />
     <ClCompile Include="QuestPanel.cpp" />
     <ClCompile Include="QuestSlot.cpp" />
     <ClCompile Include="QuickslotContainer.cpp" />

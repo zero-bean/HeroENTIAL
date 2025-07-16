@@ -45,7 +45,7 @@ public:
 
 	void UpdateCellPos(shared_ptr<GameObject> obj);
 
-protected:
+public:
 	template<typename T>
 	shared_ptr<T> FindActor()
 	{

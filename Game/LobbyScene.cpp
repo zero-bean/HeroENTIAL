@@ -382,20 +382,6 @@ void LobbyScene::LoadPlayer()
 	minimap->SetTilemap(_tilemapActor->GetTilemap());
 	player->AddComponent(minimap);
 
-	// 인벤토리
-	shared_ptr<Inventory> inventory = make_shared<Inventory>();
-	player->AddComponent(inventory);
-
-	// 퀵슬롯
-	shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
-	quickslotUI->SetSlotsOwnerPtr(inventory);
-	UIManager::GET_SINGLE()->AddUI(quickslotUI);
-
-	// 인벤토리 UI
-	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
-	invenUI->SetInventory(inventory);
-	UIManager::GET_SINGLE()->AddUI(invenUI);
-
 	// 충돌
 	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
 	collider->SetCollisionLayer(COLLISION_LAYER_TYPE::CLT_PLAYER);
@@ -474,6 +460,16 @@ void LobbyScene::LoadSound()
 
 void LobbyScene::LoadUI()
 {
+	// 퀵슬롯
+	shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
+	quickslotUI->SetSlotsOwnerPtr(GameManager::GET_SINGLE()->GetInventory());
+	UIManager::GET_SINGLE()->AddUI(quickslotUI);
+
+	// 인벤토리 UI
+	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
+	invenUI->SetInventory(GameManager::GET_SINGLE()->GetInventory());
+	UIManager::GET_SINGLE()->AddUI(invenUI);
+
 	// Settings
 	{
 		shared_ptr<SettingsMainPanel> mp = make_shared<SettingsMainPanel>();
@@ -485,22 +481,22 @@ void LobbyScene::LoadUI()
 				panel->SetEnabled(true);
 				panel->SetVisible(true);
 			}});
-		mp->SetBackBtnClick([mp]() {
-			mp->SetEnabled(false);
-			mp->SetVisible(false); });
-		mp->SetQuitBtnClick([]() {PostQuitMessage(0); });
-		UIManager::GET_SINGLE()->AddUI(mp);
+			mp->SetBackBtnClick([mp]() {
+				mp->SetEnabled(false);
+				mp->SetVisible(false); });
+			mp->SetQuitBtnClick([]() {PostQuitMessage(0); });
+			UIManager::GET_SINGLE()->AddUI(mp);
 
-		shared_ptr<SettingsSoundPanel> sp = make_shared<SettingsSoundPanel>();
-		sp->SetBtnClick([sp]() {
-			if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsMainPanel>())
-			{
-				panel->SetEnabled(true);
-				panel->SetVisible(true);
-			}
-			sp->SetEnabled(false);
-			sp->SetVisible(false); });
-		UIManager::GET_SINGLE()->AddUI(sp);
+			shared_ptr<SettingsSoundPanel> sp = make_shared<SettingsSoundPanel>();
+			sp->SetBtnClick([sp]() {
+				if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsMainPanel>())
+				{
+					panel->SetEnabled(true);
+					panel->SetVisible(true);
+				}
+				sp->SetEnabled(false);
+				sp->SetVisible(false); });
+			UIManager::GET_SINGLE()->AddUI(sp);
 	}
 }
 

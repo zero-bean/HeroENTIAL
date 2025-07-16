@@ -23,8 +23,6 @@ Inventory::~Inventory()
 void Inventory::BeginPlay()
 {
 	Super::BeginPlay();
-
-    
 }
 
 void Inventory::TickComponent()
@@ -35,14 +33,18 @@ void Inventory::TickComponent()
 void Inventory::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
-
 }
 
 bool Inventory::AddItem(shared_ptr<Item>& item)
 {
     const int category = item->GetItemTypeIndex();
     const int idx = FindItemIndex(item, category);
+
+    if (category == 4)
+    {
+        _gold += item->GetItemCount();
+        return true;
+    }
 
     if (idx != -1)
     {
@@ -69,10 +71,9 @@ bool Inventory::DropItem(shared_ptr<Item>& item)
     shared_ptr<Scene> scene = SceneManager::GET_SINGLE()->GetCurrentScene();
     if (!scene) return false;
 
-    shared_ptr<Player> player = dynamic_pointer_cast<Player>(GetOwner());
+    shared_ptr<Player> player = scene->FindActor<Player>();
     if (!player) return false;
 
-    Vec2Int pos = player->GetCellPos();
 
     // 1. owner 해제
     item->GetOwner().reset();
@@ -84,6 +85,7 @@ bool Inventory::DropItem(shared_ptr<Item>& item)
         _items[category][idx] = nullptr;
 
     // 3. 씬에게 드랍 요청
+    const Vec2Int pos = player->GetCellPos();
     scene->DropItem(item, pos);
 
     return true;

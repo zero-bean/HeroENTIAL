@@ -64,6 +64,7 @@ enum class ItemType
 	Consumable,
 	Others,
 	Quick,
+	Currency,
 	MAX_COUNT
 };
 

@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Panel.h"
+#include "GameManager.h"
 
 class Inventory;
 class InventoryContainer;
 class InventoryTooltip;
 class Slot;
 class Button;
+class Font;
 
 class InventoryPanel : public Panel, public enable_shared_from_this<InventoryPanel>
 {
@@ -36,6 +38,7 @@ private:
 	shared_ptr<InventoryContainer> _container = nullptr;
 	vector<shared_ptr<Button>> _buttons = {};
 	vector<shared_ptr<Slot>> _slots = {};
+	shared_ptr<Font> _font = nullptr;
 	shared_ptr<InventoryTooltip> _tooltip = nullptr;
 	weak_ptr<Inventory> _inventory = {};
 };

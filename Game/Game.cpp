@@ -25,10 +25,10 @@ void Game::Init(HWND hwnd)
 
 	TimeManager::GET_SINGLE()->Init();
 	InputManager::GET_SINGLE()->Init(hwnd);
+	GameManager::GET_SINGLE()->Init();
 	ResourceManager::GET_SINGLE()->Init(hwnd, fs::current_path().parent_path().string() + "\\Resources");
 	SoundManager::GET_SINGLE()->Init(hwnd);
 	SceneManager::GET_SINGLE()->Init();
-	QuestManager::GET_SINGLE()->Init();
 	CollisionManager::GET_SINGLE()->Init();
 	UIManager::GET_SINGLE()->Init(hwnd);
 
@@ -39,6 +39,7 @@ void Game::Update()
 {
 	TimeManager::GET_SINGLE()->Update();
 	InputManager::GET_SINGLE()->Update();
+	GameManager::GET_SINGLE()->Update();
 	SceneManager::GET_SINGLE()->Update();
 	SoundManager::GET_SINGLE()->Update();
 	CollisionManager::GET_SINGLE()->Update();
@@ -50,12 +51,6 @@ void Game::Render()
 
 	unsigned __int32 fps = TimeManager::GET_SINGLE()->GetFPS();
 	float deltaTime = TimeManager::GET_SINGLE()->GetDeltaTime();
-
-	{
-		POINT mousePos = InputManager::GET_SINGLE()->GetMousePos();
-		wstring str = std::format(L"Mouse({0}, {1})", mousePos.x, mousePos.y);
-		::TextOut(hdcBack, 20, 10, str.c_str(), static_cast<__int32>(str.size()));
-	}
 
 	{
 		wstring str = ::format(L"FPS({0}), DT({1})", fps, deltaTime);

@@ -131,6 +131,6 @@ void BossMonster::TickDeath()
 	ClearSequence();
 
 	if (IsAnimationEnded())
-		QuestManager::GET_SINGLE()->Notify(EventType::MonsterKilled, L"Minotaur");
+		GameManager::GET_SINGLE()->GetQuestSystem()->Notify(EventType::MonsterKilled, L"Minotaur");
 }
 
