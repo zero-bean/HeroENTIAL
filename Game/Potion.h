@@ -6,6 +6,7 @@ class Player;
 
 enum class PotionType
 {
+	None,
 	Burger,
 	Steak,
 	Sandwitch
@@ -33,7 +34,7 @@ public:
 	PotionType GetPotionType() const { return _type; }
 
 private:
-	PotionType _type = PotionType::Burger;
+	PotionType _type = PotionType::None;
 	static std::unordered_map<PotionType, function<void(shared_ptr<Player>&)>> _effect;
 };
 

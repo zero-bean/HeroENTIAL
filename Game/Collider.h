@@ -62,6 +62,6 @@ protected:
 	COLLISION_LAYER_TYPE _collisionLayer = CLT_OBJECT;
 	// 누구랑 충돌할 것인가?
 	unsigned __int32 _collisionFlag = 0x00000000;
-	bool _showDebug = true;
+	bool _showDebug = false;
 	Vec2 coorPos = { 0, 0 };
 };

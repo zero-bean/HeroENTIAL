@@ -15,6 +15,7 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
+	_questSystem->Init();
 	_inventory->BeginPlay();
 }
 

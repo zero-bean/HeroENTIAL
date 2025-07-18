@@ -18,9 +18,9 @@ void LobbyScene::Init()
 	LoadMap();
 	LoadTileMap();
 	LoadPlayer();
+	LoadUI();
 	LoadNPC();
 	LoadSound();
-	LoadUI();
 
 	Super::Init();
 	
@@ -393,8 +393,47 @@ void LobbyScene::LoadPlayer()
 	player->AddComponent(collider);
 }
 
-void LobbyScene::LoadNPC()
+void LobbyScene::LoadUI()
 {
+	// 퀵슬롯
+	shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
+	quickslotUI->SetSlotsOwnerPtr(GameManager::GET_SINGLE()->GetInventory());
+	UIManager::GET_SINGLE()->AddUI(quickslotUI);
+
+	// 인벤토리 UI
+	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
+	invenUI->SetInventory(GameManager::GET_SINGLE()->GetInventory());
+	UIManager::GET_SINGLE()->AddUI(invenUI);
+
+	// Settings
+	{
+		shared_ptr<SettingsMainPanel> mp = make_shared<SettingsMainPanel>();
+		mp->SetSoundBtnClick([mp]() {
+			mp->SetEnabled(false);
+			mp->SetVisible(false);
+			if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsSoundPanel>())
+			{
+				panel->SetEnabled(true);
+				panel->SetVisible(true);
+			}});
+			mp->SetBackBtnClick([mp]() {
+				mp->SetEnabled(false);
+				mp->SetVisible(false); });
+			mp->SetQuitBtnClick([]() {PostQuitMessage(0); });
+			UIManager::GET_SINGLE()->AddUI(mp);
+
+			shared_ptr<SettingsSoundPanel> sp = make_shared<SettingsSoundPanel>();
+			sp->SetBtnClick([sp]() {
+				if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsMainPanel>())
+				{
+					panel->SetEnabled(true);
+					panel->SetVisible(true);
+				}
+				sp->SetEnabled(false);
+				sp->SetVisible(false); });
+			UIManager::GET_SINGLE()->AddUI(sp);
+	}
+
 	// 던전 입장 패널 추가
 	shared_ptr<DungeonEnterPanel> dungeonPanel = make_shared<DungeonEnterPanel>();
 	UIManager::GET_SINGLE()->AddUI(dungeonPanel);
@@ -403,6 +442,23 @@ void LobbyScene::LoadNPC()
 	shared_ptr<QuestPanel> questPanel = make_shared<QuestPanel>();
 	UIManager::GET_SINGLE()->AddUI(questPanel);
 
+	// 상점 패널 추가
+	shared_ptr<ShopPanel> shopPanel = make_shared<ShopPanel>();
+	UIManager::GET_SINGLE()->AddUI(shopPanel);
+	auto item1 = make_shared<Potion>();
+	item1->SetPotionType(PotionType::Burger);
+	auto item2 = make_shared<Potion>();
+	item2->SetPotionType(PotionType::Steak);
+	auto item3 = make_shared<Potion>();
+	item3->SetPotionType(PotionType::Sandwitch);
+	vector<shared_ptr<Item>> shopItems = {
+		item1, item2, item3
+	};
+	shopPanel->SetShopItems(shopItems);
+}
+
+void LobbyScene::LoadNPC()
+{
 	/* 퀘스트 NPC */
 	shared_ptr<NPC> npc_Quest = make_shared<NPC>();
 	npc_Quest->AddCollider({ 128,128 });
@@ -447,57 +503,29 @@ void LobbyScene::LoadNPC()
 
 	/* 상점 NPC */
 	shared_ptr<NPC> npc_Shop = make_shared<NPC>();
-	npc_Shop->SetRoleText(L"<Shop>");
 	npc_Shop->AddCollider({ 128,128 });
 	npc_Shop->SetCellPos({ 24,7 }, true);
+	npc_Shop->SetRoleText(L"<Shop>");
+	npc_Shop->SetOnActivate([]() {
+		if (auto shopPanel = UIManager::GET_SINGLE()->FindUI<ShopPanel>())
+		{
+			shopPanel->SetVisible(true);
+			shopPanel->SetEnabled(true);
+		}
+		});
+	npc_Shop->SetOnDeActivate([]() {
+		if (auto shopPanel = UIManager::GET_SINGLE()->FindUI<ShopPanel>())
+		{
+			shopPanel->SetVisible(false);
+			shopPanel->SetEnabled(false);
+		}
+		});
 	AddActor(npc_Shop);
 }
 
 void LobbyScene::LoadSound()
 {
 	SoundManager::GET_SINGLE()->PlayBGM(L"BGM_LOBBY");
-}
-
-void LobbyScene::LoadUI()
-{
-	// 퀵슬롯
-	shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
-	quickslotUI->SetSlotsOwnerPtr(GameManager::GET_SINGLE()->GetInventory());
-	UIManager::GET_SINGLE()->AddUI(quickslotUI);
-
-	// 인벤토리 UI
-	shared_ptr<InventoryPanel> invenUI = make_shared<InventoryPanel>();
-	invenUI->SetInventory(GameManager::GET_SINGLE()->GetInventory());
-	UIManager::GET_SINGLE()->AddUI(invenUI);
-
-	// Settings
-	{
-		shared_ptr<SettingsMainPanel> mp = make_shared<SettingsMainPanel>();
-		mp->SetSoundBtnClick([mp]() {
-			mp->SetEnabled(false);
-			mp->SetVisible(false);
-			if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsSoundPanel>())
-			{
-				panel->SetEnabled(true);
-				panel->SetVisible(true);
-			}});
-			mp->SetBackBtnClick([mp]() {
-				mp->SetEnabled(false);
-				mp->SetVisible(false); });
-			mp->SetQuitBtnClick([]() {PostQuitMessage(0); });
-			UIManager::GET_SINGLE()->AddUI(mp);
-
-			shared_ptr<SettingsSoundPanel> sp = make_shared<SettingsSoundPanel>();
-			sp->SetBtnClick([sp]() {
-				if (auto panel = UIManager::GET_SINGLE()->FindUI<SettingsMainPanel>())
-				{
-					panel->SetEnabled(true);
-					panel->SetVisible(true);
-				}
-				sp->SetEnabled(false);
-				sp->SetVisible(false); });
-			UIManager::GET_SINGLE()->AddUI(sp);
-	}
 }
 
 void LobbyScene::LoadCamera()

@@ -9,4 +9,5 @@
 #include "SettingsMainPanel.h"
 #include "SettingsSoundPanel.h"
 #include "QuestPanel.h"
+#include "ShopPanel.h"
 #include "Font.h"
