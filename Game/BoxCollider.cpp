@@ -30,6 +30,9 @@ void BoxCollider::Render(HDC hdc)
 {
 	Super::Render(hdc);
 
+	if (!_showDebug)
+		return;
+
 	Vec2 cameraPos = SceneManager::GET_SINGLE()->GetCameraPos();
 	float cameraZoom = SceneManager::GET_SINGLE()->GetCameraZoom();
 

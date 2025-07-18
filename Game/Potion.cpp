@@ -57,6 +57,7 @@ void Potion::UpdateAnimation()
 		SetItemContent({ L"샌드위치",
 			L"공방일체, 완벽한 밸런스와 건강까지 한 번에 잡았다!",
 			L"플레이어의 체력을 30% 회복한다." });
+		SetPrice(30);
 		SetObjectID(110);
 		break;
 	case PotionType::Burger:
@@ -64,6 +65,7 @@ void Potion::UpdateAnimation()
 		SetItemContent({ L"햄버거",
 			L"무슨 말이 필요할까." L" JUST EAT IT!",
 			L"플레이어의 체력을 50% 회복한다." });
+		SetPrice(50);
 		SetObjectID(111);
 		break;
 	case PotionType::Steak:
@@ -72,6 +74,7 @@ void Potion::UpdateAnimation()
 			L"육즙이 흘러 넘친다. " 
 			L"질기지도 않고 느끼하지도 않아서, 육식파에게 사랑받는 음식이다!",
 			L"플레이어의 체력을 70% 회복한다." });
+		SetPrice(70);
 		SetObjectID(112);
 		break;
 	}
@@ -82,7 +85,9 @@ void Potion::Use()
 	if (_itemCount == 0)
 		return;
 
-	shared_ptr<Player> player = dynamic_pointer_cast<Player>(GetOwner());
+	auto scene = SceneManager::GET_SINGLE()->GetCurrentScene();
+	auto player = scene->FindActor<Player>();
+
 	if (player == nullptr)
 		return;
 

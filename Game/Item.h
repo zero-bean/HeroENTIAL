@@ -62,6 +62,9 @@ public:
 	void AddItemCount(unsigned __int32 count) { _itemCount = min(_itemCount + count, 999u); }
 	unsigned __int32 GetItemCount() const { return _itemCount; }
 
+	void SetPrice(unsigned __int32 price) { _price = price; }
+	unsigned __int32 GetPrice() const { return _price; }
+
 public:
 	void SetOnClick(function<void()> callback) { _onEmptyCallback = callback; }
 
@@ -71,6 +74,7 @@ protected:
 	ItemType _itemType = ItemType::MAX_COUNT;
 	ItemContent _itemContent = {};
 	unsigned __int32 _itemCount = 1;
+	unsigned __int32 _price = 0;
 
 protected:
 	// 아이템 수량이 0개가 되면, 슬롯에게 삭제 요청하는 콜백 함수

@@ -213,6 +213,8 @@
     <ClInclude Include="SettingsContainer.h" />
     <ClInclude Include="SettingsMainPanel.h" />
     <ClInclude Include="SettingsSoundPanel.h" />
+    <ClInclude Include="ShopPanel.h" />
+    <ClInclude Include="ShopSlot.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="Slot.h" />
     <ClInclude Include="SmashAttack.h" />
@@ -304,6 +306,8 @@
     <ClCompile Include="SettingsContainer.cpp" />
     <ClCompile Include="SettingsMainPanel.cpp" />
     <ClCompile Include="SettingsSoundPanel.cpp" />
+    <ClCompile Include="ShopPanel.cpp" />
+    <ClCompile Include="ShopSlot.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Slot.cpp" />
     <ClCompile Include="SmashAttack.cpp" />

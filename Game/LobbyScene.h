@@ -27,9 +27,9 @@ private:
 	void LoadMap();
 	void LoadTileMap();
 	void LoadPlayer();
+	void LoadUI();
 	void LoadNPC();
 	void LoadSound();
-	void LoadUI();
 	void LoadCamera();
 };
 

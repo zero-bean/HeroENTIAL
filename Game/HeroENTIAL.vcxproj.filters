@@ -123,6 +123,9 @@
     <Filter Include="소스 파일\07.Systems\Game\Qust">
       <UniqueIdentifier>{7e8207a9-328b-4987-9d07-169a9bb835b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\06.UIs\Game\Shop">
+      <UniqueIdentifier>{6ea5347b-1856-4703-a6a5-43d0e0a8d965}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeroENTIAL.h">
@@ -404,6 +407,12 @@
     <ClInclude Include="QuestSystem.h">
       <Filter>소스 파일\07.Systems\Game\Qust</Filter>
     </ClInclude>
+    <ClInclude Include="ShopPanel.h">
+      <Filter>소스 파일\06.UIs\Game\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopSlot.h">
+      <Filter>소스 파일\06.UIs\Game\Shop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeroENTIAL.cpp">
@@ -654,6 +663,12 @@
     </ClCompile>
     <ClCompile Include="QuestSystem.cpp">
       <Filter>소스 파일\07.Systems\Game\Qust</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopPanel.cpp">
+      <Filter>소스 파일\06.UIs\Game\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopSlot.cpp">
+      <Filter>소스 파일\06.UIs\Game\Shop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
