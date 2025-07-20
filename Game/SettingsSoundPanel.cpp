@@ -51,7 +51,7 @@ void SettingsSoundPanel::BeginPlay()
 
 	_button->SetSize({ 370, 100 });
 	_button->SetPos({ panelCenterX, y });
-	_button->AddOnClickDelegate(self, [this]() {
+	_button->AddOnClickDelegate([this]() {
 		SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
 		if (_onBackBtnClick)
 			_onBackBtnClick();

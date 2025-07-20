@@ -26,9 +26,9 @@ void Game::Init(HWND hwnd)
 	TimeManager::GET_SINGLE()->Init();
 	InputManager::GET_SINGLE()->Init(hwnd);
 	GameManager::GET_SINGLE()->Init();
+	SceneManager::GET_SINGLE()->Init();
 	ResourceManager::GET_SINGLE()->Init(hwnd, fs::current_path().parent_path().string() + "\\Resources");
 	SoundManager::GET_SINGLE()->Init(hwnd);
-	SceneManager::GET_SINGLE()->Init();
 	CollisionManager::GET_SINGLE()->Init();
 	UIManager::GET_SINGLE()->Init(hwnd);
 

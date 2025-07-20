@@ -1,15 +1,6 @@
 #pragma once
 #include "Scene.h"
 
-class Actor;
-class TilemapActor;
-class Creature;
-class Player;
-class GameObject;
-class Item;
-class Potion;
-class UI;
-
 class LobbyScene : public Scene
 {
 	using Super = Scene;
@@ -26,8 +17,8 @@ private:
 	void LoadResources();
 	void LoadMap();
 	void LoadTileMap();
-	void LoadPlayer();
-	void LoadUI();
+	shared_ptr<Player> LoadPlayer();
+	void LoadUI(shared_ptr<Player> player);
 	void LoadNPC();
 	void LoadSound();
 	void LoadCamera();

@@ -52,6 +52,7 @@ void Scene::Update()
 		for (const auto& actor : actors)
 			actor->Tick();
 	}
+
 	UIManager::GET_SINGLE()->Update();
 
 	// 3. 요청된 객체 추가

@@ -66,7 +66,7 @@ void DungeonEnterPanel::BeginPlay()
 		int stageIdx = i;
 		_buttons[i]->SetSize({ 100, 100 });
 		_buttons[i]->SetPos({ startX + (120 * i), btnY + _buttons[i]->GetSize().y + 50 });
-		_buttons[i]->AddOnClickDelegate(self, [self, stageIdx]() {
+		_buttons[i]->AddOnClickDelegate([self, stageIdx]() {
 			self->SetButtonFunction(stageIdx);
 			});
 	}

@@ -7,6 +7,8 @@
 Minimap::Minimap()
 {
 	_cover = ResourceManager::GET_SINGLE()->GetSprite(L"Banner_Minimap");
+	SetVisible(true);
+	SetEnabled(true);
 }
 
 Minimap::~Minimap()
@@ -16,28 +18,22 @@ Minimap::~Minimap()
 void Minimap::BeginPlay()
 {
 	Super::BeginPlay();
-
-
 }
 
-void Minimap::TickComponent()
+void Minimap::Tick()
 {
-	Super::TickComponent();
-
-
+	Super::Tick();
 }
 
 void Minimap::Render(HDC hdc)
 {
-	shared_ptr<Player> player = dynamic_pointer_cast<Player>(GetOwner());
-	if (!player || !_tilemap)
-		return;
-	
 	Super::Render(hdc);
+	
+	if (!_tilemap)
+		return;
 
 	const int startX = GWinSizeX - GMinimapSizeX - 10;
 	const int startY = 5;
-	const Vec2Int center = player->GetCellPos();
 
 	::BitBlt(hdc,
 		startX - 5,
@@ -49,6 +45,10 @@ void Minimap::Render(HDC hdc)
 		_cover->GetPos().y,
 		SRCCOPY);
 
+	if (!_player)
+		return;
+
+	const Vec2Int center = _player->GetCellPos();
 	for (int dy = -_visibleRange; dy <= _visibleRange; ++dy)
 	{
 		for (int dx = -_visibleRange; dx <= _visibleRange; ++dx)

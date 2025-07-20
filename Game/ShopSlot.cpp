@@ -33,7 +33,7 @@ void ShopSlot::BeginPlay()
     const Vec2 slotPos = GetPos();
     const float buttonX = slotPos.x + slotSize.x / 2 - _button->GetSize().x / 2 - 10.0f;
     _button->SetPos({ buttonX, slotPos.y });
-    _button->AddOnClickDelegate(self, [this]() {
+    _button->AddOnClickDelegate([this]() {
         SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
         if (GameManager::GET_SINGLE()->GetInventory()->GetGold() >= _item->GetPrice())
         {

@@ -2,17 +2,6 @@
 #include "Scene.h"
 #include <type_traits>
 
-class Actor;
-class TilemapActor;
-class Creature;
-class Player;
-class GameObject;
-class Item;
-class Potion;
-class UI;
-class Monster;
-class BossMonster;
-
 class BattleScene : public Scene
 {
 	using Super = Scene;
@@ -29,8 +18,8 @@ protected:
 	virtual void LoadResources() {};
 	virtual void LoadMap() {};
 	virtual void LoadTileMap() {};
-	virtual void LoadPlayer() {};
-	virtual void LoadUI() {};
+	virtual shared_ptr<Player> LoadPlayer() { return nullptr; }
+	virtual void LoadUI(shared_ptr<Player> player) {};
 	virtual void LoadSound() {};
 	virtual void LoadCamera() {};
 	void InitObjects();

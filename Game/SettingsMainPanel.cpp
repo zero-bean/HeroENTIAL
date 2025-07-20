@@ -50,19 +50,19 @@ void SettingsMainPanel::BeginPlay()
 		_buttons[i]->SetPos({ panelCenterX, y });
 	}
 
-	_buttons[0]->AddOnClickDelegate(self, [this]() {
+	_buttons[0]->AddOnClickDelegate([this]() {
 		SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
 		if (_onSoundBtnClick)
 			_onSoundBtnClick();
 		});
 
-	_buttons[1]->AddOnClickDelegate(self, [this]() {
+	_buttons[1]->AddOnClickDelegate([this]() {
 		SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
 		if (_onBackBtnClick)
 			_onBackBtnClick();
 		});
 
-	_buttons[2]->AddOnClickDelegate(self, [this]() {
+	_buttons[2]->AddOnClickDelegate([this]() {
 		SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
 		if (_onQuitBtnClick)
 			_onQuitBtnClick();

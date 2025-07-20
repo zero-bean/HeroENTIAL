@@ -14,11 +14,11 @@
 #include "Consumable.h"
 
 // 투사체
+#include "Projectile.h"
 #include "Bullet.h"
 
 // 하위 컴포넌트
 #include "Inventory.h"
-#include "Minimap.h"
 
 // 이펙트
 #include "Effect.h"

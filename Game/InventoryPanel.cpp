@@ -64,9 +64,9 @@ void InventoryPanel::BeginPlay()
 	Super::BeginPlay();
 
 	const Vec2 panelSize = { 260, 260 };
-	_buttons[0]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Equipment); });
-	_buttons[1]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Consumable); });
-	_buttons[2]->AddOnClickDelegate(shared_from_this(), [this]() {UpdateSlots(ItemType::Others); });
+	_buttons[0]->AddOnClickDelegate([this]() {UpdateSlots(ItemType::Equipment); });
+	_buttons[1]->AddOnClickDelegate([this]() {UpdateSlots(ItemType::Consumable); });
+	_buttons[2]->AddOnClickDelegate([this]() {UpdateSlots(ItemType::Others); });
 
 	// ½½·Ô
 	for (int y = 0; y < 4; y++)

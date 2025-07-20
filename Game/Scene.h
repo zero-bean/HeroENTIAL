@@ -4,10 +4,8 @@
 class Actor;
 class GameObject;
 class TilemapActor;
-class Creature;
 class Player;
 class Item;
-class UI;
 
 class Scene
 {

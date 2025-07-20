@@ -54,7 +54,7 @@ void QuestSlot::BeginPlay()
     _buttons[0]->SetPos(btn2Pos);
 
     // 클릭 이벤트
-    _buttons[0]->AddOnClickDelegate(self, [this]() {
+    _buttons[0]->AddOnClickDelegate([this]() {
         SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
         if (_quest->GetState() == ProgressState::Inactive)
         {
@@ -75,7 +75,7 @@ void QuestSlot::BeginPlay()
         }
         });
 
-    _buttons[1]->AddOnClickDelegate(self, [this]() {
+    _buttons[1]->AddOnClickDelegate([this]() {
         SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
         if (_quest->GetState() == ProgressState::Active
             || _quest->GetState() == ProgressState::Completed)

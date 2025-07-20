@@ -41,11 +41,11 @@ void ShopPanel::BeginPlay()
 
     _buttons[0]->SetPos({ GetPos().x - 300, GetPos().y });
     _buttons[0]->SetSize({ 64, 64 });
-    _buttons[0]->AddOnClickDelegate(self, [this]() { OnScrollUp(); });
+    _buttons[0]->AddOnClickDelegate([this]() { OnScrollUp(); });
 
     _buttons[1]->SetPos({ GetPos().x + 300, GetPos().y });
     _buttons[1]->SetSize({ 64, 64 });
-    _buttons[1]->AddOnClickDelegate(self, [this]() { OnScrollDown(); });
+    _buttons[1]->AddOnClickDelegate([this]() { OnScrollDown(); });
 
     // 상점 목록 갱신
     Refresh();
@@ -106,8 +106,8 @@ void ShopPanel::OnScrollDown()
 {
     SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
 
-    int questCount = static_cast<int>(GameManager::GET_SINGLE()->GetQuestSystem()->GetAllQuests().size());
-    int maxScrollOffset = max(0, questCount - _visibleSlotCount);
+    int itemCount = static_cast<int>(_items.size());
+    int maxScrollOffset = max(0, itemCount - _visibleSlotCount);
 
     if (_scrollOffset < maxScrollOffset)
     {

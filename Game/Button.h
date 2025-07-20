@@ -33,23 +33,15 @@ public:
 	void SetCurrentCoverSprite(shared_ptr<Sprite> sprite) { _currentCoverSprite = sprite; }
 	void SetButtonState(ButtonState state);
 
-public:
-	template<typename T>
-	void AddOnClickDelegate(shared_ptr<T> owner, function<void()> func)
-	{
-		_onClick = std::move(func);
-	}
-
-	// 함수 포인터 + 함수 객체
-	std::function<void(void)> _onClick = nullptr;
+	void AddOnClickDelegate(function<void()> func) { _onClick = move(func); }
 
 protected:
 	shared_ptr<Sprite> _currentSprite = nullptr;
 	shared_ptr<Sprite> _currentCoverSprite = nullptr;
 	shared_ptr<Sprite> _sprites[BS_MaxCount] = {};
 	shared_ptr<Sprite> _coverSprites[BS_MaxCount] = {};
+	function<void(void)> _onClick = nullptr;
 	ButtonState _state = BS_Default;
-	// ...
 	float _sumTime = 0.f;
 };
 

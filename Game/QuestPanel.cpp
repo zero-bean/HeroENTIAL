@@ -40,11 +40,11 @@ void QuestPanel::BeginPlay()
 
     _buttons[0]->SetPos({ GetPos().x - 300, GetPos().y });
     _buttons[0]->SetSize({ 64, 64 });
-	_buttons[0]->AddOnClickDelegate(self, [this]() { OnScrollUp(); });
+	_buttons[0]->AddOnClickDelegate([this]() { OnScrollUp(); });
 
     _buttons[1]->SetPos({ GetPos().x + 300, GetPos().y });
 	_buttons[1]->SetSize({ 64, 64 });   
-    _buttons[1]->AddOnClickDelegate(self, [this]() { OnScrollDown(); });
+    _buttons[1]->AddOnClickDelegate([this]() { OnScrollDown(); });
 
     // 퀘스트 목록 갱신
 	Refresh();

@@ -19,8 +19,8 @@ void Stage2::Init()
 	LoadResources();
 	LoadMap();
 	LoadTileMap();
-	LoadPlayer();
-	LoadUI();
+	shared_ptr<Player> player = LoadPlayer();
+	LoadUI(player);
 	LoadSound();
 	LoadCamera();
 	InitObjects();
@@ -350,16 +350,11 @@ void Stage2::LoadTileMap()
 	}
 }
 
-void Stage2::LoadPlayer()
+shared_ptr<Player> Stage2::LoadPlayer()
 {
 	shared_ptr<Player> player = make_shared<Player>();
 	player->SetCellPos({ 11,20 }, true);
 	AddActor(player);
-
-	// ¹Ì´Ï¸Ê
-	shared_ptr<Minimap> minimap = make_shared<Minimap>();
-	minimap->SetTilemap(_tilemapActor->GetTilemap());
-	player->AddComponent(minimap);
 
 	// Ãæµ¹
 	shared_ptr<BoxCollider> collider = make_shared<BoxCollider>();
@@ -370,10 +365,18 @@ void Stage2::LoadPlayer()
 	collider->SetSize({ 50, 50 });
 	CollisionManager::GET_SINGLE()->AddCollider(collider);
 	player->AddComponent(collider);
+
+	return player;
 }
 
-void Stage2::LoadUI()
+void Stage2::LoadUI(shared_ptr<Player> player)
 {
+	// ¹Ì´Ï¸Ê
+	shared_ptr<Minimap> minimap = make_shared<Minimap>();
+	minimap->SetTilemap(_tilemapActor->GetTilemap());
+	minimap->SetTarget(player);
+	UIManager::GET_SINGLE()->AddUI(minimap);
+
 	// Äü½½·Ô
 	shared_ptr<QuickslotPanel> quickslotUI = make_shared<QuickslotPanel>();
 	quickslotUI->SetSlotsOwnerPtr(GameManager::GET_SINGLE()->GetInventory());

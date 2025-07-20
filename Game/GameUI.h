@@ -10,4 +10,5 @@
 #include "SettingsSoundPanel.h"
 #include "QuestPanel.h"
 #include "ShopPanel.h"
+#include "Minimap.h"
 #include "Font.h"

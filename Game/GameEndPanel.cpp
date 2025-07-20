@@ -44,7 +44,7 @@ void GameEndPanel::BeginPlay()
 
 	// 버튼 클릭 시,
 	auto self = shared_from_this();
-	_button->AddOnClickDelegate(self, [self]() {
+	_button->AddOnClickDelegate([self]() {
 		// 사운드 출력
 		SoundManager::GET_SINGLE()->Play(L"SFX_CLICK");
 

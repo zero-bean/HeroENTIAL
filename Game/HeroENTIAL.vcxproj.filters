@@ -87,9 +87,6 @@
     <Filter Include="소스 파일\06.UIs\Game\Dungeon">
       <UniqueIdentifier>{05c5646b-7e94-4d99-aba7-863027774884}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\05.Components\Game\Minimap">
-      <UniqueIdentifier>{aab500ae-db18-4bf7-8e59-e9e53d4bee62}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\03.Objects\Game\Creature\Monster">
       <UniqueIdentifier>{3006bea7-8d7d-41da-9b54-7cea3f0d6016}</UniqueIdentifier>
     </Filter>
@@ -125,6 +122,9 @@
     </Filter>
     <Filter Include="소스 파일\06.UIs\Game\Shop">
       <UniqueIdentifier>{6ea5347b-1856-4703-a6a5-43d0e0a8d965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\06.UIs\Game\Minimap">
+      <UniqueIdentifier>{aab500ae-db18-4bf7-8e59-e9e53d4bee62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -303,7 +303,7 @@
       <Filter>소스 파일\02.Scenes\Game</Filter>
     </ClInclude>
     <ClInclude Include="Minimap.h">
-      <Filter>소스 파일\05.Components\Game\Minimap</Filter>
+      <Filter>소스 파일\06.UIs\Game\Minimap</Filter>
     </ClInclude>
     <ClInclude Include="CameraShake.h">
       <Filter>소스 파일\03.Objects\Game\Camera</Filter>
@@ -569,7 +569,7 @@
       <Filter>소스 파일\02.Scenes\Game</Filter>
     </ClCompile>
     <ClCompile Include="Minimap.cpp">
-      <Filter>소스 파일\05.Components\Game\Minimap</Filter>
+      <Filter>소스 파일\06.UIs\Game\Minimap</Filter>
     </ClCompile>
     <ClCompile Include="CameraShake.cpp">
       <Filter>소스 파일\03.Objects\Game\Camera</Filter>

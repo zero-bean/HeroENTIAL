@@ -17,8 +17,8 @@ private:
 	virtual void LoadResources() override;
 	virtual void LoadMap() override;
 	virtual void LoadTileMap() override;
-	virtual void LoadPlayer() override;
-	virtual void LoadUI() override;
+	virtual shared_ptr<Player> LoadPlayer() override;
+	virtual void LoadUI(shared_ptr<Player> player) override;
 	virtual void LoadSound() override;
 	virtual void LoadCamera() override;
 };
