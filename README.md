@@ -1,9 +1,9 @@
 ### [Portfolio] HeroENTIAL
 ![Image](https://github.com/user-attachments/assets/df001a05-9aeb-484e-a5f6-71cf793762d5)
-
-현재 해당 저장소는 마무리 작업을 진행하고 있습니다. (25.07.19 ~)
 ## 01. 플레이 영상
-<a href="http://www.youtube.com/@zerobean01" target="_blank"> <img width="1421" height="186" alt="Image" src="https://github.com/user-attachments/assets/32afd600-b223-41ae-8077-ee2b1668d9ec" /> </a>
+! 단순히 게임을 플레이한 영상이니 자세한 내용을 원하신다면 문서를 확인하시길 권장드립니다 !
+
+<a href="https://youtu.be/OsLiwKConsU" target="_blank"> <img width="1421" height="186" alt="Image" src="https://github.com/user-attachments/assets/32afd600-b223-41ae-8077-ee2b1668d9ec" /> </a>
 ## 02. 포트폴리오 문서
 <a href="https://docs.google.com/presentation/d/17rfKRlVbbYmxQHbgGl3OANbS0fdnjTwYKWxW8y_XaP4/edit?usp=sharing" target="_blank"> <img width="1418" height="188" alt="Image" src="https://github.com/user-attachments/assets/36016935-a944-45ca-99b5-96755f381caf" /> </a>
 ## 03. 게임 다운로드
